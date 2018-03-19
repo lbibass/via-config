@@ -1,0 +1,18 @@
+{
+  "name": "via-config",
+  "productName": "via-config",
+  "version": "0.2.0",
+  "description": "Yet another keyboard configurator",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "C. T. Lin",
+    "email": "chentsulin@gmail.com",
+    "url": "https://github.com/chentsulin"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r babel-register ../internals/scripts/ElectronRebuild.js",
+    "postinstall": "npm run electron-rebuild"
+  },
+  "license": "",
+  "dependencies": {}
+}
