@@ -14,5 +14,7 @@
     "postinstall": "npm run electron-rebuild"
   },
   "license": "",
-  "dependencies": {}
+  "dependencies": {
+    "node-hid": "^0.7.2"
+  }
 }
