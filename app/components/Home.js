@@ -7,10 +7,12 @@ const HID = require('node-hid');
 type Props = {};
 
 function scanDevices() {
-  return HID.devices();
+  const devices = HID.devices();
+  console.log(devices);
+  return devices;
 }
 
-export default class Home extends Component<Props> {
+export default class Home extends Component<Props, {}> {
   props: Props;
 
   constructor() {
@@ -27,8 +29,8 @@ export default class Home extends Component<Props> {
       <div>
         <div className={styles.container} data-tid="container">
           <h2>Devices:</h2>
-          <button onClick={this.updateDevices.bind(this)}>Update Devices</button>
-          <div>{this.state.devices.map(({product}) => <div>{product}</div>)}</div>
+          <button onClick={() => this.updateDevices()}>Update Devices</button>
+          <select>{this.state.devices.map(({product}) => <option>{product}</option>)}</select>
         </div>
       </div>
     );
