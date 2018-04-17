@@ -29,8 +29,10 @@ export default class Home extends Component<Props, {}> {
       <div>
         <div className={styles.container} data-tid="container">
           <h2>Devices:</h2>
-          <button onClick={() => this.updateDevices()}>Update Devices</button>
-          <select>{this.state.devices.map(({product}) => <option>{product}</option>)}</select>
+          <button onClick={() => this.updateDevices()}>Refresh Devices</button>
+          <select>{this.state.devices.map(({manufacturer, product, path}) =>
+            <option key={path}>{product} ({manufacturer})</option>)}
+          </select>
         </div>
       </div>
     );
