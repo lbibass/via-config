@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Home.css';
+import Key from './Key';
 const HID = require('node-hid');
 
 type Props = {};
@@ -20,6 +21,11 @@ export default class Home extends Component<Props, {}> {
     this.state = {devices: scanDevices()};
   }
 
+  buildKeyboard() {
+    const keys = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
+    return <div className="keyboard">{keys.map(label => <Key label={label} />)}</div>;
+  }
+
   updateDevices() {
     this.setState({devices: scanDevices()});
   }
@@ -34,6 +40,8 @@ export default class Home extends Component<Props, {}> {
             <option key={path}>{product} ({manufacturer})</option>)}
           </select>
         </div>
+
+        {this.buildKeyboard()}
       </div>
     );
   }
