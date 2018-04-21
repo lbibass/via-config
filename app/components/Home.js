@@ -22,8 +22,18 @@ export default class Home extends Component<Props, {}> {
   }
 
   buildKeyboard() {
-    const keys = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
-    return <div className="keyboard">{keys.map(label => <Key label={label} />)}</div>;
+    const numbersTop = '!@#$%^&*()_+|~{}:"<>?'.split('');
+    const numbersBottom = '1234567890-=\\`[];\',./'.split('');
+    const numbers = numbersTop.reduce((p, n, i) => {
+      console.log(p);
+      p.push([numbersTop[i], numbersBottom[i]]);
+      return p;
+    }, []);
+
+    const alphas = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
+    return <div className={styles.keyboard}>
+      {numbers.map(([topLabel, bottomLabel]) => <Key topLabel={topLabel} bottomLabel={bottomLabel} />)}
+      {alphas.map(label => <Key label={label} />)}</div>;
   }
 
   updateDevices() {

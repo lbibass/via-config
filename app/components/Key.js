@@ -9,14 +9,23 @@ type Props = {
 export default class Key extends Component<Props> {
   props: Props;
 
+  renderLegend(labels: string[]) {
+    return labels.map(label => <span className={styles.legend}>{label}</span>);
+  }
+
   render() {
     const {
-      label
+      label,
+      topLabel,
+      bottomLabel,
     } = this.props;
+    const isSmall = topLabel !== undefined;
     return (
       <div className={styles.outerKey}>
-        <div className={styles.innerKey}>
-          {label}
+        <div className={isSmall ? styles.smallInnerKey : styles.innerKey}>
+          <div className={styles.innerKeyContainer}>
+            {this.renderLegend(isSmall ? [topLabel, bottomLabel] : [label])}
+          </div>
         </div>
       </div>
     );
