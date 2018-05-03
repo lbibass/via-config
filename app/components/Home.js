@@ -33,7 +33,7 @@ export default class Home extends Component<Props, {}> {
     const alphas = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
     return <div className={styles.keyboard}>
       {numbers.map(([topLabel, bottomLabel]) => <Key topLabel={topLabel} bottomLabel={bottomLabel} />)}
-      {alphas.map(label => <Key label={label} />)}</div>;
+      {alphas.map(label => <Key label={label} />)}<Key label="↑" /><Key label="←" /><Key label="↓" /><Key label="→" /></div>;
   }
 
   updateDevices() {
