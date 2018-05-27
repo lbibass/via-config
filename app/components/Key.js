@@ -6,8 +6,13 @@ type Props = {
   label: string
 };
 
-export default class Key extends Component<Props> {
+export class Key extends Component<Props> {
   props: Props;
+
+  getSizeClass() {
+    const {size} = this.props;
+    return styles[`size${size || 100}U`];
+  }
 
   renderLegend(labels: string[]) {
     return labels.map(label => <span className={styles.legend}>{label}</span>);
@@ -18,10 +23,11 @@ export default class Key extends Component<Props> {
       label,
       topLabel,
       bottomLabel,
+      centerLabel,
     } = this.props;
-    const isSmall = topLabel !== undefined;
+    const isSmall = topLabel !== undefined || centerLabel !== undefined;
     return (
-      <div className={styles.outerKey}>
+      <div className={[styles.outerKey, this.getSizeClass()].join(' ')}>
         <div className={isSmall ? styles.smallInnerKey : styles.innerKey}>
           <div className={styles.innerKeyContainer}>
             {this.renderLegend(isSmall ? [topLabel, bottomLabel] : [label])}

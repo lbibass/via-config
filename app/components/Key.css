@@ -1,35 +1,73 @@
+:root {
+  --base-width: 52px;
+}
+
 .outerKey {
   background: #d8d8d8;
-  width: 50px;
   padding-top: 2px;
   padding-bottom: 9px;
   padding-left: 6px;
   padding-right: 6px;
-  height: 52px;
+  height: 54px;
   border-radius: 3px;
   box-sizing: border-box;
   display: inline-block;
   margin-right: 2px;
 }
 
-.size125U {
-  width: 62.5px;
+.size100U {
+  width: calc(var(--base-width) * 1);
 }
 
-.size15U {
-  width: 75px;
+.size125U {
+  width: calc(var(--base-width) * 1.25);
+}
+
+.size150U {
+  width: calc(var(--base-width) * 1.5);
 }
 
 .size175U {
-  width: 87.5px;
+  width: calc(var(--base-width) * 1.75);
 }
 
-.size2U {
-  width: 100px;
+.size200U {
+  width: calc(var(--base-width) * 2);
+}
+
+.size225U {
+  width: calc(var(--base-width) * 2.25);
+}
+
+.size275U {
+  width: calc(var(--base-width) * 2.75);
+}
+
+.size600U {
+  width: calc(var(--base-width) * 6);
+}
+
+.size625U {
+  width: calc(var(--base-width) * 6.25);
+}
+.size700U {
+  width: calc(var(--base-width) * 7);
 }
 
 .innerKeyContainer {
   position: absolute;
+  padding-left: 5px;
+}
+
+.smallInnerKeyContainer {
+  position: absolute;
+  padding-left: 5px;
+}
+
+.smallInnerCenterKeyContainer {
+  position: absolute;
+  padding-left: 2px;
+  top:10px;
 }
 
 .innerKey {
@@ -38,18 +76,17 @@
   background: whitesmoke;
   line-height: 20px;
   box-sizing: border-box;
-  padding-left: 5px;
   padding-top: 2px;
   border-radius: 3px;
 }
 
 .smallInnerKey {
   height: 100%;
+  position: relative;
   margin: auto;
   background: whitesmoke;
   line-height: 20px;
   box-sizing: border-box;
-  padding-left: 5px;
   border-radius: 3px;
   font-size: 12px;
   padding-top: 0;
