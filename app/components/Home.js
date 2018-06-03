@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import styles from './Home.css';
 import {Key} from './Key';
 import {CenterKey} from './CenterKey';
+import {parseKLERaw} from '../utils/kle-parser';
 const HID = require('node-hid');
 
 type Props = {};
@@ -34,6 +35,7 @@ export default class Home extends Component<Props, {}> {
 
     const alphas = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
     return <div className={styles.keyboard}>
+      {parseKLERaw().map(arr => <div>{arr.map(label => typeof label === 'string' && <Key label={label} />)}</div>)}
       {numbers.map(([topLabel, bottomLabel]) => <Key topLabel={topLabel} bottomLabel={bottomLabel} />)}
       {alphas.map(label => <Key label={label} />)}
       {center.map(label => <CenterKey label={label} />)}
