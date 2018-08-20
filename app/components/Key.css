@@ -1,5 +1,5 @@
 :root {
-  --base-width: 52px;
+  --base-width: 54px;
 }
 
 .outerKey {
@@ -13,6 +13,13 @@
   box-sizing: border-box;
   display: inline-block;
   margin-right: 2px;
+  width: 100%;
+}
+
+.keyContainer {
+  padding: 0 1px;
+  box-sizing: border-box;
+  display: inline-block;
 }
 
 .size100U {

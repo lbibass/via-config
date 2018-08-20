@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Home.css';
-import {Key} from './Key';
-import {CenterKey} from './CenterKey';
-import {parseKLERaw} from '../utils/kle-parser';
+import { Key } from './Key';
+import { CenterKey } from './CenterKey';
+import { parseKLERaw } from '../utils/kle-parser';
+import { isAlpha, isNumericSymbol } from '../utils/key';
 const HID = require('node-hid');
 
 type Props = {};
@@ -20,7 +21,7 @@ export default class Home extends Component<Props, {}> {
 
   constructor() {
     super();
-    this.state = {devices: scanDevices()};
+    this.state = { devices: scanDevices() };
   }
 
   buildKeyboard() {
@@ -35,25 +36,25 @@ export default class Home extends Component<Props, {}> {
 
     const alphas = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
     return <div className={styles.keyboard}>
-      {parseKLERaw().map(arr => <div>{arr.map(label => typeof label === 'string' && <Key label={label} />)}</div>)}
-      {numbers.map(([topLabel, bottomLabel]) => <Key topLabel={topLabel} bottomLabel={bottomLabel} />)}
-      {alphas.map(label => <Key label={label} />)}
-      {center.map(label => <CenterKey label={label} />)}
-      <CenterKey label={'Tab'} size={150} />
-      <CenterKey label={'Caps Lock'} size={175} />
-      <CenterKey label={'Shift'} size={225} />
-      <CenterKey label={'Shift'} size={175} />
-      <CenterKey label={'Ctrl'} size={150} />
-      <CenterKey label={'Alt'} size={150} />
-      <CenterKey label={'Spacebar'} size={625} />
-      <CenterKey label={'Alt'} size={150} />
-      <CenterKey label={'Ctrl'} size={150} />
-      <Key label="↑" /><Key label="←" /><Key label="↓" /><Key label="→" />
-      </div>;
+      {parseKLERaw().map(arr => <div>{arr.map(key => this.chooseKey(key))}</div>)}
+    </div>;
+  }
+
+  chooseKey({ label, size }) {
+    if (isAlpha(label)) {
+      return (label && <Key label={label} size={size} />);
+    } else if (isNumericSymbol(label)) {
+      const topLabel = label[0];
+      const bottomLabel = label[label.length - 1];
+      return (topLabel && bottomLabel && <Key topLabel={topLabel} bottomLabel={bottomLabel} size={size} />);
+    } else {
+      return (<CenterKey label={label} size={size} />);
+    }
+
   }
 
   updateDevices() {
-    this.setState({devices: scanDevices()});
+    this.setState({ devices: scanDevices() });
   }
 
   render() {
@@ -62,7 +63,7 @@ export default class Home extends Component<Props, {}> {
         <div className={styles.container} data-tid="container">
           <h2>Devices:</h2>
           <button onClick={() => this.updateDevices()}>Refresh Devices</button>
-          <select>{this.state.devices.map(({manufacturer, product, path}) =>
+          <select>{this.state.devices.map(({ manufacturer, product, path }) =>
             <option key={path}>{product} ({manufacturer})</option>)}
           </select>
         </div>

@@ -27,10 +27,12 @@ export class Key extends Component<Props> {
     } = this.props;
     const isSmall = topLabel !== undefined || centerLabel !== undefined;
     return (
-      <div className={[styles.outerKey, this.getSizeClass()].join(' ')}>
-        <div className={isSmall ? styles.smallInnerKey : styles.innerKey}>
-          <div className={styles.innerKeyContainer}>
-            {this.renderLegend(isSmall ? [topLabel, bottomLabel] : [label])}
+      <div className={[styles.keyContainer, this.getSizeClass()].join(' ')}>
+        <div className={[styles.outerKey].join(' ')}>
+          <div className={isSmall ? styles.smallInnerKey : styles.innerKey}>
+            <div className={styles.innerKeyContainer}>
+              {this.renderLegend(isSmall ? [topLabel, bottomLabel] : [label])}
+            </div>
           </div>
         </div>
       </div>

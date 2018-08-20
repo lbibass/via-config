@@ -19,10 +19,12 @@ export class CenterKey extends Key {
     } = this.props;
 
     return (
-      <div className={[styles.outerKey, this.getSizeClass()].join(' ')}>
-        <div className={styles.smallInnerKey}>
-          <div className={styles.smallInnerCenterKeyContainer}>
-            {this.renderLegend([label])}
+      <div className={[styles.keyContainer, this.getSizeClass()].join(' ')}>
+        <div className={styles.outerKey}>
+          <div className={styles.smallInnerKey}>
+            <div className={styles.smallInnerCenterKeyContainer}>
+              {this.renderLegend([label])}
+            </div>
           </div>
         </div>
       </div>
