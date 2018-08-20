@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {Key} from './Key';
 import styles from './Key.css';
 
@@ -14,9 +14,7 @@ export class CenterKey extends Key {
   }
 
   render() {
-    const {
-      label,
-    } = this.props;
+    const {label} = this.props;
 
     return (
       <div className={[styles.keyContainer, this.getSizeClass()].join(' ')}>

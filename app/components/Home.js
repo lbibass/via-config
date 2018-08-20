@@ -25,18 +25,8 @@ export default class Home extends Component<Props, {}> {
   }
 
   buildKeyboard() {
-    const numbersTop = '!@#$%^&*()_+|~{}:"<>?'.split('');
-    const numbersBottom = '1234567890-=\\`[];\',./'.split('');
-    const center = ['Esc', 'Delete', 'PgUp', 'PgDn', 'Fn', 'Meta', 'Home', 'End', 'Insert'];
-    const numbers = numbersTop.reduce((p, n, i) => {
-      console.log(p);
-      p.push([numbersTop[i], numbersBottom[i]]);
-      return p;
-    }, []);
-
-    const alphas = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
     return <div className={styles.keyboard}>
-      {parseKLERaw().map(arr => <div>{arr.map(key => this.chooseKey(key))}</div>)}
+      {parseKLERaw().map(arr => <div className={styles.row}>{arr.map(key => this.chooseKey(key))}</div>)}
     </div>;
   }
 
