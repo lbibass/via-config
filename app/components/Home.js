@@ -6,6 +6,7 @@ import {Key} from './Key';
 import {CenterKey} from './CenterKey';
 import {parseKLERaw} from '../utils/kle-parser';
 import {getKeycodes, isAlpha, isNumericSymbol} from '../utils/key';
+import {Wilba} from './Wilba';
 const HID = require('node-hid');
 
 type Props = {};
@@ -62,6 +63,7 @@ export default class Home extends Component<Props, {}> {
       <div>
         <div className={styles.container} data-tid="container">
           <h2>Devices:</h2>
+          <Wilba />
           <button onClick={() => this.updateDevices()}>Refresh Devices</button>
           <select>
             {this.state.devices.map(({manufacturer, product, path}) => (
