@@ -29,10 +29,12 @@ export default class Home extends Component<Props, {}> {
     this.setState({selectedKey: null});
   }
 
-  buildKeyboard() {
+  buildKeyboard(detected) {
     return (
       <div className={styles.keyboardContainer}>
-        <div className={styles.keyboard}>
+        <div
+          className={[styles.keyboard, detected && styles.detected].join(' ')}
+        >
           {parseKLERaw(ZEAL_65).map((arr, row) => (
             <div className={styles.row}>
               {arr.map((key, column) =>
@@ -129,12 +131,12 @@ export default class Home extends Component<Props, {}> {
           <h2>Devices:</h2>
           <button onClick={() => this.updateDevices()}>Refresh Devices</button>
           {this.renderDevicesDropdown(this.state.keyboards)}
+          {this.buildKeyboard(!!this.state.selectedKeyboard)}
           {this.state.selectedKeyboard && (
             <Wilba keyboard={this.state.selectedKeyboard} />
           )}
         </div>
 
-        {this.buildKeyboard()}
         <div>
           {getKeycodes().map(({code, name}) => (
             <div>
