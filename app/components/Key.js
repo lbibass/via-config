@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styles from './Key.css';
 
 type Props = {
@@ -19,16 +19,19 @@ export class Key extends Component<Props> {
   }
 
   render() {
-    const {
-      label,
-      topLabel,
-      bottomLabel,
-      centerLabel,
-    } = this.props;
+    const {label, topLabel, bottomLabel, centerLabel} = this.props;
     const isSmall = topLabel !== undefined || centerLabel !== undefined;
     return (
-      <div className={[styles.keyContainer, this.getSizeClass()].join(' ')}>
-        <div className={[styles.outerKey].join(' ')}>
+      <div
+        onClick={this.props.onClick}
+        className={[styles.keyContainer, this.getSizeClass()].join(' ')}
+      >
+        <div
+          className={[
+            this.props.selected && styles.selected,
+            styles.outerKey
+          ].join(' ')}
+        >
           <div className={isSmall ? styles.smallInnerKey : styles.innerKey}>
             <div className={styles.innerKeyContainer}>
               {this.renderLegend(isSmall ? [topLabel, bottomLabel] : [label])}

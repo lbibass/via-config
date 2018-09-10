@@ -20,36 +20,72 @@ export default class Home extends Component<Props, {}> {
 
     this.state = {
       keyboards,
-      selectedKeyboard: firstKeyboard && firstKeyboard.path
+      selectedKeyboard: firstKeyboard && firstKeyboard.path,
+      selectedKey: null
     };
+  }
+
+  clearSelectedKey(evt) {
+    this.setState({selectedKey: null});
   }
 
   buildKeyboard() {
     return (
-      <div className={styles.keyboard}>
-        {parseKLERaw(ZEAL_65).map(arr => (
-          <div className={styles.row}>
-            {arr.map(key => this.chooseKey(key))}
-          </div>
-        ))}
+      <div className={styles.keyboardContainer}>
+        <div className={styles.keyboard}>
+          {parseKLERaw(ZEAL_65).map((arr, row) => (
+            <div className={styles.row}>
+              {arr.map((key, column) =>
+                this.chooseKey(key, `${row}-${column}`)
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 
-  chooseKey({label, size}) {
+  setSelectedKey(idx, evt) {
+    this.setState({selectedKey: idx});
+    evt.stopPropagation();
+  }
+
+  chooseKey({label, size}, idx: string) {
     if (isAlpha(label)) {
-      return label && <Key label={label} size={size} />;
+      return (
+        label && (
+          <Key
+            label={label}
+            size={size}
+            selected={this.state.selectedKey === idx}
+            onClick={this.setSelectedKey.bind(this, idx)}
+          />
+        )
+      );
     } else if (isNumericSymbol(label)) {
       const topLabel = label[0];
       const bottomLabel = label[label.length - 1];
       return (
         topLabel &&
         bottomLabel && (
-          <Key topLabel={topLabel} bottomLabel={bottomLabel} size={size} />
+          <Key
+            topLabel={topLabel}
+            bottomLabel={bottomLabel}
+            size={size}
+            selected={this.state.selectedKey === idx}
+            onClick={this.setSelectedKey.bind(this, idx)}
+          />
         )
       );
     } else {
-      return <CenterKey label={label} size={size} />;
+      return (
+        <CenterKey
+          label={label}
+          size={size}
+          selected={this.state.selectedKey === idx}
+          onClick={this.setSelectedKey.bind(this, idx)}
+        />
+      );
     }
   }
 
@@ -88,7 +124,7 @@ export default class Home extends Component<Props, {}> {
 
   render() {
     return (
-      <div>
+      <div onClick={this.clearSelectedKey.bind(this)}>
         <div className={styles.container} data-tid="container">
           <h2>Devices:</h2>
           <button onClick={() => this.updateDevices()}>Refresh Devices</button>
