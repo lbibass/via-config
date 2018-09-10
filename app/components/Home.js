@@ -53,9 +53,13 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    setInterval(this.updateDevices.bind(this), 500);
+  }
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    clearInterval(this.scanTimeout);
+  }
 
   updateDevices() {
     const keyboards = getKeyboards();
