@@ -6,64 +6,20 @@ import {Key} from './Key';
 import {CenterKey} from './CenterKey';
 import {ZEAL_65, parseKLERaw} from '../utils/kle-parser';
 import {getKeycodes, isAlpha, isNumericSymbol} from '../utils/key';
+import {getKeyboards} from '../utils/hid-keyboards';
 import {Wilba} from './Wilba';
-const HID = require('node-hid');
-const IS_OSX = require('os').platform() === 'darwin';
-
 type Props = {};
-
-function scanDevices() {
-  const devices = HID.devices();
-  return devices;
-}
-
-function getKeyboards(usbDevices: Device[]) {
-  return usbDevices.filter(device => {
-    const validVendor = isValidVendor(device);
-    const validProduct = isValidProduct(device);
-    const validInterface = isValidInterface(device);
-    return validVendor && validProduct && validInterface;
-  });
-}
-
-function isValidInterface(device) {
-  return IS_OSX ? isValidInterfaceOSX(device) : isValidInterfaceNonOSX(device);
-}
-
-function isValidInterfaceNonOSX(device) {
-  const VALID_INTERFACE_IDS = [0x0001];
-  return VALID_INTERFACE_IDS.includes(device.interface);
-}
-
-function isValidInterfaceOSX({usage, usagePage}) {
-  const VALID_USAGE_IDS = [0x0061];
-  const VALID_USAGE_PAGE_IDS = [0xff60];
-  return (
-    VALID_USAGE_IDS.includes(usage) && VALID_USAGE_PAGE_IDS.includes(usagePage)
-  );
-}
-
-function isValidVendor({vendorId}) {
-  const VALID_VENDOR_IDS = [0xfeed];
-  return VALID_VENDOR_IDS.includes(vendorId);
-}
-
-function isValidProduct({productId}) {
-  // Currently allows Zeal60, Zeal65
-  const VALID_PRODUCT_IDS = [0x6065, 0x6060];
-  return VALID_PRODUCT_IDS.includes(productId);
-}
 
 export default class Home extends Component<Props, {}> {
   props: Props;
 
   constructor() {
     super();
-    const devices = scanDevices();
-    const firstKeyboard = getKeyboards(devices)[0];
+    const keyboards = getKeyboards();
+    const firstKeyboard = keyboards[0];
 
     this.state = {
-      devices,
+      keyboards,
       selectedKeyboard: firstKeyboard && firstKeyboard.path
     };
   }
@@ -97,16 +53,18 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
-  componentDidMount() {
-    //    this.intervalId = setInterval(this.updateDevices.bind(this), 200);
-  }
+  componentDidMount() {}
 
-  componentWillUnmount() {
-    clearInterval(this.intervalId);
-  }
+  componentWillUnmount() {}
 
   updateDevices() {
-    this.setState({devices: scanDevices()});
+    const keyboards = getKeyboards();
+    const oldSelectedKeyboard = this.state.selectedKeyboard;
+    const selectedKeyboardObj =
+      keyboards.find(keyboard => keyboard.path === oldSelectedKeyboard) ||
+      keyboards[0];
+    const selectedKeyboard = selectedKeyboardObj && selectedKeyboardObj.path;
+    this.setState({keyboards, selectedKeyboard});
   }
 
   renderDevicesDropdown(devices) {
@@ -125,14 +83,15 @@ export default class Home extends Component<Props, {}> {
   }
 
   render() {
-    const keyboards = getKeyboards(this.state.devices);
     return (
       <div>
         <div className={styles.container} data-tid="container">
           <h2>Devices:</h2>
-          <Wilba keyboard={this.state.selectedKeyboard} />
           <button onClick={() => this.updateDevices()}>Refresh Devices</button>
-          {this.renderDevicesDropdown(keyboards)}
+          {this.renderDevicesDropdown(this.state.keyboards)}
+          {this.state.selectedKeyboard && (
+            <Wilba keyboard={this.state.selectedKeyboard} />
+          )}
         </div>
 
         {this.buildKeyboard()}

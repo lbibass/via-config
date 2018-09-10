@@ -4,7 +4,6 @@ export class Wilba extends Component {
   constructor(props) {
     super();
     this.state = {
-      textVal: 'Here is a textarea for you :)',
       rangeVal: '5'
     };
   }
@@ -15,20 +14,31 @@ export class Wilba extends Component {
   }
 
   onRangeChange(event) {
-    const text = event.target.value;
-    this.setState({rangeVal: text});
+    const brightness = event.target.value;
+    this.setState({rangeVal: brightness});
+    this.setRGBMode(parseInt(brightness));
   }
-  onClick() {
-    const kb = new HID.HID(this.props.keyboard);
+
+  getKB() {
+    return new HID.HID(this.props.keyboard);
+  }
+
+  setRGBMode(brightness = 0) {
     const magicNumbers = [0x00, 0x07, 0xa];
-    const brightness = parseInt(this.state.rangeVal);
     const bytes = [...magicNumbers, brightness];
-    kb.write(bytes);
+    this.writeKB(bytes);
   }
+
+  writeKB(bytes) {
+    this.getKB().write(bytes);
+  }
+
+  onClick() {}
 
   render() {
     return (
       <div>
+        <h2>Change Lights</h2>
         <input
           type="range"
           value={this.state.rangeVal}
@@ -36,7 +46,6 @@ export class Wilba extends Component {
           min="0"
           max="10"
         />
-        <button onClick={this.onClick.bind(this)}>Change Lights</button>
       </div>
     );
   }
