@@ -92,7 +92,7 @@ export default class Home extends Component<Props, {}> {
   }
 
   componentDidMount() {
-    setInterval(this.updateDevices.bind(this), 500);
+    this.scanTimeout = setInterval(this.updateDevices.bind(this), 500);
   }
 
   componentWillUnmount() {
