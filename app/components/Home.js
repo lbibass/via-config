@@ -4,11 +4,13 @@ import {Link} from 'react-router-dom';
 import styles from './Home.css';
 import {Key} from './Key';
 import {CenterKey} from './CenterKey';
-import {ZEAL_65, parseKLERaw} from '../utils/kle-parser';
+import {ZEAL_65, HHKB, parseKLERaw} from '../utils/kle-parser';
 import {getKeycodes, isAlpha, isNumericSymbol} from '../utils/key';
 import {getKeyboards} from '../utils/hid-keyboards';
 import {Wilba} from './Wilba';
 type Props = {};
+
+const OVERRIDE_DETECT = true;
 
 export default class Home extends Component<Props, {}> {
   props: Props;
@@ -33,9 +35,12 @@ export default class Home extends Component<Props, {}> {
     return (
       <div className={styles.keyboardContainer}>
         <div
-          className={[styles.keyboard, detected && styles.detected].join(' ')}
+          className={[
+            styles.keyboard,
+            (detected || OVERRIDE_DETECT) && styles.detected
+          ].join(' ')}
         >
-          {parseKLERaw(ZEAL_65).map((arr, row) => (
+          {parseKLERaw(HHKB).map((arr, row) => (
             <div className={styles.row}>
               {arr.map((key, column) =>
                 this.chooseKey(key, `${row}-${column}`)
