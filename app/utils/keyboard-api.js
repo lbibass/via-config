@@ -58,6 +58,16 @@ export class Keyboard {
     this.writeCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
   }
 
+  setKey(layer, row, column, val) {
+    const key = parseInt(val);
+    const hi = (key & 0xff00) >> 8;
+    const lo = key & 0xff;
+    return this.writeCommand(
+      DYNAMIC_KEYMAP_SET_KEYCODE,
+      [layer, row, column, hi, lo].map(val => parseInt(val))
+    );
+  }
+
   readCommand(command, bytes, bytesToRead) {
     this.hid.write([...[COMMAND_START, command], ...bytes]);
     return this.getByteBuffer().then(buffer => {
@@ -67,5 +77,8 @@ export class Keyboard {
 
   writeCommand(command, bytes) {
     this.hid.write([...[COMMAND_START, command], ...bytes]);
+    return this.getByteBuffer().then(buffer => {
+      return buffer;
+    });
   }
 }
