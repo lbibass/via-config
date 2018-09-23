@@ -24,13 +24,13 @@ function isValidInterfaceOSX({usage, usagePage}) {
 }
 
 function isValidVendor({vendorId}) {
-  const VALID_VENDOR_IDS = [0xfeed];
+  const VALID_VENDOR_IDS = [0xfeed, 0x5241];
   return VALID_VENDOR_IDS.includes(vendorId);
 }
 
 function isValidProduct({productId}) {
   // Currently allows Zeal60, Zeal65
-  const VALID_PRODUCT_IDS = [0x6065, 0x6060];
+  const VALID_PRODUCT_IDS = [0x6065, 0x6060, 0x006A];
   return VALID_PRODUCT_IDS.includes(productId);
 }
 
