@@ -8,6 +8,14 @@ export function isNumericSymbol(label) {
   return numbersTop.includes(label[0]);
 }
 
+export function getByteForCode(code) {
+  const byte = basicKeyToByte[code];
+  if (byte) {
+    return byte.toString(16);
+  }
+  return 'dne';
+}
+
 export const basicKeyToByte = {
   KC_LCTL: 0x00e0,
   KC_RCTL: 0x00e4,

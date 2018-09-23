@@ -5,7 +5,12 @@ import styles from './Home.css';
 import {Key} from './Key';
 import {CenterKey} from './CenterKey';
 import {ZEAL_65, HHKB, parseKLERaw} from '../utils/kle-parser';
-import {getKeycodes, isAlpha, isNumericSymbol} from '../utils/key';
+import {
+  getByteForCode,
+  getKeycodes,
+  isAlpha,
+  isNumericSymbol
+} from '../utils/key';
 import {getKeyboards} from '../utils/hid-keyboards';
 import {Wilba} from './Wilba';
 type Props = {};
@@ -145,7 +150,7 @@ export default class Home extends Component<Props, {}> {
         <div>
           {getKeycodes().map(({code, name}) => (
             <div>
-              {code}: {name}
+              {code}: {name} : {getByteForCode(code)}
             </div>
           ))}
         </div>

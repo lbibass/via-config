@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
+import {Keyboard} from '../utils/keyboard-api';
 const HID = require('node-hid');
 export class Wilba extends Component {
   constructor(props) {
     super();
     this.state = {
-      rangeVal: '5'
+      rangeVal: '5',
+      layout: [[]]
     };
   }
 
@@ -16,21 +18,11 @@ export class Wilba extends Component {
   onRangeChange(event) {
     const brightness = event.target.value;
     this.setState({rangeVal: brightness});
-    this.setRGBMode(parseInt(brightness));
+    this.getKB().setRGBMode(parseInt(brightness));
   }
 
   getKB() {
-    return new HID.HID(this.props.keyboard);
-  }
-
-  setRGBMode(brightness = 0) {
-    const magicNumbers = [0x00, 0x07, 0xa];
-    const bytes = [...magicNumbers, brightness];
-    this.writeKB(bytes);
-  }
-
-  writeKB(bytes) {
-    this.getKB().write(bytes);
+    return new Keyboard(this.props.keyboard);
   }
 
   onClick() {}
@@ -46,6 +38,26 @@ export class Wilba extends Component {
           min="0"
           max="10"
         />
+        <h2>Keyboard Layout Map</h2>
+        <button
+          onClick={async () => {
+            const layout = await this.getKB().readLayout(5, 15);
+            this.setState({layout});
+          }}
+        >
+          Generate
+        </button>
+        <table>
+          <tbody>
+            {this.state.layout.map(column => (
+              <tr>
+                {column.map(row => (
+                  <td>{row}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }
