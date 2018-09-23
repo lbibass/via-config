@@ -478,6 +478,11 @@ export const basicKeyToByte = {
   MOD_MEH: 0x0007
 };
 
+export const byteToKey = Object.keys(basicKeyToByte).reduce((p, n) => {
+  const key = basicKeyToByte[n];
+  return {...p, [key]: n};
+}, {});
+
 export function getKeycodes() {
   return [
     {name: 'Esc', code: 'KC_ESC', keys: 'esc'},

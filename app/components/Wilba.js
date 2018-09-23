@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Keyboard} from '../utils/keyboard-api';
+import {byteToKey} from '../utils/key';
+
 const HID = require('node-hid');
 export class Wilba extends Component {
   constructor(props) {
@@ -52,7 +54,7 @@ export class Wilba extends Component {
             {this.state.layout.map(column => (
               <tr>
                 {column.map(row => (
-                  <td>{row}</td>
+                  <td>{byteToKey[row]}</td>
                 ))}
               </tr>
             ))}

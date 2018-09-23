@@ -35,7 +35,6 @@ export class Keyboard {
   }
 
   async readLayout(columns, rows) {
-    debugger;
     const res = [];
     try {
       for (let i = 0; i < columns; i++) {
@@ -47,7 +46,7 @@ export class Keyboard {
             j
           ]);
           const twoByte = (buffer[4] << 8) | buffer[5];
-          res[i][j] = `0x${twoByte.toString(16)}`;
+          res[i][j] = twoByte;
         }
       }
       return res;

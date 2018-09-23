@@ -147,6 +147,7 @@ export default class Home extends Component<Props, {}> {
           )}
         </div>
 
+        <h2>Keycodes:</h2>
         <div>
           {getKeycodes().map(({code, name}) => (
             <div>
