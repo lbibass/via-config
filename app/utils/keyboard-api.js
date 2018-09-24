@@ -30,18 +30,19 @@ export class Keyboard {
     });
   }
 
-  getProtocolVersion() {
-    this.readCommand(GET_PROTOCOL_VERSION, []);
+  async getProtocolVersion() {
+    const [_, hi, lo] = await this.hidCommand(GET_PROTOCOL_VERSION);
+    return (hi << 8) | lo;
   }
 
-  async readLayout(columns, rows) {
+  async readLayout(columns, rows, layer = 0) {
     const res = [];
     try {
       for (let i = 0; i < columns; i++) {
         res[i] = [];
         for (let j = 0; j < rows; j++) {
-          const buffer = await this.readCommand(DYNAMIC_KEYMAP_GET_KEYCODE, [
-            0,
+          const buffer = await this.hidCommand(DYNAMIC_KEYMAP_GET_KEYCODE, [
+            layer,
             i,
             j
           ]);
@@ -55,27 +56,20 @@ export class Keyboard {
 
   setRGBMode(brightness = 0) {
     const bytes = [0xa, brightness];
-    this.writeCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
+    this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
   }
 
   setKey(layer, row, column, val) {
     const key = parseInt(val);
     const hi = (key & 0xff00) >> 8;
     const lo = key & 0xff;
-    return this.writeCommand(
+    return this.hidCommand(
       DYNAMIC_KEYMAP_SET_KEYCODE,
       [layer, row, column, hi, lo].map(val => parseInt(val))
     );
   }
 
-  readCommand(command, bytes, bytesToRead) {
-    this.hid.write([...[COMMAND_START, command], ...bytes]);
-    return this.getByteBuffer().then(buffer => {
-      return buffer;
-    });
-  }
-
-  writeCommand(command, bytes) {
+  hidCommand(command, bytes = []): Promise<any> {
     this.hid.write([...[COMMAND_START, command], ...bytes]);
     return this.getByteBuffer().then(buffer => {
       return buffer;

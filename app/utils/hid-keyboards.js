@@ -23,23 +23,23 @@ function isValidInterfaceOSX({usage, usagePage}) {
   );
 }
 
-function isValidVendor({vendorId}) {
-  const VALID_VENDOR_IDS = [0xfeed, 0x5241];
-  return VALID_VENDOR_IDS.includes(vendorId);
-}
-
-function isValidProduct({productId}) {
-  // Currently allows Zeal60, Zeal65
-  const VALID_PRODUCT_IDS = [0x6065, 0x6060, 0x006A];
-  return VALID_PRODUCT_IDS.includes(productId);
+function isValidVendorProduct({productId, vendorId}) {
+  const VALID_VENDOR_PRODUCT_IDS = [
+    0xfeed6060,
+    0xfeed6065,
+    0x5241006a,
+    0x5241006b
+  ];
+  // JS bitwise operations is only 32-bit so we lose numbers if we shift too high
+  const vendorProductId = vendorId * 65536 + productId;
+  return VALID_VENDOR_PRODUCT_IDS.includes(vendorProductId);
 }
 
 export function getKeyboards() {
   const usbDevices = scanDevices();
   return usbDevices.filter(device => {
-    const validVendor = isValidVendor(device);
-    const validProduct = isValidProduct(device);
+    const validVendorProduct = isValidVendorProduct(device);
     const validInterface = isValidInterface(device);
-    return validVendor && validProduct && validInterface;
+    return validVendorProduct && validInterface;
   });
 }
