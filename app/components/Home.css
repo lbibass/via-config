@@ -7,15 +7,14 @@
 }
 
 .keyboard {
-  margin-top: 5px;
   line-height: 14px;
   display: inline-block;
   background: #717070;
   padding: 2px;
   border-radius: 3px;
-  box-shadow: #9c9c9c 0 0 0px 1px;
+  box-shadow: #4c4a4a 0 1px 0px 3px;
   user-select: none; /* Likely future */
-  transform: scale(0.9);
+  transform: scale(j0.9);
   opacity: 0;
   transition: all 0.2s ease-out;
 }
@@ -27,6 +26,8 @@
 
 .keyboardContainer {
   text-align: center;
+  background: #dddfe0;
+  padding: 10px 0;
 }
 
 .row {

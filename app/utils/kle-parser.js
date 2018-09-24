@@ -1,4 +1,4 @@
-export const ZEAL_65 = `[{c:"#ffe9d4",t:"#ba8080",a:6},"Esc",{c:"#f7f2ea",a:4},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=",{c:"#ba8080",t:"#f7f2ea",a:6,w:2},"Backspace","Home"],
+export const ZEAL65 = `[{c:"#ffe9d4",t:"#ba8080",a:6},"Esc",{c:"#f7f2ea",a:4},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=",{c:"#ba8080",t:"#f7f2ea",a:6,w:2},"Backspace","Home"],
 [{w:1.5},"Tab",{c:"#f7f2ea",t:"#ba8080",a:4,f:7},"Q","W","E","R","T","Y","U","I","O","P",{f:3},"{\n[","}\n]",{c:"#ba8080",t:"#f7f2ea",w:1.5},"|\n\\",{a:6},"PgUp"],
 [{w:1.75},"Caps Lock",{c:"#f7f2ea",t:"#ba8080",a:4,f:7},"A","S","D","F","G","H","J","K","L",{f:3},":\n;","\"\n'",{c:"#ffe9d4",a:6,w:2.25},"Enter",{c:"#ba8080",t:"#f7f2ea"},"PgDn"],
 [{w:2.25},"Shift",{c:"#f7f2ea",t:"#ba8080",a:4,f:7},"Z","X","C","V","B","N","M",{f:3},"<\n,",">\n.","?\n/",{c:"#ba8080",t:"#f7f2ea",a:6,w:1.75},"Shift","↑","Fn"],
@@ -9,6 +9,10 @@ export const HHKB = `[{c:"#9c9c9c",t:"#f7f2ea",p:"OEM"},"Esc",{c:"#d6b2b2"},"!\n
 [{w:1.75},"Control",{c:"#dae8f5"},"A","S","D","F","G","H","J","K","L",":\n;","\"\n'",{c:"#f7f2ea",w:2.25},"Enter"],
 [{w:2.25},"Shift",{c:"#dae8f5"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#f7f2ea",w:1.75},"Shift","Fn"],
 [{x:1.5},"LAlt",{w:1.5},"LMeta",{c:"#9c9c9c",t:"#f7f2ea",a:7,w:6.25},"",{c:"#f7f2ea",t:"#9c9c9c",a:4,w:1.5},"RMeta","RAlt"]`;
+
+export const M6A = `["Q","W","E"],
+["A","S","D"],
+["Z","X","C"]`;
 
 export function parseKLERaw(kle: string) {
   const kleArr = kle.split(',\n');

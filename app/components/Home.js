@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import styles from './Home.css';
 import {Key} from './Key';
 import {CenterKey} from './CenterKey';
-import {ZEAL_65, HHKB, parseKLERaw} from '../utils/kle-parser';
+import {ZEAL65, HHKB, parseKLERaw, M6A} from '../utils/kle-parser';
 import {
   getByteForCode,
   getKeycodes,
@@ -45,7 +45,7 @@ export default class Home extends Component<Props, {}> {
             (detected || OVERRIDE_DETECT) && styles.detected
           ].join(' ')}
         >
-          {parseKLERaw(HHKB).map((arr, row) => (
+          {parseKLERaw(ZEAL65).map((arr, row) => (
             <div className={styles.row}>
               {arr.map((key, column) =>
                 this.chooseKey(key, `${row}-${column}`)

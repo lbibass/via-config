@@ -591,7 +591,7 @@ export function getKeycodes() {
     {name: '0', code: 'KC_P0', width: 2000, keys: 'num_0'},
     {name: '.', code: 'KC_PDOT', keys: 'num_decimal'},
     {name: 'Enter', code: 'KC_PENT', keys: 'num_enter'},
-    {label: 'International', width: 'label'},
+    //{label: 'International', width: 'label'},
     {name: 'NUHS', code: 'KC_NUHS', title: 'Non-US # and ~'},
     {name: 'NUBS', code: 'KC_NUBS', title: 'Non-US \\ and |'},
     {name: 'Ro', code: 'KC_RO', title: 'JIS \\ and |'},
@@ -601,7 +601,7 @@ export function getKeycodes() {
     {name: '한영', code: 'KC_HAEN', title: ''},
     {name: '変換', code: 'KC_HENK', title: 'JIS Henkan'},
     {name: 'かな', code: 'KC_KANA', title: 'JIS Katakana/Hiragana'},
-    {label: 'QMK specific', width: 'label'},
+    //{label: 'QMK specific', width: 'label'},
     {name: '', code: 'KC_NO', title: 'Nothing'},
     {name: '▽', code: 'KC_TRNS', title: 'Pass-through'},
     {name: 'Reset', code: 'RESET', title: 'Reset the keyboard'},
@@ -612,7 +612,7 @@ export function getKeycodes() {
       type: 'text',
       title: 'Manually enter any QMK keycode'
     },
-    {label: 'Layer functions', width: 'label'},
+    //{label: 'Layer functions', width: 'label'},
     {
       name: 'MO',
       code: 'MO(layer)',
@@ -656,11 +656,11 @@ export function getKeycodes() {
       layer: 0,
       title: 'Switch to layer for one keypress'
     },
-    {
-      label:
-        'Mod key combinations (A = Alt, C = Control, G = Windows/Command, S = Shift)',
-      width: 'label'
-    },
+    //{
+      //label:
+        //'Mod key combinations (A = Alt, C = Control, G = Windows/Command, S = Shift)',
+      //width: 'label'
+    //},
     {name: 'LSft', code: 'LSFT(kc)', type: 'container'},
     {name: 'LCtl', code: 'LCTL(kc)', type: 'container'},
     {name: 'LAlt', code: 'LALT(kc)', type: 'container'},
@@ -790,7 +790,7 @@ export function getKeycodes() {
       title: 'LGUI + LSFT'
     },
     {name: 'LCA', code: 'LCA(kc)', type: 'container', title: 'LCTL + LALT'},
-    {label: 'Alphabet', width: 'label'},
+    //{label: 'Alphabet', width: 'label'},
     {name: 'a', code: 'KC_A'},
     {name: 'b', code: 'KC_B'},
     {name: 'c', code: 'KC_C'},
@@ -817,7 +817,7 @@ export function getKeycodes() {
     {name: 'x', code: 'KC_X'},
     {name: 'y', code: 'KC_Y'},
     {name: 'z', code: 'KC_Z'},
-    {label: 'Special action keys', width: 'label'},
+    //{label: 'Special action keys', width: 'label'},
     {
       name: 'Esc/~',
       code: 'KC_GESC',
@@ -833,7 +833,7 @@ export function getKeycodes() {
       code: 'KC_RSPC',
       title: 'Right shift when held, ) when tapped'
     },
-    {label: 'Shifted symbols', width: 'label'},
+    //{label: 'Shifted symbols', width: 'label'},
     {name: '~', code: 'KC_TILD', keys: '`'},
     {name: '!', code: 'KC_EXLM', keys: '!'},
     {name: '@', code: 'KC_AT', keys: '@'},
@@ -855,7 +855,7 @@ export function getKeycodes() {
     {name: '|', code: 'KC_PIPE', keys: '|'},
     {name: '?', code: 'KC_QUES', keys: '?'},
     {name: '"', code: 'KC_DQUO', keys: '"'},
-    {label: 'Application', width: 'label'},
+//    {label: 'Application', width: 'label'},
     {name: 'Power', code: 'KC_PWR'},
     {name: 'Help', code: 'KC_HELP'},
     {name: 'Stop', code: 'KC_STOP'},
@@ -868,7 +868,7 @@ export function getKeycodes() {
     {name: 'Paste', code: 'KC_PSTE'},
     {name: 'Find', code: 'KC_FIND'},
     {name: 'Cut', code: 'KC_CUT'},
-    {label: 'Keyboard settings (persistent)', width: 'label'},
+//    {label: 'Keyboard settings (persistent)', width: 'label'},
     {name: 'Swap C/Caps', code: 'MAGIC_SWAP_CONTROL_CAPSLOCK'},
     {name: 'Caps>C', code: 'MAGIC_CAPSLOCK_TO_CONTROL'},
     {name: 'Swap LA/LO', code: 'MAGIC_SWAP_LALT_LGUI'},
@@ -888,12 +888,12 @@ export function getKeycodes() {
     {name: 'Rev NKRO', code: 'MAGIC_UNHOST_NKRO'},
     {name: 'Rev A/O', code: 'MAGIC_UNSWAP_ALT_GUI'},
     {name: 'Togg NKRO', code: 'MAGIC_TOGGLE_NKRO'},
-    {label: 'Backlight settings', width: 'label'},
+//    {label: 'Backlight settings', width: 'label'},
     {name: 'BL Toggle', code: 'BL_TOGG'},
     {name: 'BL +', code: 'BL_INC'},
     {name: 'BL -', code: 'BL_DEC'},
     {name: 'BL Cycle', code: 'BL_STEP'},
-    {label: 'RGB Lighting settings', width: 'label'},
+//    {label: 'RGB Lighting settings', width: 'label'},
     {name: 'RGB Toggle', code: 'RGB_TOG'},
     {name: 'RGB Mode +', code: 'RGB_MOD'},
     {name: 'RGB Mode -', code: 'RGB_RMOD'},
@@ -913,7 +913,7 @@ export function getKeycodes() {
     {name: 'RGB Mode K', code: 'RGB_M_K', title: 'Knight'},
     {name: 'RGB Mode X', code: 'RGB_M_X', title: 'Xmas'},
     {name: 'RGB Mode G', code: 'RGB_M_G', title: 'Gradient'},
-    {label: 'Multimedia Keys', width: 'label'},
+    //{label: 'Multimedia Keys', width: 'label'},
     {name: 'Previous', code: 'KC_MPRV', title: 'Media Previous'},
     {name: 'Next', code: 'KC_MNXT', title: 'Media Next'},
     {name: 'Mute', code: 'KC_MUTE', title: 'Mute Audio'},
