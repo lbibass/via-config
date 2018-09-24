@@ -11,7 +11,6 @@ export const HHKB = `[{c:"#9c9c9c",t:"#f7f2ea",p:"OEM"},"Esc",{c:"#d6b2b2"},"!\n
 [{x:1.5},"LAlt",{w:1.5},"LMeta",{c:"#9c9c9c",t:"#f7f2ea",a:7,w:7},"",{c:"#f7f2ea",t:"#9c9c9c",a:4,w:1.5},"RMeta","RAlt"]`;
 
 export const M6B = `["Q","W","E"],
-["A","S","D"],
 ["Z","X","C"]`;
 
 export function parseKLERaw(kle: string) {
