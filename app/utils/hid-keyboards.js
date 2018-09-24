@@ -1,3 +1,5 @@
+import {M6B, HHKB, ZEAL65, parseKLERaw} from './kle-parser';
+
 const HID = require('node-hid');
 const IS_OSX = require('os').platform() === 'darwin';
 
@@ -33,6 +35,17 @@ function isValidVendorProduct({productId, vendorId}) {
   // JS bitwise operations is only 32-bit so we lose numbers if we shift too high
   const vendorProductId = vendorId * 65536 + productId;
   return VALID_VENDOR_PRODUCT_IDS.includes(vendorProductId);
+}
+
+const hid_layout = {
+  [0x5241006a]: M6B,
+  [0xfeed6065]: ZEAL65
+};
+
+export function getLayoutFromDevice({productId, vendorId}) {
+  const vendorProductId = vendorId * 65536 + productId;
+  const raw = hid_layout[vendorProductId] || HHKB;
+  return parseKLERaw(raw);
 }
 
 export function getKeyboards() {

@@ -4,18 +4,18 @@ import {Link} from 'react-router-dom';
 import styles from './Home.css';
 import {Key} from './Key';
 import {CenterKey} from './CenterKey';
-import {ZEAL65, HHKB, parseKLERaw, M6A} from '../utils/kle-parser';
+import {ZEAL65, HHKB, parseKLERaw} from '../utils/kle-parser';
 import {
   getByteForCode,
   getKeycodes,
   isAlpha,
   isNumericSymbol
 } from '../utils/key';
-import {getKeyboards} from '../utils/hid-keyboards';
+import {getKeyboards, getLayoutFromDevice} from '../utils/hid-keyboards';
 import {Wilba} from './Wilba';
 type Props = {};
 
-const OVERRIDE_DETECT = true;
+const OVERRIDE_DETECT = false;
 
 export default class Home extends Component<Props, {}> {
   props: Props;
@@ -28,6 +28,7 @@ export default class Home extends Component<Props, {}> {
     this.state = {
       keyboards,
       selectedKeyboard: firstKeyboard && firstKeyboard.path,
+      selectedLayout: firstKeyboard && getLayoutFromDevice(firstKeyboard),
       selectedKey: null
     };
   }
@@ -37,6 +38,7 @@ export default class Home extends Component<Props, {}> {
   }
 
   buildKeyboard(detected) {
+    const layout = this.state.selectedLayout || parseKLERaw(ZEAL65);
     return (
       <div className={styles.keyboardContainer}>
         <div
@@ -45,7 +47,7 @@ export default class Home extends Component<Props, {}> {
             (detected || OVERRIDE_DETECT) && styles.detected
           ].join(' ')}
         >
-          {parseKLERaw(HHKB).map((arr, row) => (
+          {layout.map((arr, row) => (
             <div className={styles.row}>
               {arr.map((key, column) =>
                 this.chooseKey(key, `${row}-${column}`)
@@ -119,7 +121,9 @@ export default class Home extends Component<Props, {}> {
       keyboards.find(keyboard => keyboard.path === oldSelectedKeyboard) ||
       keyboards[0];
     const selectedKeyboard = selectedKeyboardObj && selectedKeyboardObj.path;
-    this.setState({keyboards, selectedKeyboard});
+    const selectedLayout =
+      selectedKeyboardObj && getLayoutFromDevice(selectedKeyboardObj);
+    this.setState({keyboards, selectedKeyboard, selectedLayout});
   }
 
   renderDevicesDropdown(devices) {
