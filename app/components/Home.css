@@ -25,7 +25,9 @@
 }
 
 .keyboardContainer {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #dddfe0;
   padding: 10px 0;
 }

@@ -13,13 +13,22 @@ export class CenterKey extends Key {
     return styles[`size${size || 100}U`];
   }
 
+  getIndentClass() {
+    const {indent = 0} = this.props;
+    return styles[`indent${indent}U`];
+  }
+
   render() {
     const {label} = this.props;
 
     return (
       <div
         onClick={this.props.onClick}
-        className={[styles.keyContainer, this.getSizeClass()].join(' ')}
+        className={[
+          styles.keyContainer,
+          this.getIndentClass(),
+          this.getSizeClass()
+        ].join(' ')}
       >
         <div
           className={[

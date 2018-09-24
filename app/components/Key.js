@@ -14,6 +14,11 @@ export class Key extends Component<Props> {
     return styles[`size${size || 100}U`];
   }
 
+  getIndentClass() {
+    const {indent = 0} = this.props;
+    return styles[`indent${indent}U`];
+  }
+
   renderLegend(labels: string[]) {
     return labels.map(label => <span className={styles.legend}>{label}</span>);
   }
@@ -24,7 +29,11 @@ export class Key extends Component<Props> {
     return (
       <div
         onClick={this.props.onClick}
-        className={[styles.keyContainer, this.getSizeClass()].join(' ')}
+        className={[
+          styles.keyContainer,
+          this.getIndentClass(),
+          this.getSizeClass()
+        ].join(' ')}
       >
         <div
           className={[

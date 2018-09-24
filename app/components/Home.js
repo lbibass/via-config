@@ -45,7 +45,7 @@ export default class Home extends Component<Props, {}> {
             (detected || OVERRIDE_DETECT) && styles.detected
           ].join(' ')}
         >
-          {parseKLERaw(ZEAL65).map((arr, row) => (
+          {parseKLERaw(HHKB).map((arr, row) => (
             <div className={styles.row}>
               {arr.map((key, column) =>
                 this.chooseKey(key, `${row}-${column}`)
@@ -62,13 +62,14 @@ export default class Home extends Component<Props, {}> {
     evt.stopPropagation();
   }
 
-  chooseKey({label, size}, idx: string) {
+  chooseKey({label, size, margin}, idx: string) {
     if (isAlpha(label)) {
       return (
         label && (
           <Key
             label={label}
             size={size}
+            indent={margin}
             selected={this.state.selectedKey === idx}
             onClick={this.setSelectedKey.bind(this, idx)}
           />
@@ -83,6 +84,7 @@ export default class Home extends Component<Props, {}> {
           <Key
             topLabel={topLabel}
             bottomLabel={bottomLabel}
+            indent={margin}
             size={size}
             selected={this.state.selectedKey === idx}
             onClick={this.setSelectedKey.bind(this, idx)}
@@ -93,6 +95,7 @@ export default class Home extends Component<Props, {}> {
       return (
         <CenterKey
           label={label}
+          indent={margin}
           size={size}
           selected={this.state.selectedKey === idx}
           onClick={this.setSelectedKey.bind(this, idx)}

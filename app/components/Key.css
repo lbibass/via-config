@@ -27,6 +27,46 @@
   display: inline-block;
 }
 
+.indent25U {
+  margin-left: calc(var(--base-width) * 1);
+}
+
+.indent50U {
+  margin-left: calc(var(--base-width) * 1);
+}
+
+.indent75U {
+  margin-left: calc(var(--base-width) * 1);
+}
+
+.indent100U {
+  margin-left: calc(var(--base-width) * 1);
+}
+
+.indent125U {
+  margin-left: calc(var(--base-width) * 1.25);
+}
+
+.indent150U {
+  margin-left: calc(var(--base-width) * 1.5);
+}
+
+.indent175U {
+  margin-left: calc(var(--base-width) * 1.75);
+}
+
+.indent200U {
+  margin-left: calc(var(--base-width) * 2);
+}
+
+.indent225U {
+  margin-left: calc(var(--base-width) * 2.25);
+}
+
+.indent275U {
+  margin-left: calc(var(--base-width) * 2.75);
+}
+
 .size100U {
   width: calc(var(--base-width) * 1);
 }
@@ -62,6 +102,7 @@
 .size625U {
   width: calc(var(--base-width) * 6.25);
 }
+
 .size700U {
   width: calc(var(--base-width) * 7);
 }

@@ -8,7 +8,7 @@ export const HHKB = `[{c:"#9c9c9c",t:"#f7f2ea",p:"OEM"},"Esc",{c:"#d6b2b2"},"!\n
 [{w:1.5},"Tab",{c:"#7890a1",t:"#f7f2ea"},"Q","W","E","R","T","Y","U","I","O","P","{\n[","}\n]",{c:"#f7f2ea",t:"#9c9c9c",w:1.5},"Delete"],
 [{w:1.75},"Control",{c:"#dae8f5"},"A","S","D","F","G","H","J","K","L",":\n;","\"\n'",{c:"#f7f2ea",w:2.25},"Enter"],
 [{w:2.25},"Shift",{c:"#dae8f5"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#f7f2ea",w:1.75},"Shift","Fn"],
-[{x:1.5},"LAlt",{w:1.5},"LMeta",{c:"#9c9c9c",t:"#f7f2ea",a:7,w:6.25},"",{c:"#f7f2ea",t:"#9c9c9c",a:4,w:1.5},"RMeta","RAlt"]`;
+[{x:1.5},"LAlt",{w:1.5},"LMeta",{c:"#9c9c9c",t:"#f7f2ea",a:7,w:7},"",{c:"#f7f2ea",t:"#9c9c9c",a:4,w:1.5},"RMeta","RAlt"]`;
 
 export const M6A = `["Q","W","E"],
 ["A","S","D"],
@@ -23,16 +23,27 @@ export function parseKLERaw(kle: string) {
       .replace(/\"\"(?!,)/g, '"\\"')
       .replace(/([{,])([A-Za-z])(:)/g, '$1"$2"$3');
     return JSON.parse(row).reduce(
-      ({size, res}, n) => {
-        // Check if object and there exists width
-        if (typeof n !== 'string' && n.w > 1) {
-          return {size: 100 * n.w, res};
+      ({size, margin, res}, n) => {
+        // Check if object and apply formatting
+        if (typeof n !== 'string') {
+          let obj = {res};
+          if (n.w > 1) {
+            obj = {...obj, size: 100 * n.w};
+          }
+          if (n.x > 0) {
+            obj = {...obj, margin: 100 * n.x};
+          }
+          return obj;
         } else if (typeof n === 'string') {
-          return {size: 100, res: [...res, {label: n, size}]};
+          return {
+            margin: 0,
+            size: 100,
+            res: [...res, {label: n, size, margin}]
+          };
         }
-        return {size, res};
+        return {margin, size, res};
       },
-      {size: 100, res: []}
+      {margin: 0, size: 100, res: []}
     ).res;
   });
 }
