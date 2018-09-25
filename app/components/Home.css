@@ -7,6 +7,7 @@
 }
 
 .keyboard {
+  margin: 10px 0;
   line-height: 14px;
   display: inline-block;
   background: #717070;
@@ -19,6 +20,16 @@
   transition: all 0.2s ease-out;
 }
 
+.layerControl {
+  height: 30px;
+  background: black;
+  opacity: 0.8;
+  line-height: 30px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #818181;
+}
+
 .detected {
   transform: scale(1);
   opacity: 1;
@@ -29,7 +40,7 @@
   align-items: center;
   justify-content: center;
   background: #dddfe0;
-  padding: 10px 0;
+  flex-direction: column;
 }
 
 .row {

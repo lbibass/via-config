@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import styles from './Home.css';
 import {Key} from './Key';
+import {LayerControl} from './LayerControl';
 import {CenterKey} from './CenterKey';
 import {ZEAL65, HHKB, parseKLERaw} from '../utils/kle-parser';
 import {
@@ -28,7 +29,8 @@ export default class Home extends Component<Props, {}> {
     this.state = {
       keyboards,
       selectedKeyboard: firstKeyboard,
-      selectedKey: null
+      selectedKey: null,
+      activeLayer: 0
     };
   }
 
@@ -56,6 +58,10 @@ export default class Home extends Component<Props, {}> {
             </div>
           ))}
         </div>
+        <LayerControl
+          updateLayer={activeLayer => this.setState({activeLayer})}
+          activeLayer={this.state.activeLayer}
+        />
       </div>
     );
   }
@@ -160,7 +166,10 @@ export default class Home extends Component<Props, {}> {
           {this.renderDevicesDropdown(this.state.keyboards)}
           {this.buildKeyboard(!!this.state.selectedKeyboard)}
           {this.state.selectedKeyboard && (
-            <Wilba keyboard={this.state.selectedKeyboard} />
+            <Wilba
+              activeLayer={this.state.activeLayer}
+              keyboard={this.state.selectedKeyboard}
+            />
           )}
         </div>
 

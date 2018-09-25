@@ -8,7 +8,8 @@ export class Wilba extends Component {
     super();
     this.state = {
       rangeVal: '5',
-      layout: [[]]
+      layout: [[]],
+      layer: props.activeLayer
     };
   }
 
