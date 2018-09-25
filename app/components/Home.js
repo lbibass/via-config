@@ -15,7 +15,7 @@ import {getKeyboards, getLayoutFromDevice} from '../utils/hid-keyboards';
 import {Wilba} from './Wilba';
 type Props = {};
 
-const OVERRIDE_DETECT = false;
+const OVERRIDE_DETECT = true;
 
 export default class Home extends Component<Props, {}> {
   props: Props;
@@ -27,8 +27,7 @@ export default class Home extends Component<Props, {}> {
 
     this.state = {
       keyboards,
-      selectedKeyboard: firstKeyboard && firstKeyboard.path,
-      selectedLayout: firstKeyboard && getLayoutFromDevice(firstKeyboard),
+      selectedKeyboard: firstKeyboard,
       selectedKey: null
     };
   }
@@ -38,7 +37,9 @@ export default class Home extends Component<Props, {}> {
   }
 
   buildKeyboard(detected) {
-    const layout = this.state.selectedLayout || parseKLERaw(ZEAL65);
+    const kb = this.state.selectedKeyboard;
+    const selectedLayout = kb && getLayoutFromDevice(kb);
+    const layout = selectedLayout || parseKLERaw(ZEAL65);
     return (
       <div className={styles.keyboardContainer}>
         <div
@@ -118,19 +119,28 @@ export default class Home extends Component<Props, {}> {
     const keyboards = getKeyboards();
     const oldSelectedKeyboard = this.state.selectedKeyboard;
     const selectedKeyboardObj =
-      keyboards.find(keyboard => keyboard.path === oldSelectedKeyboard) ||
-      keyboards[0];
-    const selectedKeyboard = selectedKeyboardObj && selectedKeyboardObj.path;
-    const selectedLayout =
-      selectedKeyboardObj && getLayoutFromDevice(selectedKeyboardObj);
-    this.setState({keyboards, selectedKeyboard, selectedLayout});
+      keyboards.find(
+        keyboard =>
+          keyboard.path === (oldSelectedKeyboard && oldSelectedKeyboard.path)
+      ) || keyboards[0];
+    const selectedKeyboard = selectedKeyboardObj;
+    this.setState({keyboards, selectedKeyboard});
+  }
+
+  setDeviceFromPath(path) {
+    if (path) {
+      const keyboards = getKeyboards();
+      this.setState({selectedKeyboard: keyboards.find(kb => path === kb.path)});
+    }
   }
 
   renderDevicesDropdown(devices) {
+    const selectedPath =
+      this.state.selectedKeyboard && this.state.selectedKeyboard.path;
     return (
       <select
-        value={this.state.selectedKeyboard}
-        onChange={evt => this.setState({selectedKeyboard: evt.target.value})}
+        value={selectedPath}
+        onChange={evt => this.setDeviceFromPath(evt.target.value)}
       >
         {devices.map(({manufacturer, product, path}) => (
           <option value={path} key={path}>
