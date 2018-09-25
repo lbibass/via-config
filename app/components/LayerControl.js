@@ -2,8 +2,19 @@ import React, {Component} from 'react';
 import styles from './LayerControl.css';
 
 export class LayerControl extends Component {
+  get minLayer() {
+    return 0;
+  }
+
+  get maxLayer() {
+    return 10;
+  }
+
   changeLayer(offset) {
-    const newLayer = Math.min(5, Math.max(0, this.props.activeLayer + offset));
+    const newLayer = Math.min(
+      this.maxLayer,
+      Math.max(this.minLayer, this.props.activeLayer + offset)
+    );
     this.props.updateLayer(newLayer);
   }
   render() {
