@@ -14,9 +14,18 @@ import {
 } from '../utils/key';
 import {getKeyboards, getLayoutFromDevice} from '../utils/hid-keyboards';
 import {Wilba} from './Wilba';
+const usbDetect = require('usb-detection');
+usbDetect.startMonitoring();
 type Props = {};
 
 const OVERRIDE_DETECT = true;
+const timeoutRepeater = (fn, timeout, numToRepeat = 0) => () =>
+  setTimeout(() => {
+    fn();
+    if (numToRepeat > 0) {
+      timeoutRepeater(fn, timeout, numToRepeat - 1)();
+    }
+  }, timeout);
 
 export default class Home extends Component<Props, {}> {
   props: Props;
@@ -114,11 +123,13 @@ export default class Home extends Component<Props, {}> {
   }
 
   componentDidMount() {
-    this.scanTimeout = setInterval(this.updateDevices.bind(this), 500);
+    const updateDevices = timeoutRepeater(() => this.updateDevices(), 500, 10);
+    usbDetect.on('change', updateDevices);
+    updateDevices();
   }
 
   componentWillUnmount() {
-    clearInterval(this.scanTimeout);
+    usbDetect.off('change');
   }
 
   updateDevices() {
