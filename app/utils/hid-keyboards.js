@@ -39,13 +39,22 @@ function isValidVendorProduct({productId, vendorId}) {
 
 const hid_layout = {
   [0x5241006a]: M6B,
-  [0xfeed6065]: ZEAL65
+  [0xfeed6065]: ZEAL65,
+  [0xfeed6060]: HHKB
+};
+
+const hid_device = {
+  [0x5241006a]: {layout: M6B, rows: 2, cols: 3},
+  [0xfeed6065]: {layout: ZEAL65, rows: 5, cols: 15},
+  [0xfeed6060]: {layout: HHKB, rows: 5, cols: 14}
 };
 
 export function getLayoutFromDevice({productId, vendorId}) {
   const vendorProductId = vendorId * 65536 + productId;
-  const raw = hid_layout[vendorProductId] || HHKB;
-  return parseKLERaw(raw);
+  const device = hid_device[vendorProductId];
+  if (device) {
+    return parseKLERaw(device.layout);
+  }
 }
 
 export function getKeyboards() {

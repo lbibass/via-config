@@ -5,6 +5,7 @@ import styles from './Home.css';
 import {Key} from './Key';
 import {LayerControl} from './LayerControl';
 import {CenterKey} from './CenterKey';
+import {KeyOverlay} from './key-overlay';
 import {ZEAL65, HHKB, parseKLERaw} from '../utils/kle-parser';
 import {
   getByteForCode,
@@ -50,9 +51,12 @@ export default class Home extends Component<Props, {}> {
   buildKeyboard(detected) {
     const kb = this.state.selectedKeyboard;
     const selectedLayout = kb && getLayoutFromDevice(kb);
-    const layout = selectedLayout || parseKLERaw(ZEAL65);
+    const layout = selectedLayout || parseKLERaw(HHKB);
     return (
-      <div className={styles.keyboardContainer}>
+      <div
+        onClick={this.clearSelectedKey.bind(this)}
+        className={styles.keyboardContainer}
+      >
         <div
           className={[
             styles.keyboard,
@@ -71,6 +75,7 @@ export default class Home extends Component<Props, {}> {
           updateLayer={activeLayer => this.setState({activeLayer})}
           activeLayer={this.state.activeLayer}
         />
+        <KeyOverlay selectedKey={this.state.selectedKey} />
       </div>
     );
   }
@@ -170,12 +175,12 @@ export default class Home extends Component<Props, {}> {
 
   render() {
     return (
-      <div onClick={this.clearSelectedKey.bind(this)}>
+      <div>
         <div className={styles.container} data-tid="container">
+          {this.buildKeyboard(!!this.state.selectedKeyboard)}
           <h2>Devices:</h2>
           <button onClick={() => this.updateDevices()}>Refresh Devices</button>
           {this.renderDevicesDropdown(this.state.keyboards)}
-          {this.buildKeyboard(!!this.state.selectedKeyboard)}
           {this.state.selectedKeyboard && (
             <Wilba
               activeLayer={this.state.activeLayer}

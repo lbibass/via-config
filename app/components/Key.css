@@ -133,6 +133,10 @@
   border-radius: 3px;
 }
 
+.empty {
+  background: #ececec;
+}
+
 .smallInnerKey {
   height: 100%;
   position: relative;

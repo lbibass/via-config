@@ -21,9 +21,13 @@ export class LayerControl extends Component {
     const {activeLayer} = this.props;
     return (
       <div className={styles.layerControl}>
-        <button onClick={() => this.changeLayer(-1)}>Dec</button>
-        Layer {activeLayer}
-        <button onClick={() => this.changeLayer(1)}>Inc</button>
+        <button className={styles.button} onClick={() => this.changeLayer(-1)}>
+          ∨
+        </button>
+        <div className={styles.label}>Layer {activeLayer}</div>
+        <button className={styles.button} onClick={() => this.changeLayer(1)}>
+          ∧
+        </button>
       </div>
     );
   }
