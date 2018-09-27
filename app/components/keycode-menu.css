@@ -22,19 +22,21 @@
   border-radius: 4px;
   justify-content: center;
   align-items: center;
+  white-space: pre-wrap;
 }
 
 .keycodes {
+  padding: 0 5px 5px 5px;
   display: flex;
   flex-flow: wrap;
-  flex: 1;
   overflow: auto;
 }
 
 .category {
   display: inline-block;
-  color: #989898;
+  color: #a7a7a7;
   font-size: 20px;
+  transition: 0.4s color ease-out;
   padding: 4px;
   text-transform: uppercase;
 }
@@ -44,7 +46,9 @@
 }
 
 .categories {
+  padding: 2px 5px;
   white-space: nowrap;
-  overflow: auto;
-  height: 40px;
+  height: 31px;
+  min-height: 31px;
+  overflow-x: auto;
 }

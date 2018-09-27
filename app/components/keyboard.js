@@ -4,7 +4,7 @@ import {Key} from './Key';
 import {KeyOverlay} from './key-overlay';
 import styles from './keyboard.css';
 import {getLayoutFromDevice} from '../utils/hid-keyboards';
-import {ZEAL65, HHKB, parseKLERaw} from '../utils/kle-parser';
+import {M6B, ZEAL65, HHKB, parseKLERaw} from '../utils/kle-parser';
 import {LayerControl} from './LayerControl';
 import {isAlpha, isNumericSymbol} from '../utils/key';
 const OVERRIDE_DETECT = true;
@@ -65,10 +65,11 @@ export class Keyboard extends Component {
       clearSelectedKey,
       updateLayer
     } = this.props;
+    //wtf
     const detected = !!selectedKeyboard;
     const selectedLayout =
       selectedKeyboard && getLayoutFromDevice(selectedKeyboard);
-    const layout = selectedLayout || parseKLERaw(HHKB);
+    const layout = selectedLayout || parseKLERaw(M6B);
     return (
       <div onClick={clearSelectedKey} className={styles.keyboardContainer}>
         <div
