@@ -36,14 +36,6 @@ export default class Home extends Component<Props, {}> {
     };
   }
 
-  clearSelectedKey(evt) {
-    this.setState({selectedKey: null});
-  }
-
-  setSelectedKey(idx) {
-    this.setState({selectedKey: idx});
-  }
-
   componentDidMount() {
     const updateDevices = timeoutRepeater(() => this.updateDevices(), 500, 10);
     usbDetect.on('change', updateDevices);
@@ -52,6 +44,14 @@ export default class Home extends Component<Props, {}> {
 
   componentWillUnmount() {
     usbDetect.off('change');
+  }
+
+  clearSelectedKey(evt) {
+    this.setState({selectedKey: null});
+  }
+
+  setSelectedKey(idx) {
+    this.setState({selectedKey: idx});
   }
 
   updateDevices() {
@@ -92,16 +92,16 @@ export default class Home extends Component<Props, {}> {
 
   render() {
     return (
-      <div>
+      <div className={styles.home}>
+        <Keyboard
+          activeLayer={this.state.activeLayer}
+          selectedKey={this.state.selectedKey}
+          selectedKeyboard={this.state.selectedKeyboard}
+          clearSelectedKey={this.clearSelectedKey.bind(this)}
+          setSelectedKey={this.setSelectedKey.bind(this)}
+          updateLayer={activeLayer => this.setState({activeLayer})}
+        />
         <div className={styles.container} data-tid="container">
-          <Keyboard
-            activeLayer={this.state.activeLayer}
-            selectedKey={this.state.selectedKey}
-            selectedKeyboard={this.state.selectedKeyboard}
-            clearSelectedKey={this.clearSelectedKey.bind(this)}
-            setSelectedKey={this.setSelectedKey.bind(this)}
-            updateLayer={activeLayer => this.setState({activeLayer})}
-          />
           <h2>Devices:</h2>
           <button onClick={() => this.updateDevices()}>Refresh Devices</button>
           {this.renderDevicesDropdown(this.state.keyboards)}
@@ -111,15 +111,15 @@ export default class Home extends Component<Props, {}> {
               keyboard={this.state.selectedKeyboard}
             />
           )}
-        </div>
 
-        <h2>Keycodes:</h2>
-        <div>
-          {getKeycodes().map(({code, name}) => (
-            <div>
-              {code}: {name} : {getByteForCode(code)}
-            </div>
-          ))}
+          <h2>Keycodes:</h2>
+          <div>
+            {getKeycodes().map(({code, name}) => (
+              <div>
+                {code}: {name} : {getByteForCode(code)}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
