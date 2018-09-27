@@ -1,0 +1,38 @@
+.keyboardContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #dddfe0;
+  flex-direction: column;
+  position: relative;
+  padding: 60px 0;
+  overflow: hidden;
+  background: url(
+data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAG0lEQVQYV2O8cePGfwYcgBEkKSAggFV60EkCAGDsGdlliV0/AAAAAElFTkSuQmCC
+    )
+    repeat;
+}
+
+.keyboard {
+  margin: 10px 0;
+  line-height: 14px;
+  display: inline-block;
+  background: #717070;
+  padding: 2px;
+  border-radius: 3px;
+  box-shadow: #4c4a4a 0 1px 0px 3px;
+  user-select: none; /* Likely future */
+  transform: scale(0.9);
+  opacity: 0;
+  transition: all 0.2s ease-out;
+}
+
+.detected {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.row {
+  white-space: nowrap;
+  display: block;
+}

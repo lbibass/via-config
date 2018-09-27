@@ -3,17 +3,9 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import styles from './Home.css';
 import {Key} from './Key';
-import {LayerControl} from './LayerControl';
-import {CenterKey} from './CenterKey';
-import {KeyOverlay} from './key-overlay';
-import {ZEAL65, HHKB, parseKLERaw} from '../utils/kle-parser';
-import {
-  getByteForCode,
-  getKeycodes,
-  isAlpha,
-  isNumericSymbol
-} from '../utils/key';
-import {getKeyboards, getLayoutFromDevice} from '../utils/hid-keyboards';
+import {Keyboard} from './keyboard';
+import {getByteForCode, getKeycodes} from '../utils/key';
+import {getKeyboards} from '../utils/hid-keyboards';
 import {Wilba} from './Wilba';
 const usbDetect = require('usb-detection');
 usbDetect.startMonitoring();
@@ -48,83 +40,8 @@ export default class Home extends Component<Props, {}> {
     this.setState({selectedKey: null});
   }
 
-  buildKeyboard(detected) {
-    const kb = this.state.selectedKeyboard;
-    const selectedLayout = kb && getLayoutFromDevice(kb);
-    const layout = selectedLayout || parseKLERaw(HHKB);
-    return (
-      <div
-        onClick={this.clearSelectedKey.bind(this)}
-        className={styles.keyboardContainer}
-      >
-        <div
-          className={[
-            styles.keyboard,
-            (detected || OVERRIDE_DETECT) && styles.detected
-          ].join(' ')}
-        >
-          {layout.map((arr, row) => (
-            <div className={styles.row}>
-              {arr.map((key, column) =>
-                this.chooseKey(key, `${row}-${column}`)
-              )}
-            </div>
-          ))}
-        </div>
-        <LayerControl
-          updateLayer={activeLayer => this.setState({activeLayer})}
-          activeLayer={this.state.activeLayer}
-        />
-        <KeyOverlay selectedKey={this.state.selectedKey} />
-      </div>
-    );
-  }
-
-  setSelectedKey(idx, evt) {
+  setSelectedKey(idx) {
     this.setState({selectedKey: idx});
-    evt.stopPropagation();
-  }
-
-  chooseKey({label, size, margin}, idx: string) {
-    if (isAlpha(label)) {
-      return (
-        label && (
-          <Key
-            label={label}
-            size={size}
-            indent={margin}
-            selected={this.state.selectedKey === idx}
-            onClick={this.setSelectedKey.bind(this, idx)}
-          />
-        )
-      );
-    } else if (isNumericSymbol(label)) {
-      const topLabel = label[0];
-      const bottomLabel = label[label.length - 1];
-      return (
-        topLabel &&
-        bottomLabel && (
-          <Key
-            topLabel={topLabel}
-            bottomLabel={bottomLabel}
-            indent={margin}
-            size={size}
-            selected={this.state.selectedKey === idx}
-            onClick={this.setSelectedKey.bind(this, idx)}
-          />
-        )
-      );
-    } else {
-      return (
-        <CenterKey
-          label={label}
-          indent={margin}
-          size={size}
-          selected={this.state.selectedKey === idx}
-          onClick={this.setSelectedKey.bind(this, idx)}
-        />
-      );
-    }
   }
 
   componentDidMount() {
@@ -177,7 +94,14 @@ export default class Home extends Component<Props, {}> {
     return (
       <div>
         <div className={styles.container} data-tid="container">
-          {this.buildKeyboard(!!this.state.selectedKeyboard)}
+          <Keyboard
+            activeLayer={this.state.activeLayer}
+            selectedKey={this.state.selectedKey}
+            selectedKeyboard={this.state.selectedKeyboard}
+            clearSelectedKey={this.clearSelectedKey.bind(this)}
+            setSelectedKey={this.setSelectedKey.bind(this)}
+            updateLayer={activeLayer => this.setState({activeLayer})}
+          />
           <h2>Devices:</h2>
           <button onClick={() => this.updateDevices()}>Refresh Devices</button>
           {this.renderDevicesDropdown(this.state.keyboards)}
