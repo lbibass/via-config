@@ -1,7 +1,15 @@
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #d8d8d8;
+}
+
 .keycode {
   display: flex;
   user-select: none;
-  border: 1px whitesmoke solid;
+  color: #717070;
+  border: 1px #717070 solid;
   width: 45px;
   height: 45px;
   padding: 2px;
@@ -16,8 +24,27 @@
   align-items: center;
 }
 
-.keycodeMenu {
-  background: #4c4a4a;
+.keycodes {
   display: flex;
   flex-flow: wrap;
+  flex: 1;
+  overflow: auto;
+}
+
+.category {
+  display: inline-block;
+  color: #989898;
+  font-size: 20px;
+  padding: 4px;
+  text-transform: uppercase;
+}
+
+.selected {
+  color: #717070;
+}
+
+.categories {
+  white-space: nowrap;
+  overflow: auto;
+  height: 40px;
 }
