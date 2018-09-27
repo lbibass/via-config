@@ -1,0 +1,23 @@
+.keycode {
+  display: flex;
+  user-select: none;
+  border: 1px whitesmoke solid;
+  width: 45px;
+  height: 45px;
+  padding: 2px;
+  margin: 2px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+}
+
+.keycodeMenu {
+  background: #4c4a4a;
+  display: flex;
+  flex-flow: wrap;
+}

@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import styles from './Home.css';
 import {Key} from './Key';
 import {Keyboard} from './keyboard';
+import {KeycodeMenu} from './keycode-menu';
 import {getByteForCode, getKeycodes} from '../utils/key';
 import {getKeyboards} from '../utils/hid-keyboards';
 import {Wilba} from './Wilba';
@@ -90,36 +91,40 @@ export default class Home extends Component<Props, {}> {
     );
   }
 
-  render() {
-    return (
-      <div className={styles.home}>
-        <Keyboard
-          activeLayer={this.state.activeLayer}
-          selectedKey={this.state.selectedKey}
-          selectedKeyboard={this.state.selectedKeyboard}
-          clearSelectedKey={this.clearSelectedKey.bind(this)}
-          setSelectedKey={this.setSelectedKey.bind(this)}
-          updateLayer={activeLayer => this.setState({activeLayer})}
-        />
-        <div className={styles.container} data-tid="container">
+  renderDebug(shouldRender) {
+    if (shouldRender) {
+      return (
+        <div>
           <h2>Devices:</h2>
           <button onClick={() => this.updateDevices()}>Refresh Devices</button>
           {this.renderDevicesDropdown(this.state.keyboards)}
+
           {this.state.selectedKeyboard && (
             <Wilba
               activeLayer={this.state.activeLayer}
               keyboard={this.state.selectedKeyboard}
             />
           )}
+        </div>
+      );
+    }
+  }
 
-          <h2>Keycodes:</h2>
-          <div>
-            {getKeycodes().map(({code, name}) => (
-              <div>
-                {code}: {name} : {getByteForCode(code)}
-              </div>
-            ))}
-          </div>
+  render() {
+    const {activeLayer, selectedKey, selectedKeyboard} = this.state;
+    return (
+      <div className={styles.home}>
+        <Keyboard
+          activeLayer={activeLayer}
+          selectedKey={selectedKey}
+          selectedKeyboard={selectedKeyboard}
+          clearSelectedKey={this.clearSelectedKey.bind(this)}
+          setSelectedKey={this.setSelectedKey.bind(this)}
+          updateLayer={activeLayer => this.setState({activeLayer})}
+        />
+        <div className={styles.container} data-tid="container">
+          {this.renderDebug(false)}
+          <KeycodeMenu />
         </div>
       </div>
     );
