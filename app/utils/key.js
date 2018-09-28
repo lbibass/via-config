@@ -603,10 +603,10 @@ export function getKeycodes() {
         {name: 'NUHS', code: 'KC_NUHS', title: 'Non-US # and ~'},
         {name: 'NUBS', code: 'KC_NUBS', title: 'Non-US \\ and |'},
         {name: 'Ro', code: 'KC_RO', title: 'JIS \\ and |'},
-        {name: '¥', code: 'KC_JYEN'},
+        {name: '¥', code: 'KC_JYEN', title: 'JPN Yen'},
         {name: '無変換', code: 'KC_MHEN', title: 'JIS Muhenkan'},
-        {name: '漢字', code: 'KC_HANJ', title: ''},
-        {name: '한영', code: 'KC_HAEN', title: ''},
+        {name: '漢字', code: 'KC_HANJ', title: 'Hanja'},
+        {name: '한영', code: 'KC_HAEN', title: 'HanYeong'},
         {name: '変換', code: 'KC_HENK', title: 'JIS Henkan'},
         {name: 'かな', code: 'KC_KANA', title: 'JIS Katakana/Hiragana'}
       ]

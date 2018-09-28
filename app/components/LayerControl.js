@@ -7,7 +7,7 @@ export class LayerControl extends Component {
   }
 
   get maxLayer() {
-    return 10;
+    return 3;
   }
 
   changeLayer(offset) {

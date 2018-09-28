@@ -1,4 +1,4 @@
-import {M6B, HHKB, ZEAL65, parseKLERaw} from './kle-parser';
+import {M6A, M6B, HHKB, ZEAL65, parseKLERaw} from './kle-parser';
 
 const HID = require('node-hid');
 const IS_OSX = require('os').platform() === 'darwin';
@@ -30,7 +30,8 @@ function isValidVendorProduct({productId, vendorId}) {
     0xfeed6060,
     0xfeed6065,
     0x5241006a,
-    0x5241006b
+    0x5241006b,
+    0x5241060a
   ];
   // JS bitwise operations is only 32-bit so we lose numbers if we shift too high
   const vendorProductId = vendorId * 65536 + productId;
@@ -39,14 +40,18 @@ function isValidVendorProduct({productId, vendorId}) {
 
 const hid_layout = {
   [0x5241006a]: M6B,
+  [0x5241006b]: M6B,
+  [0x5241060a]: HHKB,
   [0xfeed6065]: ZEAL65,
   [0xfeed6060]: HHKB
 };
 
 const hid_device = {
-  [0x5241006a]: {layout: M6B, rows: 2, cols: 3},
+  [0x5241006a]: {layout: M6A, rows: 2, cols: 3},
+  [0x5241006b]: {layout: M6B, rows: 2, cols: 3},
   [0xfeed6065]: {layout: ZEAL65, rows: 5, cols: 15},
-  [0xfeed6060]: {layout: HHKB, rows: 5, cols: 14}
+  [0xfeed6060]: {layout: HHKB, rows: 5, cols: 14},
+  [0x5241060a]: {layout: HHKB, rows: 5, cols: 14}
 };
 
 export function getLayoutFromDevice({productId, vendorId}) {
