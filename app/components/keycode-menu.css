@@ -50,6 +50,8 @@
   transition: 0.4s color ease-out;
   padding: 4px;
   text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
 }
 
 .selected {
