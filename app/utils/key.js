@@ -690,6 +690,37 @@ export function getKeycodes() {
         {name: 'RAlt', code: 'RALT(kc)', type: 'container'},
         {name: 'RGui', code: 'RGUI(kc)', type: 'container'},
         {
+          name: 'Hyper',
+          code: 'HYPR(kc)',
+          type: 'container',
+          title: 'LCTL + LSFT + LALT + LGUI'
+        },
+        {
+          name: 'Meh',
+          code: 'MEH(kc)',
+          type: 'container',
+          title: 'LCTL + LSFT + LALT'
+        },
+        {
+          name: 'LCAG',
+          code: 'LCAG(kc)',
+          type: 'container',
+          title: 'LCTL + LALT + LGUI'
+        },
+        {
+          name: 'ALTG',
+          code: 'ALTG(kc)',
+          type: 'container',
+          title: 'RCTL + RALT'
+        },
+        {
+          name: 'SGUI',
+          code: 'SCMD(kc)',
+          type: 'container',
+          title: 'LGUI + LSFT'
+        },
+        {name: 'LCA', code: 'LCA(kc)', type: 'container', title: 'LCTL + LALT'},
+        {
           name: 'LSft_T',
           code: 'LSFT_T(kc)',
           type: 'container',
@@ -778,38 +809,7 @@ export function getKeycodes() {
           code: 'LCA_T(kc)',
           type: 'container',
           title: 'LCTL + LALT when held, kc when tapped'
-        },
-        {
-          name: 'Hyper',
-          code: 'HYPR(kc)',
-          type: 'container',
-          title: 'LCTL + LSFT + LALT + LGUI'
-        },
-        {
-          name: 'Meh',
-          code: 'MEH(kc)',
-          type: 'container',
-          title: 'LCTL + LSFT + LALT'
-        },
-        {
-          name: 'LCAG',
-          code: 'LCAG(kc)',
-          type: 'container',
-          title: 'LCTL + LALT + LGUI'
-        },
-        {
-          name: 'ALTG',
-          code: 'ALTG(kc)',
-          type: 'container',
-          title: 'RCTL + RALT'
-        },
-        {
-          name: 'SGUI',
-          code: 'SCMD(kc)',
-          type: 'container',
-          title: 'LGUI + LSFT'
-        },
-        {name: 'LCA', code: 'LCA(kc)', type: 'container', title: 'LCTL + LALT'}
+        }
       ]
     },
     {
