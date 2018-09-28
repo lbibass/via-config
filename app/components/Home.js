@@ -7,11 +7,20 @@ import {Keyboard} from './keyboard';
 import {KeycodeMenu} from './keycode-menu';
 import {getByteForCode, getKeycodes} from '../utils/key';
 import {getKeyboards} from '../utils/hid-keyboards';
+import {
+  parseLayout,
+  M60A_LAYOUT,
+  ZEAL65_BS_LAYOUT,
+  ZEAL65_NORMAL_LAYOUT
+} from '../utils/layout-parser';
 import {Wilba} from './Wilba';
 const usbDetect = require('usb-detection');
 usbDetect.startMonitoring();
 type Props = {};
 
+console.log(parseLayout(M60A_LAYOUT));
+console.log(parseLayout(ZEAL65_BS_LAYOUT));
+console.log(parseLayout(ZEAL65_NORMAL_LAYOUT));
 const OVERRIDE_DETECT = true;
 const timeoutRepeater = (fn, timeout, numToRepeat = 0) => () =>
   setTimeout(() => {

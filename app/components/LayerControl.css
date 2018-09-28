@@ -11,6 +11,8 @@
   align-items: center;
   position: absolute;
   top: 17px;
+  user-select: none;
+  cursor: pointer;
 }
 
 .button {

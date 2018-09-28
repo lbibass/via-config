@@ -22,13 +22,13 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAG0lEQVQYV2
   border-radius: 3px;
   box-shadow: #4c4a4a 0 1px 0px 3px;
   user-select: none; /* Likely future */
-  transform: scale(0.9);
+  transform: scale(0.8);
   opacity: 0;
   transition: all 0.2s ease-out;
 }
 
 .detected {
-  transform: scale(1);
+  transform: scale(0.9);
   opacity: 1;
 }
 
