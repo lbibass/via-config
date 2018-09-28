@@ -3,6 +3,7 @@
   flex-direction: column;
   height: 100%;
   background: #d8d8d8;
+  position: relative;
 }
 
 .keycodes {
@@ -53,4 +54,20 @@
 
 .selected {
   color: #717070;
+}
+
+.keycodeDesc {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  font-size: 14px;
+  padding: 5px;
+  height: 25px;
+  box-sizing: border-box;
+  opacity: 1;
+  transition: opacity 0.4s ease-out;
+}
+.keycodeDesc:empty {
+  opacity: 0;
 }

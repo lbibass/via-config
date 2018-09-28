@@ -7,7 +7,8 @@ export class KeycodeMenu extends Component {
   constructor() {
     super();
     this.state = {
-      selectedCategory: menu[0].label
+      selectedCategory: menu[0].label,
+      mouseOverDesc: null
     };
   }
   renderCategories() {
@@ -31,15 +32,22 @@ export class KeycodeMenu extends Component {
 
   render() {
     const menu = getKeycodes();
+    const {mouseOverDesc} = this.state;
     const selectedCategoryKeycodes = menu.find(
       ({label}) => label === this.state.selectedCategory
     ).keycodes;
     return (
       <div className={styles.menuContainer}>
         {this.renderCategories()}
+        <div className={styles.keycodeDesc}>{mouseOverDesc}</div>
         <div className={styles.keycodes}>
           {selectedCategoryKeycodes.map(({code, title, name}) => (
-            <div alt={title} className={styles.keycode}>
+            <div
+              alt={title}
+              className={styles.keycode}
+              onMouseOver={_ => this.setState({mouseOverDesc: title})}
+              onMouseOut={_ => this.setState({mouseOverDesc: null})}
+            >
               {name}
             </div>
           ))}

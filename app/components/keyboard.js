@@ -65,11 +65,10 @@ export class Keyboard extends Component {
       clearSelectedKey,
       updateLayer
     } = this.props;
-    //wtf
     const detected = !!selectedKeyboard;
     const selectedLayout =
       selectedKeyboard && getLayoutFromDevice(selectedKeyboard);
-    const layout = selectedLayout || parseKLERaw(M6B);
+    const layout = selectedLayout || parseKLERaw(HHKB);
     return (
       <div onClick={clearSelectedKey} className={styles.keyboardContainer}>
         <div
