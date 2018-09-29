@@ -35,7 +35,8 @@ export default class Home extends Component<Props, {}> {
       keyboards,
       selectedKeyboard: firstKeyboard,
       selectedKey: null,
-      activeLayer: 0
+      activeLayer: 0,
+      matrixKeycodes: []
     };
   }
 
@@ -112,25 +113,50 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
-  async updateSelectedKey(value) {
-    const {activeLayer, selectedKey, selectedKeyboard} = this.state;
-    if (selectedKeyboard && selectedKey) {
+  getAPI() {
+    const {selectedKeyboard} = this.state;
+    if (selectedKeyboard) {
+      const keyboard = getKeyboardFromDevice(selectedKeyboard);
+      return new KeyboardAPI(selectedKeyboard);
+    }
+  }
+
+  getMatrix() {
+    const {selectedKeyboard} = this.state;
+    if (selectedKeyboard) {
       const keyboard = getKeyboardFromDevice(selectedKeyboard);
       const matrixLayout = MatrixLayout[keyboard.name];
+      return matrixLayout;
+    }
+  }
+
+  async updateSelectedKey(value) {
+    const {activeLayer, selectedKey} = this.state;
+    const api = this.getAPI();
+    const matrixLayout = this.getMatrix();
+
+    if (api && selectedKey) {
       const {row, col} = matrixLayout[parseInt(selectedKey)];
-      const api = new KeyboardAPI(selectedKeyboard);
-      await api.setKey(activeLayer, row, col, value);
+      const key = await api.setKey(activeLayer, row, col, value);
+      const matrixKeycodes = await api.readMatrix(matrixLayout, activeLayer);
+      this.setState({matrixKeycodes});
     }
   }
 
   render() {
-    const {activeLayer, selectedKey, selectedKeyboard} = this.state;
+    const {
+      activeLayer,
+      selectedKey,
+      matrixKeycodes,
+      selectedKeyboard
+    } = this.state;
     return (
       <div className={styles.home}>
         <Keyboard
           activeLayer={activeLayer}
           selectedKey={selectedKey}
           selectedKeyboard={selectedKeyboard}
+          matrixKeycodes={matrixKeycodes}
           clearSelectedKey={this.clearSelectedKey.bind(this)}
           setSelectedKey={this.setSelectedKey.bind(this)}
           updateLayer={activeLayer => this.setState({activeLayer})}

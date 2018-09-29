@@ -67,7 +67,8 @@ export class Keyboard extends Component {
       selectedKey,
       selectedKeyboard,
       clearSelectedKey,
-      updateLayer
+      updateLayer,
+      matrixKeycodes
     } = this.props;
     const detected = !!selectedKeyboard;
     const device = selectedKeyboard || {vendorId: 0x5241, productId: 0x060a};
@@ -93,6 +94,7 @@ export class Keyboard extends Component {
         <KeyOverlay
           device={device}
           matrixLayout={matrixLayout}
+          matrixKeycodes={matrixKeycodes}
           selectedKey={selectedKey}
         />
       </div>

@@ -29,7 +29,7 @@ export class KeyboardAPI {
     cache[kbAddr] = this.hid = new HID.HID(kbAddr);
   }
 
-  getByteBuffer() {
+  async getByteBuffer() {
     return new Promise((res, rej) => {
       this.hid.read((err, data) => {
         res(data);
@@ -57,29 +57,39 @@ export class KeyboardAPI {
       for (let i = 0; i < columns; i++) {
         res[i] = [];
         for (let j = 0; j < rows; j++) {
-          res[i][j] = this.getKey(layer, i, j);
+          res[i][j] = await this.getKey(layer, i, j);
         }
       }
       return res;
     } catch (e) {}
   }
 
-  setRGBMode(brightness = 0) {
-    const bytes = [0xa, brightness];
-    this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
+  async readMatrix(matrix, layer) {
+    const res = [];
+    for (let i = 0; i < matrix.length; i++) {
+      const {row, col} = matrix[i];
+      res[i] = await this.getKey(layer, row, col);
+    }
+    return res;
   }
 
-  setKey(layer, row, column, val) {
+  async setRGBMode(brightness = 0) {
+    const bytes = [0xa, brightness];
+    await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
+  }
+
+  async setKey(layer, row, column, val) {
     const key = parseInt(val);
     const hi = (key & 0xff00) >> 8;
     const lo = key & 0xff;
-    return this.hidCommand(
+    const res = await this.hidCommand(
       DYNAMIC_KEYMAP_SET_KEYCODE,
       [layer, row, column, hi, lo].map(val => parseInt(val))
     );
+    return res;
   }
 
-  hidCommand(command, bytes = []): Promise<any> {
+  async hidCommand(command, bytes = []): Promise<any> {
     const commandBytes = [...[COMMAND_START, command], ...bytes];
     try {
       this.hid.write(commandBytes);
@@ -88,8 +98,7 @@ export class KeyboardAPI {
       this.refresh();
       this.hid.write(commandBytes);
     }
-    return this.getByteBuffer().then(buffer => {
-      return buffer;
-    });
+    const buffer = await this.getByteBuffer();
+    return buffer;
   }
 }

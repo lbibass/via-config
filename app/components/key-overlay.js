@@ -4,16 +4,18 @@ import {KeyboardAPI} from '../utils/keyboard-api';
 
 export class KeyOverlay extends Component {
   render() {
-    const {device, matrixLayout, selectedKey} = this.props;
+    const {device, matrixKeycodes, matrixLayout, selectedKey} = this.props;
     if (selectedKey) {
-      const {row, col} = matrixLayout[parseInt(selectedKey)];
+      const sKey = parseInt(selectedKey);
+      const {row, col} = matrixLayout[sKey];
+      const keycode = matrixKeycodes[sKey];
       return (
         <div
           className={[!!selectedKey && styles.selected, styles.keyOverlay].join(
             ' '
           )}
         >
-          {selectedKey} : ({row}, {col})
+          {selectedKey} : ({row}, {col}) {keycode}
         </div>
       );
     }
