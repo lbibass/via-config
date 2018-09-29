@@ -13,8 +13,9 @@ const BACKLIGHT_CONFIG_SAVE = 0x09;
 
 const cache = {};
 
-export class Keyboard {
-  constructor(kbAddr) {
+export class KeyboardAPI {
+  constructor(kb) {
+    const kbAddr = kb.path;
     if (cache[kbAddr]) {
       this.hid = cache[kbAddr];
     } else {
@@ -35,19 +36,22 @@ export class Keyboard {
     return (hi << 8) | lo;
   }
 
+  async getKey(layer, row, col) {
+    const buffer = await this.hidCommand(DYNAMIC_KEYMAP_GET_KEYCODE, [
+      layer,
+      row,
+      col
+    ]);
+    return (buffer[4] << 8) | buffer[5];
+  }
+
   async readLayout(columns, rows, layer = 0) {
     const res = [];
     try {
       for (let i = 0; i < columns; i++) {
         res[i] = [];
         for (let j = 0; j < rows; j++) {
-          const buffer = await this.hidCommand(DYNAMIC_KEYMAP_GET_KEYCODE, [
-            layer,
-            i,
-            j
-          ]);
-          const twoByte = (buffer[4] << 8) | buffer[5];
-          res[i][j] = twoByte;
+          res[i][j] = this.getKey(layer, i, j);
         }
       }
       return res;

@@ -45,6 +45,7 @@ export class KeycodeMenu extends Component {
             <div
               alt={title}
               className={styles.keycode}
+              onClick={() => this.props.updateSelectedKey(getByteForCode(code))}
               onMouseOver={_ => this.setState({mouseOverDesc: title})}
               onMouseOut={_ => this.setState({mouseOverDesc: null})}
             >

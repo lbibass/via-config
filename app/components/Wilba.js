@@ -31,7 +31,7 @@ export class Wilba extends Component {
 
   getKB() {
     const {keyboard = {}} = this.props;
-    return new Keyboard(keyboard.path);
+    return new KeyboardAPI(keyboard);
   }
 
   onClick() {}

@@ -11,9 +11,9 @@ export function isNumericSymbol(label) {
 export function getByteForCode(code) {
   const byte = basicKeyToByte[code];
   if (byte) {
-    return byte.toString(16);
+    return byte;
   }
-  return 'dne';
+  throw `Could not find byte for {code}`;
 }
 
 export const basicKeyToByte = {

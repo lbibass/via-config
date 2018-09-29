@@ -47,16 +47,20 @@ const hid_layout = {
 };
 
 const hid_device = {
-  [0x5241006a]: {layout: M6A, rows: 2, cols: 3},
-  [0x5241006b]: {layout: M6B, rows: 2, cols: 3},
-  [0xfeed6065]: {layout: ZEAL65, rows: 5, cols: 15},
-  [0xfeed6060]: {layout: HHKB, rows: 5, cols: 14},
-  [0x5241060a]: {layout: HHKB, rows: 5, cols: 14}
+  [0x5241006a]: {name: 'M6A', layout: M6A, rows: 2, cols: 3},
+  [0x5241006b]: {name: 'M6B', layout: M6B, rows: 2, cols: 3},
+  [0xfeed6065]: {name: 'ZEAL65', layout: ZEAL65, rows: 5, cols: 15},
+  [0xfeed6060]: {name: 'ZEAL60', layout: HHKB, rows: 5, cols: 14},
+  [0x5241060a]: {name: 'M60A', layout: HHKB, rows: 5, cols: 14}
 };
 
-export function getLayoutFromDevice({productId, vendorId}) {
+export function getKeyboardFromDevice({productId, vendorId}) {
   const vendorProductId = vendorId * 65536 + productId;
-  const device = hid_device[vendorProductId];
+  return hid_device[vendorProductId];
+}
+
+export function getLayoutFromDevice({productId, vendorId}) {
+  const device = getKeyboardFromDevice({productId, vendorId});
   if (device) {
     return parseKLERaw(device.layout);
   }

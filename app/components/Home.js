@@ -6,21 +6,14 @@ import {Key} from './Key';
 import {Keyboard} from './keyboard';
 import {KeycodeMenu} from './keycode-menu';
 import {getByteForCode, getKeycodes} from '../utils/key';
-import {getKeyboards} from '../utils/hid-keyboards';
-import {
-  parseLayout,
-  M60A_LAYOUT,
-  ZEAL65_BS_LAYOUT,
-  ZEAL65_NORMAL_LAYOUT
-} from '../utils/layout-parser';
+import {getKeyboardFromDevice, getKeyboards} from '../utils/hid-keyboards';
+import {MatrixLayout} from '../utils/layout-parser';
+import {KeyboardAPI} from '../utils/keyboard-api';
 import {Wilba} from './Wilba';
 const usbDetect = require('usb-detection');
 usbDetect.startMonitoring();
 type Props = {};
 
-console.log(parseLayout(M60A_LAYOUT));
-console.log(parseLayout(ZEAL65_BS_LAYOUT));
-console.log(parseLayout(ZEAL65_NORMAL_LAYOUT));
 const OVERRIDE_DETECT = true;
 const timeoutRepeater = (fn, timeout, numToRepeat = 0) => () =>
   setTimeout(() => {
@@ -119,6 +112,17 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
+  async updateSelectedKey(value) {
+    const {activeLayer, selectedKey, selectedKeyboard} = this.state;
+    if (selectedKeyboard && selectedKey) {
+      const keyboard = getKeyboardFromDevice(selectedKeyboard);
+      const matrixLayout = MatrixLayout[keyboard.name];
+      const {row, col} = matrixLayout[parseInt(selectedKey)];
+      const api = new KeyboardAPI(selectedKeyboard);
+      await api.setKey(activeLayer, row, col, value);
+    }
+  }
+
   render() {
     const {activeLayer, selectedKey, selectedKeyboard} = this.state;
     return (
@@ -133,7 +137,7 @@ export default class Home extends Component<Props, {}> {
         />
         <div className={styles.container} data-tid="container">
           {this.renderDebug(false)}
-          <KeycodeMenu />
+          <KeycodeMenu updateSelectedKey={this.updateSelectedKey.bind(this)} />
         </div>
       </div>
     );

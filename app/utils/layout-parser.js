@@ -68,11 +68,18 @@ const LS = {
   LAYOUT2D_END: 11
 };
 
+export const MatrixLayout = {
+  M60A: parseLayout(M60A_LAYOUT),
+  M6A: parseLayout(M6A_LAYOUT),
+  ZEAL65: parseLayout(ZEAL65_NORMAL_LAYOUT),
+  ZEAL65_BS: parseLayout(ZEAL65_BS_LAYOUT)
+};
+
 function error(state, nextToken) {
   console.error('Current State', state, 'Next: ', nextToken);
 }
 
-const tokenizer = (state, next) => {
+function tokenizer(state, next) {
   const tnext = next.trim();
   const {prev, res} = state;
   // skip empty strings
@@ -110,7 +117,16 @@ const tokenizer = (state, next) => {
 
     const parenIdx = tnext.indexOf(')');
     const length = tnext.length;
-    if (commaIdx === length - 1) {
+    if (parenIdx === 0) {
+      return tokenizer(
+        {
+          ...state,
+          prev: LS.LAYOUT1D_END,
+          res: {...res, layout2D: [[]]}
+        },
+        tnext.slice(1)
+      );
+    } else if (commaIdx === length - 1) {
       const keycode = tnext.slice(0, length - 1);
       const {layout1D} = res;
       return {
@@ -127,7 +143,6 @@ const tokenizer = (state, next) => {
         res: {...res, layout1D: [...layout1D, keycode], layout2D: [[]]}
       };
     } else if (parenIdx === -1 && commaIdx === -1) {
-      console.log(tnext);
       const keycode = tnext;
       const {layout1D} = res;
       return {
@@ -233,7 +248,7 @@ const tokenizer = (state, next) => {
   }
   error(state, tnext);
   throw 'Bad Token found';
-};
+}
 
 export function parseLayout(layout) {
   const tokens = layout.split(/\s+/g);
