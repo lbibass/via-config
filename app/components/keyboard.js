@@ -62,6 +62,20 @@ export class Keyboard extends Component {
     }
   }
 
+  // We want to show the default layout from KLE if
+  // we can't read the matrix for some reason i.e
+  // overriding displaying unconnected devices
+  useMatrixKeycodes() {
+    return !!this.getDevice().path;
+  }
+
+  getDevice() {
+    const {selectedKeyboard} = this.props;
+    const fakeDevice = {vendorId: 0x5241, productId: 0x060a}; //M60A
+    const device = selectedKeyboard || fakeDevice;
+    return device;
+  }
+
   render() {
     const {
       activeLayer,
@@ -73,12 +87,11 @@ export class Keyboard extends Component {
       matrixKeycodes
     } = this.props;
     const detected = !!selectedKeyboard;
-    const device = selectedKeyboard || {vendorId: 0x5241, productId: 0x060a};
+    const device = this.getDevice();
     const keyboard = getKeyboardFromDevice(device);
     const selectedLayout = getLayoutFromDevice(device);
     const matrixLayout = MatrixLayout[keyboard.name];
     const showLayer = selectedTitle === Title.KEYS;
-    console.log(showLayer);
     let keyCounter = 0;
     return (
       <div onClick={clearSelectedKey} className={styles.keyboardContainer}>
