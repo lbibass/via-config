@@ -16,6 +16,7 @@ const cache = {};
 export class KeyboardAPI {
   constructor(kb) {
     const kbAddr = kb.path;
+    this.kbAddr = kb.path;
     if (cache[kbAddr]) {
       this.hid = cache[kbAddr];
     } else {
@@ -23,9 +24,14 @@ export class KeyboardAPI {
     }
   }
 
+  refresh() {
+    const kbAddr = this.kbAddr;
+    cache[kbAddr] = this.hid = new HID.HID(kbAddr);
+  }
+
   getByteBuffer() {
     return new Promise((res, rej) => {
-      this.hid.once('data', data => {
+      this.hid.read((err, data) => {
         res(data);
       });
     });
@@ -74,7 +80,14 @@ export class KeyboardAPI {
   }
 
   hidCommand(command, bytes = []): Promise<any> {
-    this.hid.write([...[COMMAND_START, command], ...bytes]);
+    const commandBytes = [...[COMMAND_START, command], ...bytes];
+    try {
+      this.hid.write(commandBytes);
+    } catch (ex) {
+      console.log('Retrying...');
+      this.refresh();
+      this.hid.write(commandBytes);
+    }
     return this.getByteBuffer().then(buffer => {
       return buffer;
     });

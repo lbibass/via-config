@@ -7,10 +7,6 @@ export class KeyOverlay extends Component {
     const {device, matrixLayout, selectedKey} = this.props;
     if (selectedKey) {
       const {row, col} = matrixLayout[parseInt(selectedKey)];
-      if (device.path) {
-        const api = new KeyboardAPI(device);
-        api.getKey(0, row, col).then(num => console.log(num));
-      }
       return (
         <div
           className={[!!selectedKey && styles.selected, styles.keyOverlay].join(
