@@ -15,6 +15,12 @@ import {isAlpha, isNumericSymbol} from '../utils/key';
 const OVERRIDE_DETECT = true;
 
 export class Keyboard extends Component {
+  componentWillMount() {
+    if (this.useMatrixKeycodes()) {
+      this.props.updateFullMatrix();
+    }
+  }
+
   chooseKey({label, size, margin}, idx: string) {
     const {selectedKey, setSelectedKey} = this.props;
     const onClick = evt => {
@@ -25,6 +31,7 @@ export class Keyboard extends Component {
       return (
         label && (
           <Key
+            key={idx}
             label={label}
             size={size}
             indent={margin}
@@ -40,6 +47,7 @@ export class Keyboard extends Component {
         topLabel &&
         bottomLabel && (
           <Key
+            key={idx}
             topLabel={topLabel}
             bottomLabel={bottomLabel}
             indent={margin}
@@ -52,6 +60,7 @@ export class Keyboard extends Component {
     } else {
       return (
         <CenterKey
+          key={idx}
           label={label}
           indent={margin}
           size={size}

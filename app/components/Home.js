@@ -198,6 +198,7 @@ export default class Home extends Component<Props, {}> {
           matrixKeycodes={matrixKeycodes}
           clearSelectedKey={this.clearSelectedKey.bind(this)}
           setSelectedKey={this.setSelectedKey.bind(this)}
+          updateFullMatrix={this.updateFullMatrix.bind(this)}
           updateLayer={activeLayer => this.setState({activeLayer})}
         />
         <div className={styles.container} data-tid="container">

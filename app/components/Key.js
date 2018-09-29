@@ -20,7 +20,11 @@ export class Key extends Component<Props> {
   }
 
   renderLegend(labels: string[]) {
-    return labels.map(label => <span className={styles.legend}>{label}</span>);
+    return labels.map(label => (
+      <span key={label} className={styles.legend}>
+        {label}
+      </span>
+    ));
   }
 
   render() {
