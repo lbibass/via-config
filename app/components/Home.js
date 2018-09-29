@@ -36,7 +36,7 @@ export default class Home extends Component<Props, {}> {
       keyboards,
       selectedKeyboard: firstKeyboard,
       selectedKey: null,
-      selectedTitle: 'Configure Keys',
+      selectedTitle: 'KEYS',
       activeLayer: 0,
       matrixKeycodes: []
     };
@@ -156,6 +156,16 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
+  renderMenu(selectedTitle) {
+    if (selectedTitle === 'KEYS') {
+      return (
+        <KeycodeMenu updateSelectedKey={this.updateSelectedKey.bind(this)} />
+      );
+    } else if (selectedTitle === 'LIGHTING') {
+      return <div />;
+    }
+  }
+
   render() {
     const {
       activeLayer,
@@ -175,6 +185,7 @@ export default class Home extends Component<Props, {}> {
           activeLayer={activeLayer}
           selectedKey={selectedKey}
           selectedKeyboard={selectedKeyboard}
+          selectedTitle={selectedTitle}
           matrixKeycodes={matrixKeycodes}
           clearSelectedKey={this.clearSelectedKey.bind(this)}
           setSelectedKey={this.setSelectedKey.bind(this)}
@@ -182,7 +193,7 @@ export default class Home extends Component<Props, {}> {
         />
         <div className={styles.container} data-tid="container">
           {this.renderDebug(false)}
-          <KeycodeMenu updateSelectedKey={this.updateSelectedKey.bind(this)} />
+          {this.renderMenu(selectedTitle)}
         </div>
       </div>
     );

@@ -13,6 +13,12 @@
   top: 17px;
   user-select: none;
   cursor: pointer;
+  transition: opacity 0.2s ease-out;
+  opacity: 0;
+}
+
+.showLayer {
+  opacity: 1;
 }
 
 .button {

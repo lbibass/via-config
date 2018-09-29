@@ -4,7 +4,7 @@ import styles from './title.css';
 export class Title extends Component {
   render() {
     const {selectedTitle} = this.props;
-    const titles = ['Keys', 'Lighting'];
+    const titles = ['KEYS', 'LIGHTING'];
     const keyboard = this.props.getKeyboard();
     const name = (keyboard && keyboard.name) || 'M60A';
     console.log('what');

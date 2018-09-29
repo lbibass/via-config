@@ -13,7 +13,7 @@ export function getByteForCode(code) {
   if (byte) {
     return byte;
   }
-  throw `Could not find byte for {code}`;
+  throw `Could not find byte for ${code}`;
 }
 
 export const basicKeyToByte = {

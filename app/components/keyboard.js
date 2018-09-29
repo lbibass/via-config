@@ -66,6 +66,7 @@ export class Keyboard extends Component {
       activeLayer,
       selectedKey,
       selectedKeyboard,
+      selectedTitle,
       clearSelectedKey,
       updateLayer,
       matrixKeycodes
@@ -75,6 +76,8 @@ export class Keyboard extends Component {
     const keyboard = getKeyboardFromDevice(device);
     const selectedLayout = getLayoutFromDevice(device);
     const matrixLayout = MatrixLayout[keyboard.name];
+    const showLayer = selectedTitle === 'KEYS';
+    console.log(showLayer);
     let keyCounter = 0;
     return (
       <div onClick={clearSelectedKey} className={styles.keyboardContainer}>
@@ -90,7 +93,11 @@ export class Keyboard extends Component {
             </div>
           ))}
         </div>
-        <LayerControl updateLayer={updateLayer} activeLayer={activeLayer} />
+        <LayerControl
+          showLayer={showLayer}
+          updateLayer={updateLayer}
+          activeLayer={activeLayer}
+        />
         <KeyOverlay
           device={device}
           matrixLayout={matrixLayout}

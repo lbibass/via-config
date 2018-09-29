@@ -40,6 +40,7 @@ export class KeycodeMenu extends Component {
     const selectedCategoryKeycodes = menu.find(
       ({label}) => label === this.state.selectedCategory
     ).keycodes;
+
     return (
       <div className={styles.menuContainer}>
         {this.renderCategories()}
@@ -50,7 +51,11 @@ export class KeycodeMenu extends Component {
               alt={title}
               className={styles.keycode}
               onClick={() => this.props.updateSelectedKey(getByteForCode(code))}
-              onMouseOver={_ => this.setState({mouseOverDesc: title})}
+              onMouseOver={_ =>
+                this.setState({
+                  mouseOverDesc: `${getByteForCode(code)}:${title}`
+                })
+              }
               onMouseOut={_ => this.setState({mouseOverDesc: null})}
             >
               {name}

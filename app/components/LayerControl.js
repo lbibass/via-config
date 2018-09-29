@@ -18,9 +18,14 @@ export class LayerControl extends Component {
     this.props.updateLayer(newLayer);
   }
   render() {
-    const {activeLayer} = this.props;
+    const {activeLayer, showLayer} = this.props;
+
     return (
-      <div className={styles.layerControl}>
+      <div
+        className={[showLayer && styles.showLayer, styles.layerControl].join(
+          ' '
+        )}
+      >
         <button className={styles.button} onClick={() => this.changeLayer(-1)}>
           ∨
         </button>
