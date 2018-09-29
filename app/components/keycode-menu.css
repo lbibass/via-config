@@ -14,6 +14,7 @@
 }
 
 .keycode {
+  transition: transform 0.2s ease-out;
   display: flex;
   user-select: none;
   color: #717070;
@@ -32,6 +33,10 @@
   align-items: center;
   white-space: pre-wrap;
   box-shadow: #8c8c8c 0 1px 0px 0px;
+}
+
+.keycode:hover {
+  transform: translate3d(0, -2px, 0);
 }
 
 .categories {
