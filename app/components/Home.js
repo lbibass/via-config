@@ -9,6 +9,7 @@ import {getByteForCode, getKeycodes} from '../utils/key';
 import {getKeyboardFromDevice, getKeyboards} from '../utils/hid-keyboards';
 import {MatrixLayout} from '../utils/layout-parser';
 import {KeyboardAPI} from '../utils/keyboard-api';
+import {Title} from './title';
 import {Wilba} from './Wilba';
 const usbDetect = require('usb-detection');
 usbDetect.startMonitoring();
@@ -35,6 +36,7 @@ export default class Home extends Component<Props, {}> {
       keyboards,
       selectedKeyboard: firstKeyboard,
       selectedKey: null,
+      selectedTitle: 'Configure Keys',
       activeLayer: 0,
       matrixKeycodes: []
     };
@@ -56,6 +58,10 @@ export default class Home extends Component<Props, {}> {
 
   setSelectedKey(idx) {
     this.setState({selectedKey: idx});
+  }
+
+  setSelectedTitle(selectedTitle) {
+    this.setState({selectedTitle});
   }
 
   updateDevices() {
@@ -121,6 +127,13 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
+  getKeyboard() {
+    const {selectedKeyboard} = this.state;
+    if (selectedKeyboard) {
+      return getKeyboardFromDevice(selectedKeyboard);
+    }
+  }
+
   getMatrix() {
     const {selectedKeyboard} = this.state;
     if (selectedKeyboard) {
@@ -148,10 +161,16 @@ export default class Home extends Component<Props, {}> {
       activeLayer,
       selectedKey,
       matrixKeycodes,
-      selectedKeyboard
+      selectedKeyboard,
+      selectedTitle
     } = this.state;
     return (
       <div className={styles.home}>
+        <Title
+          selectedTitle={selectedTitle}
+          getKeyboard={this.getKeyboard.bind(this)}
+          setSelectedTitle={this.setSelectedTitle.bind(this)}
+        />
         <Keyboard
           activeLayer={activeLayer}
           selectedKey={selectedKey}
