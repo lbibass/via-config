@@ -30,10 +30,6 @@ export class KeycodeMenu extends Component {
     );
   }
 
-  componentDidMount() {}
-
-  componentDidUpdate() {}
-
   render() {
     const menu = getKeycodes();
     const {mouseOverDesc} = this.state;

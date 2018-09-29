@@ -9,7 +9,7 @@ export const Title = {
 export class TitleBar extends Component {
   render() {
     const {selectedTitle} = this.props;
-    const titleOrder = [Title.KEYS, Title.LIGHTING];
+    const titles = [Title.KEYS, Title.LIGHTING];
     const keyboard = this.props.getKeyboard();
     const name = (keyboard && keyboard.name) || 'M60A';
     return (

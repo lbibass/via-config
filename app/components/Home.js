@@ -156,6 +156,15 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
+  async updateFullMatrix() {
+    const api = this.getAPI();
+    const matrixLayout = this.getMatrix();
+    if (api && matrixLayout) {
+      const matrixKeycodes = await api.readMatrix(matrixLayout, activeLayer);
+      this.setState({matrixKeycodes});
+    }
+  }
+
   renderMenu(selectedTitle) {
     if (selectedTitle === Title.KEYS) {
       return (
@@ -176,7 +185,7 @@ export default class Home extends Component<Props, {}> {
     } = this.state;
     return (
       <div className={styles.home}>
-        <Title
+        <TitleBar
           selectedTitle={selectedTitle}
           getKeyboard={this.getKeyboard.bind(this)}
           setSelectedTitle={this.setSelectedTitle.bind(this)}
