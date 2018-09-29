@@ -9,7 +9,7 @@ import {getByteForCode, getKeycodes} from '../utils/key';
 import {getKeyboardFromDevice, getKeyboards} from '../utils/hid-keyboards';
 import {MatrixLayout} from '../utils/layout-parser';
 import {KeyboardAPI} from '../utils/keyboard-api';
-import {Title} from './title';
+import {TitleBar, Title} from './title-bar';
 import {Wilba} from './Wilba';
 const usbDetect = require('usb-detection');
 usbDetect.startMonitoring();
@@ -36,7 +36,7 @@ export default class Home extends Component<Props, {}> {
       keyboards,
       selectedKeyboard: firstKeyboard,
       selectedKey: null,
-      selectedTitle: 'KEYS',
+      selectedTitle: Title.KEYS,
       activeLayer: 0,
       matrixKeycodes: []
     };
@@ -157,7 +157,7 @@ export default class Home extends Component<Props, {}> {
   }
 
   renderMenu(selectedTitle) {
-    if (selectedTitle === 'KEYS') {
+    if (selectedTitle === Title.KEYS) {
       return (
         <KeycodeMenu updateSelectedKey={this.updateSelectedKey.bind(this)} />
       );

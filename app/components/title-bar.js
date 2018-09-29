@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
-import styles from './title.css';
+import styles from './title-bar.css';
 
-export class Title extends Component {
+export const Title = {
+  KEYS: 'Keys',
+  LIGHTING: 'Lighting'
+};
+
+export class TitleBar extends Component {
   render() {
     const {selectedTitle} = this.props;
-    const titles = ['KEYS', 'LIGHTING'];
+    const titleOrder = [Title.KEYS, Title.LIGHTING];
     const keyboard = this.props.getKeyboard();
     const name = (keyboard && keyboard.name) || 'M60A';
-    console.log('what');
     return (
-      <div className={styles.titleContainer}>
+      <div className={styles.titleBarContainer}>
         <div className={styles.titles}>
           <div className={styles.kbName}>{name}</div>
           {titles.map(title => (

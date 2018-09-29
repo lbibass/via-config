@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {CenterKey} from './CenterKey';
 import {Key} from './Key';
 import {KeyOverlay} from './key-overlay';
+import {Title} from './title-bar';
 import styles from './keyboard.css';
 import {
   getKeyboardFromDevice,
@@ -76,7 +77,7 @@ export class Keyboard extends Component {
     const keyboard = getKeyboardFromDevice(device);
     const selectedLayout = getLayoutFromDevice(device);
     const matrixLayout = MatrixLayout[keyboard.name];
-    const showLayer = selectedTitle === 'KEYS';
+    const showLayer = selectedTitle === Title.KEYS;
     console.log(showLayer);
     let keyCounter = 0;
     return (
