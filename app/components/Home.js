@@ -160,7 +160,11 @@ export default class Home extends Component<Props, {}> {
     const api = this.getAPI();
     const matrixLayout = this.getMatrix();
     if (api && matrixLayout) {
-      const matrixKeycodes = await api.readMatrix(matrixLayout, activeLayer);
+      const matrixKeycodes = await api.readMatrix(
+        matrixLayout,
+        this.state.activeLayer
+      );
+      console.log(matrixKeycodes);
       this.setState({matrixKeycodes});
     }
   }

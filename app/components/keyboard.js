@@ -11,7 +11,7 @@ import {
 import {MatrixLayout} from '../utils/layout-parser';
 import {M6B, ZEAL65, HHKB, parseKLERaw} from '../utils/kle-parser';
 import {LayerControl} from './LayerControl';
-import {isAlpha, isNumericSymbol} from '../utils/key';
+import {getLabelForByte, isAlpha, isNumericSymbol} from '../utils/key';
 const OVERRIDE_DETECT = true;
 
 export class Keyboard extends Component {
@@ -21,18 +21,25 @@ export class Keyboard extends Component {
     }
   }
 
-  chooseKey({label, size, margin}, idx: string) {
-    const {selectedKey, setSelectedKey} = this.props;
+  chooseKey({label, size, margin}, idx: string, useMatrixKeycodes) {
+    const {matrixKeycodes = [], selectedKey, setSelectedKey} = this.props;
     const onClick = evt => {
       evt.stopPropagation();
       setSelectedKey(idx);
     };
+
+    if (useMatrixKeycodes) {
+      const byte = matrixKeycodes[parseInt(idx)];
+      label = byte ? getLabelForByte(byte, size) : '';
+    }
+
     if (isAlpha(label)) {
+      console.log(label);
       return (
         label && (
           <Key
             key={idx}
-            label={label}
+            label={label.toUpperCase()}
             size={size}
             indent={margin}
             selected={selectedKey === idx}
@@ -93,7 +100,7 @@ export class Keyboard extends Component {
       selectedTitle,
       clearSelectedKey,
       updateLayer,
-      matrixKeycodes
+      matrixKeycodes = []
     } = this.props;
     const detected = !!selectedKeyboard;
     const device = this.getDevice();
@@ -101,6 +108,7 @@ export class Keyboard extends Component {
     const selectedLayout = getLayoutFromDevice(device);
     const matrixLayout = MatrixLayout[keyboard.name];
     const showLayer = selectedTitle === Title.KEYS;
+    const useMatrixKeycodes = this.useMatrixKeycodes() && matrixKeycodes;
     let keyCounter = 0;
     return (
       <div onClick={clearSelectedKey} className={styles.keyboardContainer}>
@@ -112,7 +120,9 @@ export class Keyboard extends Component {
         >
           {selectedLayout.map((arr, row) => (
             <div className={styles.row}>
-              {arr.map((key, column) => this.chooseKey(key, `${keyCounter++}`))}
+              {arr.map((key, column) =>
+                this.chooseKey(key, `${keyCounter++}`, useMatrixKeycodes)
+              )}
             </div>
           ))}
         </div>

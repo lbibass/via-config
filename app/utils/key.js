@@ -1,13 +1,15 @@
+// Tests if label is an alpha
 export function isAlpha(label) {
-  return /[A-Z]/.test(label) && label.length === 1;
+  return /[A-Za-z]/.test(label) && label.length === 1;
 }
 
+// Tests if label is a number
 export function isNumericSymbol(label) {
   const numbersTop = '!@#$%^&*()_+|~{}:"<>?'.split('');
-  //  const numbersBottom = "1234567890-=\\`[];',./".split("");
-  return numbersTop.includes(label[0]);
+  return label.length !== 1 && numbersTop.includes(label[0]);
 }
 
+// Maps the byte value to the keycode
 export function getByteForCode(code) {
   const byte = basicKeyToByte[code];
   if (byte) {
@@ -16,6 +18,7 @@ export function getByteForCode(code) {
   throw `Could not find byte for ${code}`;
 }
 
+// Todo remove duplicates
 export const basicKeyToByte = {
   KC_LCTL: 0x00e0,
   KC_RCTL: 0x00e4,
@@ -27,13 +30,11 @@ export const basicKeyToByte = {
   KC_DEL: 0x004c,
   KC_INS: 0x0049,
   KC_CAPS: 0x0039,
-  KC_CLCK: 0x0039,
   KC_RGHT: 0x004f,
   KC_PGDN: 0x004e,
   KC_PSCR: 0x0046,
   KC_SLCK: 0x0047,
   KC_PAUS: 0x0048,
-  KC_BRK: 0x0048,
   KC_NLCK: 0x0053,
   KC_SPC: 0x002c,
   KC_MINS: 0x002d,
@@ -156,12 +157,7 @@ export const basicKeyToByte = {
   KC_8: 0x0025,
   KC_9: 0x0026,
   KC_0: 0x0027,
-  KC_ENTER: 0x0028,
-  KC_ESCAPE: 0x0029,
-  KC_BSPACE: 0x002a,
   KC_TAB: 0x002b,
-  KC_SPACE: 0x002c,
-  KC_MINUS: 0x002d,
   KC_EQUAL: 0x002e,
   KC_LBRACKET: 0x002f,
   KC_RBRACKET: 0x0030,
@@ -170,10 +166,7 @@ export const basicKeyToByte = {
   KC_SCOLON: 0x0033,
   KC_QUOTE: 0x0034,
   KC_GRAVE: 0x0035,
-  KC_COMMA: 0x0036,
   KC_DOT: 0x0037,
-  KC_SLASH: 0x0038,
-  KC_CAPSLOCK: 0x0039,
   KC_F1: 0x003a,
   KC_F2: 0x003b,
   KC_F3: 0x003c,
@@ -186,20 +179,12 @@ export const basicKeyToByte = {
   KC_F10: 0x0043,
   KC_F11: 0x0044,
   KC_F12: 0x0045,
-  KC_PSCREEN: 0x0046,
-  KC_SCROLLLOCK: 0x0047,
-  KC_PAUSE: 0x0048,
-  KC_INSERT: 0x0049,
   KC_HOME: 0x004a,
   KC_PGUP: 0x004b,
-  KC_DELETE: 0x004c,
   KC_END: 0x004d,
-  KC_PGDOWN: 0x004e,
-  KC_RIGHT: 0x004f,
   KC_LEFT: 0x0050,
   KC_DOWN: 0x0051,
   KC_UP: 0x0052,
-  KC_NUMLOCK: 0x0053,
   KC_KP_SLASH: 0x0054,
   KC_KP_ASTERISK: 0x0055,
   KC_KP_MINUS: 0x0056,
@@ -251,11 +236,6 @@ export const basicKeyToByte = {
   KC_LOCKING_SCROLL: 0x0084,
   KC_KP_COMMA: 0x0085,
   KC_KP_EQUAL_AS400: 0x0086,
-  KC_INT1: 0x0087,
-  KC_INT2: 0x0088,
-  KC_INT3: 0x0089,
-  KC_INT4: 0x008a,
-  KC_INT5: 0x008b,
   KC_INT6: 0x008c,
   KC_INT7: 0x008d,
   KC_INT8: 0x008e,
@@ -281,7 +261,6 @@ export const basicKeyToByte = {
   KC_CLEAR_AGAIN: 0x00a2,
   KC_CRSEL: 0x00a3,
   KC_EXSEL: 0x00a4,
-  KC_LCTRL: 0x00e0,
   KC_LSHIFT: 0x00e1,
   KC_LALT: 0x00e2,
   KC_LGUI: 0x00e3,
@@ -478,10 +457,43 @@ export const basicKeyToByte = {
   MOD_MEH: 0x0007
 };
 
+const keycodesList = getKeycodes().reduce((p, n) => p.concat(n.keycodes), []);
+
+//wtf
 export const byteToKey = Object.keys(basicKeyToByte).reduce((p, n) => {
   const key = basicKeyToByte[n];
+  if (key in p) {
+    const basicKeycode = keycodesList.find(({code}) => code === n);
+    if (basicKeycode) {
+      return {...p, [key]: basicKeycode.code};
+      console.log('replacing:', p[key], ' with: ', n);
+    }
+    console.log('skipping:', n);
+    return p;
+  }
   return {...p, [key]: n};
 }, {});
+
+function shorten(str) {
+  return str.replace(/[aeiou ]/gi, '');
+}
+
+export function getLabelForByte(byte, size) {
+  const keycode = byteToKey[byte];
+  const basicKeycode = keycodesList.find(({code}) => code === keycode);
+  if (basicKeycode) {
+    const {name, shortName} = basicKeycode;
+    return size === 100 && name.length > 5 ? shortName || shorten(name) : name;
+  } else {
+    return 'N/A';
+  }
+}
+
+export function getKeycodeForByte(byte) {
+  const keycode = byteToKey[byte];
+  const basicKeycode = keycodesList.find(({code}) => code === keycode);
+  return basicKeycode && basicKeycode.code;
+}
 
 export function getKeycodes() {
   return [
@@ -501,8 +513,8 @@ export function getKeycodes() {
         {name: 'F10', code: 'KC_F10'},
         {name: 'F11', code: 'KC_F11'},
         {name: 'F12', code: 'KC_F12'},
-        {name: 'Print Screen', code: 'KC_PSCR'},
-        {name: 'Scroll Lock', code: 'KC_SLCK'},
+        {name: 'Print Screen', code: 'KC_PSCR', shortName: 'Print'},
+        {name: 'Scroll Lock', code: 'KC_SLCK', shortName: 'Scroll'},
         {name: 'Pause', code: 'KC_PAUS'},
         {name: '~\n`', code: 'KC_GRV', keys: '`'},
         {name: '!\n1', code: 'KC_1', keys: '1'},
@@ -517,10 +529,16 @@ export function getKeycodes() {
         {name: ')\n0', code: 'KC_0', keys: '0'},
         {name: '_\n-', code: 'KC_MINS', keys: '-'},
         {name: '+\n=', code: 'KC_EQL', keys: '='},
-        {name: 'Back Space', code: 'KC_BSPC', keys: 'backspace', width: 2000},
-        {name: 'Insert', code: 'KC_INS', keys: 'insert'},
+        {
+          name: 'Back Space',
+          code: 'KC_BSPC',
+          keys: 'backspace',
+          width: 2000,
+          shortName: '⌫'
+        },
+        {name: 'Insert', code: 'KC_INS', keys: 'insert', shortName: 'Ins'},
         {name: 'Home', code: 'KC_HOME', keys: 'home'},
-        {name: 'Page Up', code: 'KC_PGUP', keys: 'pageup'},
+        {name: 'Page Up', code: 'KC_PGUP', keys: 'pageup', shortName: 'PgUp'},
         {name: 'Num Lock', code: 'KC_NLCK', keys: 'num'},
         {name: '/', code: 'KC_PSLS', keys: 'num_divide'},
         {name: '*', code: 'KC_PAST', keys: 'num_multiply'},
@@ -541,7 +559,12 @@ export function getKeycodes() {
         {name: '|\n\\', code: 'KC_BSLS', keys: '\\', width: 1500},
         {name: 'Del', code: 'KC_DEL', keys: 'delete'},
         {name: 'End', code: 'KC_END', keys: 'end'},
-        {name: 'Page Down', code: 'KC_PGDN', keys: 'pagedown'},
+        {
+          name: 'Page Down',
+          code: 'KC_PGDN',
+          keys: 'pagedown',
+          shortName: 'PgDn'
+        },
         {name: '7', code: 'KC_P7', keys: 'num_7'},
         {name: '8', code: 'KC_P8', keys: 'num_8'},
         {name: '9', code: 'KC_P9', keys: 'num_9'},
@@ -563,7 +586,13 @@ export function getKeycodes() {
         {name: '5', code: 'KC_P5', keys: 'num_5'},
         {name: '6', code: 'KC_P6', keys: 'num_6'},
         {name: ',', code: 'KC_PCMM'},
-        {name: 'Left Shift', code: 'KC_LSFT', keys: 'shift', width: 2250},
+        {
+          name: 'Left Shift',
+          code: 'KC_LSFT',
+          keys: 'shift',
+          width: 2250,
+          shortName: 'LShft'
+        },
         {name: 'z', code: 'KC_Z', keys: 'z'},
         {name: 'x', code: 'KC_X', keys: 'x'},
         {name: 'c', code: 'KC_C', keys: 'c'},
@@ -574,20 +603,32 @@ export function getKeycodes() {
         {name: '<\n,', code: 'KC_COMM', keys: ','},
         {name: '>\n.', code: 'KC_DOT', keys: '.'},
         {name: '?\n/', code: 'KC_SLSH', keys: '/'},
-        {name: 'Right Shift', code: 'KC_RSFT', width: 2750},
+        {name: 'Right Shift', code: 'KC_RSFT', width: 2750, shortName: 'RShft'},
         {name: 'Up', code: 'KC_UP', keys: 'up'},
         {name: '1', code: 'KC_P1', keys: 'num_1'},
         {name: '2', code: 'KC_P2', keys: 'num_2'},
         {name: '3', code: 'KC_P3', keys: 'num_3'},
         {name: '=', code: 'KC_PEQL'},
         {name: 'Left Ctrl', code: 'KC_LCTL', keys: 'ctrl', width: 1250},
-        {name: 'Left OS', code: 'KC_LGUI', keys: 'cmd', width: 1250},
-        {name: 'Left Alt', code: 'KC_LALT', keys: 'alt', width: 1250},
+        {
+          name: 'Left OS',
+          code: 'KC_LGUI',
+          keys: 'cmd',
+          width: 1250,
+          shortName: 'LMeta'
+        },
+        {
+          name: 'Left Alt',
+          code: 'KC_LALT',
+          keys: 'alt',
+          width: 1250,
+          shortName: 'LAlt'
+        },
         {name: 'Space', code: 'KC_SPC', keys: 'space', width: 6250},
-        {name: 'Right Alt', code: 'KC_RALT', width: 1250},
-        {name: 'Right OS', code: 'KC_RGUI', width: 1250},
-        {name: 'Menu', code: 'KC_APP', width: 1250},
-        {name: 'Right Ctrl', code: 'KC_RCTL', width: 1250},
+        {name: 'Right Alt', code: 'KC_RALT', width: 1250, shortName: 'RAlt'},
+        {name: 'Right OS', code: 'KC_RGUI', width: 1250, shortName: 'RMeta'},
+        {name: 'Menu', code: 'KC_APP', width: 1250, shortName: 'RApp'},
+        {name: 'Right Ctrl', code: 'KC_RCTL', width: 1250, shortName: 'RCtl'},
         {name: 'Left', code: 'KC_LEFT', keys: 'left'},
         {name: 'Down', code: 'KC_DOWN', keys: 'down'},
         {name: 'Right', code: 'KC_RGHT', keys: 'right'},

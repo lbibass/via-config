@@ -4,6 +4,7 @@
   height: 100%;
   background: #eaeaea;
   position: relative;
+  box-shadow: inset #a7a7a7 0 1px 1px;
 }
 
 .keycodes {
@@ -45,7 +46,6 @@
   height: 31px;
   min-height: 31px;
   overflow-x: auto;
-  box-shadow: inset #a7a7a7 0 1px 1px;
 }
 
 .category {
