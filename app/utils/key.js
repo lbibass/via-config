@@ -164,14 +164,6 @@ export const basicKeyToByte = {
   KC_9: 0x0026,
   KC_0: 0x0027,
   KC_TAB: 0x002b,
-  KC_EQUAL: 0x002e,
-  KC_LBRACKET: 0x002f,
-  KC_RBRACKET: 0x0030,
-  KC_BSLASH: 0x0031,
-  KC_NONUS_HASH: 0x0032,
-  KC_SCOLON: 0x0033,
-  KC_QUOTE: 0x0034,
-  KC_GRAVE: 0x0035,
   KC_DOT: 0x0037,
   KC_F1: 0x003a,
   KC_F2: 0x003b,
@@ -191,11 +183,6 @@ export const basicKeyToByte = {
   KC_LEFT: 0x0050,
   KC_DOWN: 0x0051,
   KC_UP: 0x0052,
-  KC_KP_SLASH: 0x0054,
-  KC_KP_ASTERISK: 0x0055,
-  KC_KP_MINUS: 0x0056,
-  KC_KP_PLUS: 0x0057,
-  KC_KP_ENTER: 0x0058,
   KC_KP_1: 0x0059,
   KC_KP_2: 0x005a,
   KC_KP_3: 0x005b,
@@ -237,9 +224,6 @@ export const basicKeyToByte = {
   KC__MUTE: 0x007f,
   KC__VOLUP: 0x0080,
   KC__VOLDOWN: 0x0081,
-  KC_LOCKING_CAPS: 0x0082,
-  KC_LOCKING_NUM: 0x0083,
-  KC_LOCKING_SCROLL: 0x0084,
   KC_KP_COMMA: 0x0085,
   KC_KP_EQUAL_AS400: 0x0086,
   KC_INT6: 0x008c,
@@ -464,6 +448,20 @@ export const basicKeyToByte = {
 };
 
 const keycodesList = getKeycodes().reduce((p, n) => p.concat(n.keycodes), []);
+
+console.log(
+  'correct list',
+  Object.keys(basicKeyToByte).filter(key =>
+    keycodesList.map(({code}) => code).includes(key)
+  )
+);
+console.log(
+  'missing list',
+  Object.keys(basicKeyToByte).filter(
+    key => !keycodesList.map(({code}) => code).includes(key)
+  )
+);
+
 export const byteToKey = Object.keys(basicKeyToByte).reduce((p, n) => {
   const key = basicKeyToByte[n];
   if (key in p) {
