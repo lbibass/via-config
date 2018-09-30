@@ -484,12 +484,15 @@ function shorten(str) {
   return str.replace(/[aeiou ]/gi, '');
 }
 
-export function getLabelForByte(byte, size) {
+export function getLabelForByte(byte, size = 100) {
   const keycode = byteToKey[byte];
   const basicKeycode = keycodesList.find(({code}) => code === keycode);
   if (basicKeycode) {
     const {name, shortName} = basicKeycode;
-    return size === 100 && name.length > 5 ? shortName || shorten(name) : name;
+    if (size === 100 && shortName) {
+      return shortName;
+    }
+    return size === 100 && name.length > 5 ? shorten(name) : name;
   } else {
     return 'N/A';
   }
@@ -610,7 +613,7 @@ export function getKeycodes() {
         {name: '>\n.', code: 'KC_DOT', keys: '.'},
         {name: '?\n/', code: 'KC_SLSH', keys: '/'},
         {name: 'Right Shift', code: 'KC_RSFT', width: 2750, shortName: 'RShft'},
-        {name: 'Up', code: 'KC_UP', keys: 'up'},
+        {name: 'Up', code: 'KC_UP', keys: 'up', shortName: '↑'},
         {name: '1', code: 'KC_P1', keys: 'num_1'},
         {name: '2', code: 'KC_P2', keys: 'num_2'},
         {name: '3', code: 'KC_P3', keys: 'num_3'},
@@ -635,9 +638,9 @@ export function getKeycodes() {
         {name: 'Right OS', code: 'KC_RGUI', width: 1250, shortName: 'RMeta'},
         {name: 'Menu', code: 'KC_APP', width: 1250, shortName: 'RApp'},
         {name: 'Right Ctrl', code: 'KC_RCTL', width: 1250, shortName: 'RCtl'},
-        {name: 'Left', code: 'KC_LEFT', keys: 'left'},
-        {name: 'Down', code: 'KC_DOWN', keys: 'down'},
-        {name: 'Right', code: 'KC_RGHT', keys: 'right'},
+        {name: 'Left', code: 'KC_LEFT', keys: 'left', shortName: '←'},
+        {name: 'Down', code: 'KC_DOWN', keys: 'down', shortName: '↓'},
+        {name: 'Right', code: 'KC_RGHT', keys: 'right', shortName: '→'},
         {name: '0', code: 'KC_P0', width: 2000, keys: 'num_0'},
         {name: '.', code: 'KC_PDOT', keys: 'num_decimal'},
         {name: 'Enter', code: 'KC_PENT', keys: 'num_enter'}

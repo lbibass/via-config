@@ -26,6 +26,13 @@ export class Keyboard extends Component {
     }
   }
 
+  componentWillUpdate({activeLayer}) {
+    const oldProps = this.props;
+    if (oldProps.activeLayer !== activeLayer) {
+      this.props.updateFullMatrix();
+    }
+  }
+
   chooseKey({label, size, margin}, idx: string, useMatrixKeycodes) {
     const {matrixKeycodes = [], selectedKey, setSelectedKey} = this.props;
     const onClick = evt => {

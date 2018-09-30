@@ -18,6 +18,7 @@ export class KeycodeMenu extends Component {
         {menu.map(({label, keycodes}) => (
           <div
             onClick={_ => this.setState({selectedCategory: label})}
+            key={label}
             className={[
               label === selectedCategory && styles.selected,
               styles.category
@@ -46,6 +47,7 @@ export class KeycodeMenu extends Component {
             <div
               alt={title}
               className={styles.keycode}
+              key={code}
               onClick={() => this.props.updateSelectedKey(getByteForCode(code))}
               onMouseOver={_ =>
                 this.setState({

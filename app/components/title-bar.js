@@ -26,10 +26,13 @@ export class TitleBar extends Component {
         <div className={styles.titles}>
           {this.isDetected() ? (
             [
-              <div className={styles.kbName}>{this.getKeyboardName()}</div>,
+              <div key="kbname" className={styles.kbName}>
+                {this.getKeyboardName()}
+              </div>,
               titles.map(title => (
                 <div
                   onClick={_ => this.props.setSelectedTitle(title)}
+                  key={title}
                   className={[
                     title === selectedTitle && styles.selected,
                     styles.title
