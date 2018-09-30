@@ -56,9 +56,11 @@ export const basicKeyToByte = {
   KC_APP: 0x0065,
   KC_NUHS: 0x0032,
   KC_NUBS: 0x0064,
+  // LOCKING
   KC_LCAP: 0x0082,
   KC_LNUM: 0x0083,
   KC_LSCR: 0x0084,
+  // END-LOCKING
   KC_ERAS: 0x0099,
   KC_CLR: 0x009c,
   KC_ZKHK: 0x0035,
@@ -115,7 +117,6 @@ export const basicKeyToByte = {
   KC_MPLY: 0x00ae,
   KC_MSEL: 0x00af,
   KC_EJCT: 0x00b0,
-  KC_MAIL: 0x00b1,
   KC_CALC: 0x00b2,
   KC_MYCM: 0x00b3,
   KC_WSCH: 0x00b4,
@@ -221,9 +222,11 @@ export const basicKeyToByte = {
   KC_COPY: 0x007c,
   KC_PASTE: 0x007d,
   KC_FIND: 0x007e,
+  //MACONLY
   KC__MUTE: 0x007f,
   KC__VOLUP: 0x0080,
   KC__VOLDOWN: 0x0081,
+  //MACONLYEND
   KC_KP_COMMA: 0x0085,
   KC_KP_EQUAL_AS400: 0x0086,
   // INTERNATIONAL
@@ -241,7 +244,6 @@ export const basicKeyToByte = {
   KC_LANG8: 0x0097,
   KC_LANG9: 0x0098,
   // SOMETHING WEIRD
-  KC_ALT_ERASE: 0x0099,
   KC_SYSREQ: 0x009a,
   KC_CANCEL: 0x009b,
   KC_CLEAR: 0x009c,
@@ -261,13 +263,9 @@ export const basicKeyToByte = {
   KC_RALT: 0x00e6,
   KC_RGUI: 0x00e7,
   //SYSTEM
-  KC_SYSTEM_POWER: 0x00a5,
-  KC_SYSTEM_SLEEP: 0x00a6,
-  KC_SYSTEM_WAKE: 0x00a7,
   //MEDIA
   // APP
   KC_MAIL: 0x00b1,
-  KC_CALCULATOR: 0x00b2,
   KC_MY_COMPUTER: 0x00b3,
   KC_WWW_SEARCH: 0x00b4,
   KC_WWW_HOME: 0x00b5,
@@ -515,7 +513,20 @@ export function getKeycodes() {
         {name: 'F10', code: 'KC_F10'},
         {name: 'F11', code: 'KC_F11'},
         {name: 'F12', code: 'KC_F12'},
+        {name: 'F13', code: 'KC_F13'},
+        {name: 'F14', code: 'KC_F14'},
+        {name: 'F15', code: 'KC_F15'},
+        {name: 'F16', code: 'KC_F16'},
+        {name: 'F17', code: 'KC_F17'},
+        {name: 'F18', code: 'KC_F18'},
+        {name: 'F19', code: 'KC_F19'},
+        {name: 'F20', code: 'KC_F20'},
+        {name: 'F21', code: 'KC_F21'},
+        {name: 'F22', code: 'KC_F22'},
+        {name: 'F23', code: 'KC_F23'},
+        {name: 'F24', code: 'KC_F24'},
         {name: 'Print Screen', code: 'KC_PSCR', shortName: 'Print'},
+        {name: 'Locking Scroll Lock', code: 'KC_LSCR', shortName: 'Scroll'},
         {name: 'Scroll Lock', code: 'KC_SLCK', shortName: 'Scroll'},
         {name: 'Pause', code: 'KC_PAUS'},
         {name: '~\n`', code: 'KC_GRV', keys: '`'},
@@ -541,6 +552,7 @@ export function getKeycodes() {
         {name: 'Insert', code: 'KC_INS', keys: 'insert', shortName: 'Ins'},
         {name: 'Home', code: 'KC_HOME', keys: 'home'},
         {name: 'Page Up', code: 'KC_PGUP', keys: 'pageup', shortName: 'PgUp'},
+        {name: 'Locking Num Lock', code: 'KC_LNUM', keys: 'num'},
         {name: 'Num Lock', code: 'KC_NLCK', keys: 'num'},
         {name: '/', code: 'KC_PSLS', keys: 'num_divide'},
         {name: '*', code: 'KC_PAST', keys: 'num_multiply'},
@@ -571,6 +583,12 @@ export function getKeycodes() {
         {name: '8', code: 'KC_P8', keys: 'num_8'},
         {name: '9', code: 'KC_P9', keys: 'num_9'},
         {name: '+', code: 'KC_PPLS', keys: 'num_add'},
+        {
+          name: 'Locking Caps Lock',
+          code: 'KC_LCAP',
+          keys: 'caps_lock',
+          width: 1750
+        },
         {name: 'Caps Lock', code: 'KC_CAPS', keys: 'caps_lock', width: 1750},
         {name: 'a', code: 'KC_A', keys: 'a'},
         {name: 's', code: 'KC_S', keys: 's'},
@@ -908,18 +926,22 @@ export function getKeycodes() {
       width: 'label',
       keycodes: [
         {name: 'Power', code: 'KC_PWR'},
+        {name: 'Sleep', code: 'KC_SLEP'},
+        {name: 'Wake', code: 'KC_WAKE'},
         {name: 'Calc', code: 'KC_CALC'},
+        {name: 'Mail', code: 'KC_MAIL'},
         {name: 'Help', code: 'KC_HELP'},
         {name: 'Stop', code: 'KC_STOP'},
+        {name: 'Alternate Erase', code: 'KC_ERAS'},
         {name: 'Again', code: 'KC_AGAIN'},
         {name: 'Menu', code: 'KC_MENU'},
         {name: 'Undo', code: 'KC_UNDO'},
         {name: 'Select', code: 'KC_SLCT'},
-        {name: 'Copy', code: 'KC_COPY'},
         {name: 'Exec', code: 'KC_EXEC'},
+        {name: 'Cut', code: 'KC_CUT'},
+        {name: 'Copy', code: 'KC_COPY'},
         {name: 'Paste', code: 'KC_PASTE'},
-        {name: 'Find', code: 'KC_FIND'},
-        {name: 'Cut', code: 'KC_CUT'}
+        {name: 'Find', code: 'KC_FIND'}
       ]
     },
     {
