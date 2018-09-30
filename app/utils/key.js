@@ -226,6 +226,7 @@ export const basicKeyToByte = {
   KC__VOLDOWN: 0x0081,
   KC_KP_COMMA: 0x0085,
   KC_KP_EQUAL_AS400: 0x0086,
+  // INTERNATIONAL
   KC_INT6: 0x008c,
   KC_INT7: 0x008d,
   KC_INT8: 0x008e,
@@ -239,6 +240,7 @@ export const basicKeyToByte = {
   KC_LANG7: 0x0096,
   KC_LANG8: 0x0097,
   KC_LANG9: 0x0098,
+  // SOMETHING WEIRD
   KC_ALT_ERASE: 0x0099,
   KC_SYSREQ: 0x009a,
   KC_CANCEL: 0x009b,
@@ -258,18 +260,12 @@ export const basicKeyToByte = {
   KC_RSHIFT: 0x00e5,
   KC_RALT: 0x00e6,
   KC_RGUI: 0x00e7,
+  //SYSTEM
   KC_SYSTEM_POWER: 0x00a5,
   KC_SYSTEM_SLEEP: 0x00a6,
   KC_SYSTEM_WAKE: 0x00a7,
-  KC_AUDIO_MUTE: 0x00a8,
-  KC_AUDIO_VOL_UP: 0x00a9,
-  KC_AUDIO_VOL_DOWN: 0x00aa,
-  KC_MEDIA_NEXT_TRACK: 0x00ab,
-  KC_MEDIA_PREV_TRACK: 0x00ac,
-  KC_MEDIA_STOP: 0x00ad,
-  KC_MEDIA_PLAY_PAUSE: 0x00ae,
-  KC_MEDIA_SELECT: 0x00af,
-  KC_MEDIA_EJECT: 0x00b0,
+  //MEDIA
+  // APP
   KC_MAIL: 0x00b1,
   KC_CALCULATOR: 0x00b2,
   KC_MY_COMPUTER: 0x00b3,
@@ -280,8 +276,6 @@ export const basicKeyToByte = {
   KC_WWW_STOP: 0x00b8,
   KC_WWW_REFRESH: 0x00b9,
   KC_WWW_FAVORITES: 0x00ba,
-  KC_MEDIA_FAST_FORWARD: 0x00bb,
-  KC_MEDIA_REWIND: 0x00bc,
   KC_FN0: 0x00c0,
   KC_FN1: 0x00c1,
   KC_FN2: 0x00c2,
@@ -987,12 +981,16 @@ export function getKeycodes() {
       width: 'label',
       keycodes: [
         {name: 'Previous', code: 'KC_MPRV', title: 'Media Previous'},
+        {name: 'Select', code: 'KC_MSEL', title: 'Media Select'},
+        {name: 'Eject', code: 'KC_EJCT', title: 'Media Eject'},
         {name: 'Next', code: 'KC_MNXT', title: 'Media Next'},
         {name: 'Mute', code: 'KC_MUTE', title: 'Mute Audio'},
         {name: 'Vol -', code: 'KC_VOLD', title: 'Volume Down'},
         {name: 'Vol +', code: 'KC_VOLU', title: 'Volume Up'},
         {name: 'Media Stop', code: 'KC_MSTP', title: 'Media Stop'},
-        {name: 'Play', code: 'KC_MPLY', title: 'Play/Pause'}
+        {name: 'Play', code: 'KC_MPLY', title: 'Play/Pause'},
+        {name: 'Rewind', code: 'KC_MRWD', title: 'Rewind'},
+        {name: 'Fast Forward', code: 'KC_MFFD', title: 'Fast Forward'}
       ]
     }
   ];
