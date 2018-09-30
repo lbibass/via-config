@@ -4,6 +4,12 @@ export function isAlpha(label) {
 }
 
 // Tests if label is a number
+export function isNumericOrShiftedSymbol(label) {
+  const numbersTop = '!@#$%^&*()_+|~{}:"<>?1234567890'.split('');
+  return label.length === 1 && numbersTop.includes(label[0]);
+}
+
+// Tests if label is a number
 export function isNumericSymbol(label) {
   const numbersTop = '!@#$%^&*()_+|~{}:"<>?'.split('');
   return label.length !== 1 && numbersTop.includes(label[0]);
@@ -240,8 +246,8 @@ export const basicKeyToByte = {
   KC_INT7: 0x008d,
   KC_INT8: 0x008e,
   KC_INT9: 0x008f,
-  KC_LANG1: 0x0090,
-  KC_LANG2: 0x0091,
+  KC_HAEN: 0x0090,
+  KC_HANJ: 0x0091,
   KC_LANG3: 0x0092,
   KC_LANG4: 0x0093,
   KC_LANG5: 0x0094,

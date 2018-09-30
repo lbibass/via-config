@@ -3,7 +3,7 @@
   flex-direction: column;
   height: 100%;
   background: #eaeaea;
-  height: 35px;
+  height: 40px;
   position: relative;
   box-shadow: inset #a7a7a7 0 -1px 1px;
 }
@@ -11,9 +11,9 @@
 .titles {
   padding: 2px 3px;
   white-space: nowrap;
-  height: 31px;
-  min-height: 31px;
+  height: 100%;
   overflow-x: auto;
+  line-height: 30px;
 }
 
 .title {

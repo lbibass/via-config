@@ -5,7 +5,7 @@
   background: #dddfe0;
   flex-direction: column;
   position: relative;
-  padding: 40px 0;
+  padding: 50px 0;
   overflow: hidden;
   background: url(
 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAG0lEQVQYV2O8cePGfwYcgBEkKSAggFV60EkCAGDsGdlliV0/AAAAAElFTkSuQmCC
@@ -22,13 +22,13 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAG0lEQVQYV2
   border-radius: 3px;
   box-shadow: #4c4a4a 0 1px 0px 3px;
   user-select: none; /* Likely future */
-  transform: scale(0.8);
+  transform: scale(1);
   opacity: 0;
   transition: all 0.2s ease-out;
 }
 
 .detected {
-  transform: scale(0.9);
+  transform: scale(1);
   opacity: 1;
 }
 

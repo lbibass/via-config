@@ -11,7 +11,12 @@ import {
 import {MatrixLayout} from '../utils/layout-parser';
 import {M6B, ZEAL65, HHKB, parseKLERaw} from '../utils/kle-parser';
 import {LayerControl} from './LayerControl';
-import {getLabelForByte, isAlpha, isNumericSymbol} from '../utils/key';
+import {
+  getLabelForByte,
+  isAlpha,
+  isNumericSymbol,
+  isNumericOrShiftedSymbol
+} from '../utils/key';
 const OVERRIDE_DETECT = true;
 
 export class Keyboard extends Component {
@@ -34,7 +39,19 @@ export class Keyboard extends Component {
     }
 
     if (isAlpha(label)) {
-      console.log(label);
+      return (
+        label && (
+          <Key
+            key={idx}
+            label={label.toUpperCase()}
+            size={size}
+            indent={margin}
+            selected={selectedKey === idx}
+            onClick={onClick}
+          />
+        )
+      );
+    } else if (isNumericOrShiftedSymbol(label)) {
       return (
         label && (
           <Key
