@@ -36,6 +36,11 @@
   box-shadow: #8c8c8c 0 1px 0px 0px;
 }
 
+.disabled {
+  cursor: not-allowed;
+  filter: brightness(50%);
+}
+
 .keycode:hover {
   transform: translate3d(0, -2px, 0);
 }

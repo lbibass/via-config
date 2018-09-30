@@ -468,6 +468,10 @@ export const byteToKey = Object.keys(basicKeyToByte).reduce((p, n) => {
   return {...p, [key]: n};
 }, {});
 
+export function keycodeInMaster(keycode) {
+  return keycode in basicKeyToByte;
+}
+
 function shorten(str) {
   return str.replace(/[aeiou ]/gi, '');
 }
@@ -493,6 +497,20 @@ export function getKeycodeForByte(byte) {
   const keycode = byteToKey[byte];
   const basicKeycode = keycodesList.find(({code}) => code === keycode);
   return (basicKeycode && basicKeycode.code) || keycode;
+}
+
+export function getOtherMenu() {
+  const otherKeycodes = Object.keys(basicKeyToByte).filter(
+    key => !keycodesList.map(({code}) => code).includes(key)
+  );
+
+  return {
+    label: 'Other',
+    keycodes: otherKeycodes.map(code => ({
+      name: code.replace('KC_', ''),
+      code: code
+    }))
+  };
 }
 
 export function getKeycodes() {

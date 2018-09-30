@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
 import styles from './keycode-menu.css';
-import {getByteForCode, getKeycodes} from '../utils/key';
+import {
+  keycodeInMaster,
+  getByteForCode,
+  getKeycodes,
+  getOtherMenu
+} from '../utils/key';
 
-const menu = getKeycodes();
+const menu = getKeycodes().concat(getOtherMenu());
 export class KeycodeMenu extends Component {
   constructor() {
     super();
@@ -32,7 +37,6 @@ export class KeycodeMenu extends Component {
   }
 
   render() {
-    const menu = getKeycodes();
     const {mouseOverDesc} = this.state;
     const selectedCategoryKeycodes = menu.find(
       ({label}) => label === this.state.selectedCategory
@@ -46,14 +50,20 @@ export class KeycodeMenu extends Component {
           {selectedCategoryKeycodes.map(({code, title, name}) => (
             <div
               alt={title}
-              className={styles.keycode}
+              className={[
+                !keycodeInMaster(code) && styles.disabled,
+                styles.keycode
+              ].join(' ')}
               key={code}
-              onClick={() => this.props.updateSelectedKey(getByteForCode(code))}
-              onMouseOver={_ =>
-                this.setState({
-                  mouseOverDesc: `${getByteForCode(code)}:${title}`
-                })
+              onClick={() =>
+                keycodeInMaster(code) &&
+                this.props.updateSelectedKey(getByteForCode(code))
               }
+              onMouseOver={_ => {
+                this.setState({
+                  mouseOverDesc: title ? `${code}: ${title}` : code
+                });
+              }}
               onMouseOut={_ => this.setState({mouseOverDesc: null})}
             >
               {name}
