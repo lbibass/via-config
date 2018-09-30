@@ -908,13 +908,13 @@ export function getKeycodes() {
         {name: 'Power', code: 'KC_PWR'},
         {name: 'Help', code: 'KC_HELP'},
         {name: 'Stop', code: 'KC_STOP'},
-        {name: 'Again', code: 'KC_AGIN'},
+        {name: 'Again', code: 'KC_AGAIN'},
         {name: 'Menu', code: 'KC_MENU'},
         {name: 'Undo', code: 'KC_UNDO'},
         {name: 'Select', code: 'KC_SLCT'},
         {name: 'Copy', code: 'KC_COPY'},
         {name: 'Exec', code: 'KC_EXEC'},
-        {name: 'Paste', code: 'KC_PSTE'},
+        {name: 'Paste', code: 'KC_PASTE'},
         {name: 'Find', code: 'KC_FIND'},
         {name: 'Cut', code: 'KC_CUT'}
       ]
