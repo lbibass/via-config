@@ -464,8 +464,6 @@ export const basicKeyToByte = {
 };
 
 const keycodesList = getKeycodes().reduce((p, n) => p.concat(n.keycodes), []);
-
-//wtf
 export const byteToKey = Object.keys(basicKeyToByte).reduce((p, n) => {
   const key = basicKeyToByte[n];
   if (key in p) {
@@ -493,6 +491,9 @@ export function getLabelForByte(byte, size = 100) {
       return shortName;
     }
     return size === 100 && name.length > 5 ? shorten(name) : name;
+  } else if (keycode) {
+    console.log(`Add map for ${keycode}`);
+    return keycode;
   } else {
     return 'N/A';
   }
@@ -501,7 +502,7 @@ export function getLabelForByte(byte, size = 100) {
 export function getKeycodeForByte(byte) {
   const keycode = byteToKey[byte];
   const basicKeycode = keycodesList.find(({code}) => code === keycode);
-  return basicKeycode && basicKeycode.code;
+  return (basicKeycode && basicKeycode.code) || keycode;
 }
 
 export function getKeycodes() {
@@ -915,6 +916,7 @@ export function getKeycodes() {
       width: 'label',
       keycodes: [
         {name: 'Power', code: 'KC_PWR'},
+        {name: 'Calc', code: 'KC_CALC'},
         {name: 'Help', code: 'KC_HELP'},
         {name: 'Stop', code: 'KC_STOP'},
         {name: 'Again', code: 'KC_AGAIN'},

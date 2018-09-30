@@ -159,6 +159,7 @@ export class Keyboard extends Component {
           device={device}
           matrixLayout={matrixLayout}
           matrixKeycodes={matrixKeycodes}
+          useMatrixKeycodes={this.useMatrixKeycodes()}
           selectedKey={selectedKey}
         />
       </div>

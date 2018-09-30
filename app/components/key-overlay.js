@@ -1,10 +1,17 @@
 import React, {Component} from 'react';
 import styles from './key-overlay.css';
 import {KeyboardAPI} from '../utils/keyboard-api';
+import {getKeycodeForByte} from '../utils/key';
 
 export class KeyOverlay extends Component {
   render() {
-    const {device, matrixKeycodes, matrixLayout, selectedKey} = this.props;
+    const {
+      device,
+      matrixKeycodes,
+      matrixLayout,
+      selectedKey,
+      useMatrixKeycodes
+    } = this.props;
     if (selectedKey) {
       const sKey = parseInt(selectedKey);
       const {row, col} = matrixLayout[sKey];
@@ -15,7 +22,7 @@ export class KeyOverlay extends Component {
             ' '
           )}
         >
-          {selectedKey} : ({row}, {col}) {keycode}
+          {getKeycodeForByte(keycode)}
         </div>
       );
     }
