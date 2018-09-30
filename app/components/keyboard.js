@@ -22,14 +22,7 @@ const OVERRIDE_DETECT = true;
 export class Keyboard extends Component {
   componentWillMount() {
     if (this.useMatrixKeycodes()) {
-      this.props.updateFullMatrix();
-    }
-  }
-
-  componentWillUpdate({activeLayer}) {
-    const oldProps = this.props;
-    if (oldProps.activeLayer !== activeLayer) {
-      this.props.updateFullMatrix();
+      this.props.updateFullMatrix(0, this.props.selectedKeyboard);
     }
   }
 
@@ -150,6 +143,20 @@ export class Keyboard extends Component {
             </div>
           ))}
         </div>
+        <div
+          onClick={this.props.prevKeyboard}
+          className={[
+            styles.prevButton,
+            this.props.showCarouselButtons && styles.activeButton
+          ].join(' ')}
+        />
+        <div
+          onClick={this.props.nextKeyboard}
+          className={[
+            styles.nextButton,
+            this.props.showCarouselButtons && styles.activeButton
+          ].join(' ')}
+        />
         <LayerControl
           showLayer={showLayer}
           updateLayer={updateLayer}

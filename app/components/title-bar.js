@@ -8,7 +8,6 @@ export const Title = {
 
 export class TitleBar extends Component {
   isDetected() {
-    console.log(this.props.getKeyboard());
     return !!this.props.getKeyboard();
   }
 

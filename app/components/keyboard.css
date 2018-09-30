@@ -36,3 +36,26 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAG0lEQVQYV2
   white-space: nowrap;
   display: block;
 }
+
+.nextButton {
+  border-left: 24px solid transparent;
+  border-right: 24px solid transparent;
+  border-bottom: 15px solid #d8d8d8;
+  transform: rotate(90deg);
+  position: absolute;
+  right: -6px;
+}
+
+.prevButton {
+  border-left: 24px solid transparent;
+  border-right: 24px solid transparent;
+  border-bottom: 15px solid #d8d8d8;
+  transform: rotate(-90deg);
+  position: absolute;
+  left: -6px;
+}
+
+.activeButton {
+  border-bottom-color: #717070;
+  cursor: pointer;
+}
