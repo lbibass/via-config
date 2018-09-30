@@ -38,7 +38,7 @@
 
 .disabled {
   cursor: not-allowed;
-  filter: brightness(50%);
+  filter: opacity(50%);
 }
 
 .keycode:hover {

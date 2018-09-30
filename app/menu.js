@@ -48,14 +48,14 @@ export default class MenuBuilder {
       label: 'VIA Configurator',
       submenu: [
         {
-          label: 'About ElectronReact',
+          label: 'About VIA Configurator',
           selector: 'orderFrontStandardAboutPanel:'
         },
         {type: 'separator'},
         {label: 'Services', submenu: []},
         {type: 'separator'},
         {
-          label: 'Hide ElectronReact',
+          label: 'Hide VIA Configurator',
           accelerator: 'Command+H',
           selector: 'hide:'
         },

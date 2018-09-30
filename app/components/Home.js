@@ -15,7 +15,6 @@ const usbDetect = require('usb-detection');
 usbDetect.startMonitoring();
 type Props = {};
 
-const OVERRIDE_DETECT = true;
 const timeoutRepeater = (fn, timeout, numToRepeat = 0) => () =>
   setTimeout(() => {
     fn();
@@ -36,7 +35,7 @@ export default class Home extends Component<Props, {}> {
       keyboards,
       selectedKeyboard: firstKeyboard || null,
       selectedKey: null,
-      selectedTitle: Title.KEYS,
+      selectedTitle: firstKeyboard && Title.KEYS,
       activeLayer: 0,
       matrixKeycodes: []
     };
@@ -78,7 +77,8 @@ export default class Home extends Component<Props, {}> {
           keyboards,
           selectedKeyboard: undefined,
           selectedKey: null,
-          activeLayer: 0
+          activeLayer: 0,
+          selectedTitle: null
         });
       } else {
         this.setState({
@@ -86,7 +86,8 @@ export default class Home extends Component<Props, {}> {
           selectedKeyboard,
           selectedKey: null,
           activeLayer: 0,
-          matrixKeycodes: []
+          matrixKeycodes: [],
+          selectedTitle: Title.KEYS
         });
         this.updateFullMatrix(0, selectedKeyboard);
       }

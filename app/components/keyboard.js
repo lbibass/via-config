@@ -17,7 +17,7 @@ import {
   isNumericSymbol,
   isNumericOrShiftedSymbol
 } from '../utils/key';
-const OVERRIDE_DETECT = true;
+import {OVERRIDE_DETECT} from '../utils/override';
 
 export class Keyboard extends Component {
   componentWillMount() {
@@ -99,14 +99,16 @@ export class Keyboard extends Component {
   // we can't read the matrix for some reason i.e
   // overriding displaying unconnected devices
   useMatrixKeycodes() {
-    return !!this.getDevice().path;
+    return !!this.getDevice() && !!this.getDevice().path;
   }
 
   getDevice() {
     const {selectedKeyboard} = this.props;
     const fakeDevice = {vendorId: 0x5241, productId: 0x060a}; //M60A
-    const device = selectedKeyboard || fakeDevice;
-    return device;
+    if (OVERRIDE_DETECT) {
+      return selectedKeyboard || fakeDevice;
+    }
+    return selectedKeyboard;
   }
 
   render() {
@@ -121,54 +123,61 @@ export class Keyboard extends Component {
     } = this.props;
     const detected = !!selectedKeyboard;
     const device = this.getDevice();
-    const keyboard = getKeyboardFromDevice(device);
-    const selectedLayout = getLayoutFromDevice(device);
-    const matrixLayout = MatrixLayout[keyboard.name];
-    const showLayer = selectedTitle === Title.KEYS;
-    const useMatrixKeycodes = this.useMatrixKeycodes() && matrixKeycodes;
-    let keyCounter = 0;
-    return (
-      <div onClick={clearSelectedKey} className={styles.keyboardContainer}>
-        <div
-          className={[
-            styles.keyboard,
-            (detected || OVERRIDE_DETECT) && styles.detected
-          ].join(' ')}
-        >
-          {selectedLayout.map((arr, row) => (
-            <div className={styles.row}>
-              {arr.map((key, column) =>
-                this.chooseKey(key, `${keyCounter++}`, useMatrixKeycodes)
-              )}
-            </div>
-          ))}
+    if (device) {
+      const keyboard = getKeyboardFromDevice(device);
+      const selectedLayout = getLayoutFromDevice(device);
+      const matrixLayout = MatrixLayout[keyboard.name];
+      const showLayer = selectedTitle === Title.KEYS;
+      const useMatrixKeycodes = this.useMatrixKeycodes() && matrixKeycodes;
+      let keyCounter = 0;
+      return (
+        <div onClick={clearSelectedKey} className={styles.keyboardContainer}>
+          <div
+            className={[
+              styles.keyboard,
+              (detected || OVERRIDE_DETECT) && styles.detected
+            ].join(' ')}
+          >
+            {selectedLayout.map((arr, row) => (
+              <div className={styles.row}>
+                {arr.map((key, column) =>
+                  this.chooseKey(key, `${keyCounter++}`, useMatrixKeycodes)
+                )}
+              </div>
+            ))}
+          </div>
+          <div
+            onClick={this.props.prevKeyboard}
+            className={[
+              styles.prevButton,
+              this.props.showCarouselButtons && styles.activeButton
+            ].join(' ')}
+          />
+          <div
+            onClick={this.props.nextKeyboard}
+            className={[
+              styles.nextButton,
+              this.props.showCarouselButtons && styles.activeButton
+            ].join(' ')}
+          />
+          <LayerControl
+            showLayer={showLayer}
+            updateLayer={updateLayer}
+            activeLayer={activeLayer}
+          />
+          <KeyOverlay
+            device={device}
+            matrixLayout={matrixLayout}
+            matrixKeycodes={matrixKeycodes}
+            useMatrixKeycodes={this.useMatrixKeycodes()}
+            selectedKey={selectedKey}
+          />
         </div>
-        <div
-          onClick={this.props.prevKeyboard}
-          className={[
-            styles.prevButton,
-            this.props.showCarouselButtons && styles.activeButton
-          ].join(' ')}
-        />
-        <div
-          onClick={this.props.nextKeyboard}
-          className={[
-            styles.nextButton,
-            this.props.showCarouselButtons && styles.activeButton
-          ].join(' ')}
-        />
-        <LayerControl
-          showLayer={showLayer}
-          updateLayer={updateLayer}
-          activeLayer={activeLayer}
-        />
-        <KeyOverlay
-          device={device}
-          matrixLayout={matrixLayout}
-          matrixKeycodes={matrixKeycodes}
-          useMatrixKeycodes={this.useMatrixKeycodes()}
-          selectedKey={selectedKey}
-        />
+      );
+    }
+    return (
+      <div className={styles.keyboardContainer}>
+        <div className={[styles.keyboard].join(' ')} />
       </div>
     );
   }

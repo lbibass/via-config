@@ -11,6 +11,8 @@
 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAG0lEQVQYV2O8cePGfwYcgBEkKSAggFV60EkCAGDsGdlliV0/AAAAAElFTkSuQmCC
     )
     repeat;
+  min-height: 240px;
+  box-sizing: border-box;
 }
 
 .keyboard {

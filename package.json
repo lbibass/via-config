@@ -32,8 +32,8 @@
   },
   "browserslist": "electron 1.6",
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.develar.ElectronReact",
+    "productName": "VIA Configurator",
+    "appId": "org.ofbriggs.viaconfig",
     "files": [
       "dist/",
       "node_modules/",
