@@ -462,7 +462,7 @@ export function getLabelForByte(byte, size = 100) {
   const basicKeycode = keycodesList.find(({code}) => code === keycode);
   if (basicKeycode) {
     const {name, shortName} = basicKeycode;
-    if (size === 100 && shortName) {
+    if (size <= 150 && shortName) {
       return shortName;
     }
     return size === 100 && name.length > 5 ? shorten(name) : name;
@@ -545,7 +545,7 @@ export function getKeycodes() {
         {name: '_\n-', code: 'KC_MINS', keys: '-'},
         {name: '+\n=', code: 'KC_EQL', keys: '='},
         {
-          name: 'Backspace',
+          name: 'Back Space',
           code: 'KC_BSPC',
           keys: 'backspace',
           width: 2000,
