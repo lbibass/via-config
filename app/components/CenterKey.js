@@ -19,8 +19,7 @@ export class CenterKey extends Key {
   }
 
   render() {
-    const {label} = this.props;
-
+    const {label, c, t} = this.props;
     return (
       <div
         onClick={this.props.onClick}
@@ -35,10 +34,11 @@ export class CenterKey extends Key {
             this.props.selected && styles.selected,
             styles.outerKey
           ].join(' ')}
+          style={{backgroundColor: this.getDarkenedColor(c)}}
         >
-          <div className={styles.smallInnerKey}>
+          <div className={styles.smallInnerKey} style={{backgroundColor: c}}>
             <div className={styles.smallInnerCenterKeyContainer}>
-              {this.renderLegend([label])}
+              {this.renderLegend([label], t)}
             </div>
           </div>
         </div>

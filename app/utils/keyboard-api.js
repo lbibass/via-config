@@ -73,6 +73,12 @@ export class KeyboardAPI {
     return res;
   }
 
+  async getRGBMode() {
+    const bytes = [0xa];
+    const val = await this.hidCommand(BACKLIGHT_CONFIG_GET_VALUE, bytes);
+    return val;
+  }
+
   async setRGBMode(brightness = 0) {
     const bytes = [0xa, brightness];
     await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);

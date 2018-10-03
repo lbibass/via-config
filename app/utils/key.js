@@ -468,7 +468,10 @@ export function getLabelForByte(byte, size = 100) {
     return size === 100 && name.length > 5 ? shorten(name) : name;
   } else if (keycode) {
     console.log(`Add map for ${keycode}`);
-    return keycode;
+    return keycode
+      .replace('KC_', '')
+      .replace('FN_', '')
+      .replace(/_/g, ' ');
   } else {
     return 'N/A';
   }
@@ -542,7 +545,7 @@ export function getKeycodes() {
         {name: '_\n-', code: 'KC_MINS', keys: '-'},
         {name: '+\n=', code: 'KC_EQL', keys: '='},
         {
-          name: 'Back Space',
+          name: 'Backspace',
           code: 'KC_BSPC',
           keys: 'backspace',
           width: 2000,

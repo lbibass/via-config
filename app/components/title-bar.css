@@ -13,6 +13,7 @@
   white-space: nowrap;
   height: 100%;
   line-height: 30px;
+  font-family: GothamRoundedBold;
 }
 
 .title {
@@ -42,4 +43,14 @@
 
 .selected {
   color: #717070;
+}
+
+@font-face {
+  font-family: GothamRoundedBold;
+  src: url('../fonts/GothamRoundedBold_21016.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: GothamRounded;
+  src: url('../fonts/GothamRoundedBook_21018.ttf') format('opentype');
 }

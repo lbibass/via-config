@@ -11,10 +11,12 @@ import {MatrixLayout} from '../utils/layout-parser';
 import {KeyboardAPI} from '../utils/keyboard-api';
 import {TitleBar, Title} from './title-bar';
 import {Wilba} from './Wilba';
+import {LightingMenu} from './lighting-menu';
 const usbDetect = require('usb-detection');
 usbDetect.startMonitoring();
 type Props = {};
 
+const timeoutPromise = ms => new Promise(res => setTimeout(res, ms));
 const timeoutRepeater = (fn, timeout, numToRepeat = 0) => () =>
   setTimeout(() => {
     fn();
@@ -63,7 +65,7 @@ export default class Home extends Component<Props, {}> {
     this.setState({selectedTitle});
   }
 
-  updateDevices() {
+  async updateDevices() {
     const keyboards = getKeyboards();
     const oldSelectedKeyboard = this.state.selectedKeyboard;
     const oldSelectedPath = oldSelectedKeyboard && oldSelectedKeyboard.path;
@@ -89,7 +91,7 @@ export default class Home extends Component<Props, {}> {
           matrixKeycodes: [],
           selectedTitle: Title.KEYS
         });
-        this.updateFullMatrix(0, selectedKeyboard);
+        await this.updateFullMatrix(0, selectedKeyboard);
       }
     } else {
       this.setState({keyboards});
@@ -174,6 +176,29 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
+  async setRGBMode(value) {
+    const {selectedKeyboard} = this.state;
+    const api = this.getAPI(selectedKeyboard);
+    if (api) {
+      await api.setRGBMode(value);
+    }
+  }
+
+  async toggleLights(selectedKeyboard) {
+    const api = this.getAPI(selectedKeyboard);
+    if (api) {
+      const [, , val] = await api.getRGBMode();
+      const newVal = val === 9 ? 0 : 9;
+      await this.setRGBMode(newVal);
+      await timeoutPromise(300);
+      await this.setRGBMode(val);
+      await timeoutPromise(300);
+      await this.setRGBMode(newVal);
+      await timeoutPromise(300);
+      await this.setRGBMode(val);
+    }
+  }
+
   async updateFullMatrix(activeLayer, selectedKeyboard) {
     const layer = activeLayer;
     const api = this.getAPI(selectedKeyboard);
@@ -189,12 +214,12 @@ export default class Home extends Component<Props, {}> {
       return (
         <KeycodeMenu updateSelectedKey={this.updateSelectedKey.bind(this)} />
       );
-    } else if (selectedTitle === 'LIGHTING') {
-      return <div />;
+    } else if (selectedTitle === Title.LIGHTING) {
+      return <LightingMenu setRGBMode={this.setRGBMode.bind(this)} />;
     }
   }
 
-  offsetKeyboard(offset) {
+  async offsetKeyboard(offset) {
     const keyboards = this.state.keyboards;
     const selectedPath =
       this.state.selectedKeyboard && this.state.selectedKeyboard.path;
@@ -210,7 +235,8 @@ export default class Home extends Component<Props, {}> {
         activeLayer: 0,
         matrixKeycodes: []
       });
-      this.updateFullMatrix(0, selectedKeyboard);
+      await this.updateFullMatrix(0, selectedKeyboard);
+      await this.toggleLights(selectedKeyboard);
     }
   }
 

@@ -26,7 +26,7 @@ export class Keyboard extends Component {
     }
   }
 
-  chooseKey({label, size, margin}, idx: string, useMatrixKeycodes) {
+  chooseKey({c, t, label, size, margin}, idx: string, useMatrixKeycodes) {
     const {matrixKeycodes = [], selectedKey, setSelectedKey} = this.props;
     const onClick = evt => {
       evt.stopPropagation();
@@ -45,6 +45,8 @@ export class Keyboard extends Component {
             key={idx}
             label={label.toUpperCase()}
             size={size}
+            c={c}
+            t={t}
             indent={margin}
             selected={selectedKey === idx}
             onClick={onClick}
@@ -58,6 +60,8 @@ export class Keyboard extends Component {
             key={idx}
             label={label.toUpperCase()}
             size={size}
+            c={c}
+            t={t}
             indent={margin}
             selected={selectedKey === idx}
             onClick={onClick}
@@ -74,6 +78,8 @@ export class Keyboard extends Component {
             key={idx}
             topLabel={topLabel}
             bottomLabel={bottomLabel}
+            c={c}
+            t={t}
             indent={margin}
             size={size}
             selected={selectedKey === idx}
@@ -87,6 +93,8 @@ export class Keyboard extends Component {
           key={idx}
           label={label}
           indent={margin}
+          c={c}
+          t={t}
           size={size}
           selected={selectedKey === idx}
           onClick={onClick}
