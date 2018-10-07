@@ -32,15 +32,27 @@ export default class Home extends Component<Props, {}> {
     super();
     const keyboards = getKeyboards();
     const firstKeyboard = keyboards[0] || null;
-
-    this.state = {
-      keyboards,
-      selectedKeyboard: firstKeyboard,
-      selectedKey: null,
-      selectedTitle: firstKeyboard && Title.KEYS,
-      activeLayer: 0,
-      matrixKeycodes: []
-    };
+    if (firstKeyboard) {
+      this.state = {
+        keyboards,
+        selectedKeyboard: firstKeyboard,
+        selectedKey: null,
+        selectedTitle: Title.KEYS,
+        activeLayer: 0,
+        matrixKeycodes: {
+          [firstKeyboard.path]: [[], [], [], []]
+        }
+      };
+    } else {
+      this.state = {
+        keyboards,
+        selectedKeyboard: null,
+        selectedKey: null,
+        selectedTitle: null,
+        activeLayer: null,
+        matrixKeycodes: {}
+      };
+    }
   }
 
   componentDidMount() {
@@ -74,7 +86,20 @@ export default class Home extends Component<Props, {}> {
       keyboards[0];
     const selectedKeyboardPath = selectedKeyboard && selectedKeyboard.path;
     if (oldSelectedPath !== selectedKeyboardPath) {
-      if (selectedKeyboardPath === undefined) {
+      if (selectedKeyboardPath !== undefined) {
+        this.setState({
+          keyboards,
+          selectedKeyboard,
+          selectedKey: null,
+          activeLayer: 0,
+          matrixKeycodes: {
+            ...this.state.matrixKeycodes,
+            [selectedKeyboardPath]: [[], [], [], []]
+          },
+          selectedTitle: Title.KEYS
+        });
+        await this.updateFullMatrix(0, selectedKeyboard);
+      } else {
         this.setState({
           keyboards,
           selectedKeyboard: undefined,
@@ -82,16 +107,6 @@ export default class Home extends Component<Props, {}> {
           activeLayer: 0,
           selectedTitle: null
         });
-      } else {
-        this.setState({
-          keyboards,
-          selectedKeyboard,
-          selectedKey: null,
-          activeLayer: 0,
-          matrixKeycodes: [],
-          selectedTitle: Title.KEYS
-        });
-        await this.updateFullMatrix(0, selectedKeyboard);
       }
     } else {
       this.setState({keyboards});
@@ -168,11 +183,10 @@ export default class Home extends Component<Props, {}> {
     const api = this.getAPI(selectedKeyboard);
     const matrixLayout = this.getMatrix(selectedKeyboard);
 
-    if (api && selectedKey) {
+    if (api && selectedKey && selectedKeyboard) {
       const {row, col} = matrixLayout[parseInt(selectedKey)];
       const key = await api.setKey(activeLayer, row, col, value);
-      const matrixKeycodes = await api.readMatrix(matrixLayout, activeLayer);
-      this.setState({matrixKeycodes});
+      await this.updateFullMatrix(activeLayer, selectedKeyboard);
     }
   }
 
@@ -200,12 +214,30 @@ export default class Home extends Component<Props, {}> {
   }
 
   async updateFullMatrix(activeLayer, selectedKeyboard) {
-    const layer = activeLayer;
     const api = this.getAPI(selectedKeyboard);
     const matrixLayout = this.getMatrix(selectedKeyboard);
     if (api && matrixLayout) {
-      const matrixKeycodes = await api.readMatrix(matrixLayout, layer);
-      this.setState({matrixKeycodes});
+      const layerMatrixKeycodes = await api.readMatrix(
+        matrixLayout,
+        activeLayer
+      );
+      const matrixKeycodes = this.state.matrixKeycodes;
+      const deviceMatrixKeycodes = matrixKeycodes[selectedKeyboard.path] || [
+        [],
+        [],
+        [],
+        []
+      ];
+      const newDeviceMatrixKeycodes = deviceMatrixKeycodes
+        .slice(0, activeLayer)
+        .concat([layerMatrixKeycodes])
+        .concat(deviceMatrixKeycodes.slice(activeLayer + 1));
+      this.setState({
+        matrixKeycodes: {
+          ...matrixKeycodes,
+          [selectedKeyboard.path]: newDeviceMatrixKeycodes
+        }
+      });
     }
   }
 
@@ -232,12 +264,18 @@ export default class Home extends Component<Props, {}> {
       this.setState({
         selectedKeyboard,
         selectedKey: null,
-        activeLayer: 0,
-        matrixKeycodes: []
+        activeLayer: 0
       });
       await this.updateFullMatrix(0, selectedKeyboard);
       await this.toggleLights(selectedKeyboard);
     }
+  }
+
+  getLayerMatrix(selectedKeyboard, selectedLayer) {
+    const deviceMatrixKeycodes = this.state.matrixKeycodes[
+      selectedKeyboard.path
+    ] || [[], [], [], []];
+    return deviceMatrixKeycodes[selectedLayer];
   }
 
   updateLayer(activeLayer) {
@@ -265,7 +303,7 @@ export default class Home extends Component<Props, {}> {
           selectedKey={selectedKey}
           selectedKeyboard={selectedKeyboard}
           selectedTitle={selectedTitle}
-          matrixKeycodes={matrixKeycodes}
+          matrixKeycodes={this.getLayerMatrix(selectedKeyboard, activeLayer)}
           clearSelectedKey={this.clearSelectedKey.bind(this)}
           setSelectedKey={this.setSelectedKey.bind(this)}
           updateFullMatrix={this.updateFullMatrix.bind(this)}
