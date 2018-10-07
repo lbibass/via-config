@@ -12,6 +12,8 @@
   display: flex;
   flex-flow: wrap;
   overflow: auto;
+  margin: 0 auto;
+  max-width: 1000px;
 }
 
 .keycode {
@@ -50,6 +52,7 @@
   white-space: nowrap;
   height: 31px;
   min-height: 31px;
+  text-align: center;
 }
 
 .category {
