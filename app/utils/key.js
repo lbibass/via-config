@@ -1022,7 +1022,7 @@ export function getKeycodes() {
         {name: 'BL -', code: 'BL_DEC'},
         {name: 'BL On', code: 'BL_ON'},
         {name: 'BL Off', code: 'BL_OFF'},
-        {name: 'Breathing Toggle', code: 'BL_BRTG'},
+        {name: 'Breath Toggle', code: 'BL_BRTG'},
         {name: 'BL Cycle', code: 'BL_STEP'},
         {name: 'BR +', code: 'BR_INC'},
         {name: 'BR -', code: 'BR_DEC'},
