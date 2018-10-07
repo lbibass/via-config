@@ -30,7 +30,7 @@
 
 .keyContainer:hover {
   padding: 0 1px;
-  transform: translate3d(0, 1px, 0);
+  transform: translate3d(0, -1px, 0);
   box-sizing: border-box;
   display: inline-block;
 }
