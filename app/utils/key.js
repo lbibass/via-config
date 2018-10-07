@@ -532,7 +532,7 @@ export function getLabelForByte(byte, size = 100) {
   } else if (isLayerKey(byte)) {
     return getCodeForLayerByte(byte);
   } else {
-    return 'N/A';
+    return '0x' + Number(byte).toString(16);
   }
 }
 
