@@ -145,22 +145,6 @@ export const basicKeyToByte = {
   KC_PPLS: 0x0057,
   KC_PEQL: 0x0067,
   KC_PENT: 0x0058,
-  KC_MS_U: 0x00f0,
-  KC_MS_D: 0x00f1,
-  KC_MS_L: 0x00f2,
-  KC_MS_R: 0x00f3,
-  KC_BTN1: 0x00f4,
-  KC_BTN2: 0x00f5,
-  KC_BTN3: 0x00f6,
-  KC_BTN4: 0x00f7,
-  KC_BTN5: 0x00f8,
-  KC_WH_U: 0x00f9,
-  KC_WH_D: 0x00fa,
-  KC_WH_L: 0x00fb,
-  KC_WH_R: 0x00fc,
-  KC_ACL0: 0x00fd,
-  KC_ACL1: 0x00fe,
-  KC_ACL2: 0x00ff,
   KC_PWR: 0x00a5,
   KC_SLEP: 0x00a6,
   KC_WAKE: 0x00a7,
@@ -280,7 +264,6 @@ export const basicKeyToByte = {
   KC_CANCEL: 0x009b,
   KC_CLEAR: 0x009c,
   KC_PRIOR: 0x009d,
-  KC_RETURN: 0x009e,
   KC_SEPARATOR: 0x009f,
   KC_OUT: 0x00a0,
   KC_OPER: 0x00a1,
@@ -362,7 +345,6 @@ export const basicKeyToByte = {
   BL_BRTG: 0x5cbf,
   RGB_TOG: 0x5cc0,
   RGB_MOD: 0x5cc1,
-  RGB_SMOD: 0x5cc1,
   RGB_RMOD: 0x5cc2,
   RGB_HUI: 0x5cc3,
   RGB_HUD: 0x5cc4,
@@ -397,8 +379,6 @@ export const basicKeyToByte = {
   KC_PLUS: 0x022e,
   KC_LCBR: 0x022f,
   KC_RCBR: 0x0230,
-  KC_LABK: 0x0236,
-  KC_RABK: 0x0237,
   KC_COLN: 0x0233,
   KC_PIPE: 0x0231,
   KC_LT: 0x0236,
@@ -510,16 +490,16 @@ export function getKeycodeForByte(byte) {
 }
 
 export function getOtherMenu() {
-  const otherKeycodes = Object.keys(basicKeyToByte).filter(
-    key => !keycodesList.map(({code}) => code).includes(key)
-  );
+  const otherKeycodes = Object.keys(basicKeyToByte)
+    .filter(key => !keycodesList.map(({code}) => code).includes(key))
+    .map(code => ({
+      name: code.replace('KC_', '').replace(/_/g, ' '),
+      code: code
+    }));
 
   return {
     label: 'Other',
-    keycodes: otherKeycodes.map(code => ({
-      name: code.replace('KC_', '').replace(/_/g, ' '),
-      code: code
-    }))
+    keycodes: otherKeycodes
   };
 }
 
@@ -981,6 +961,7 @@ export function getKeycodes() {
       width: 'label',
       keycodes: [
         {name: 'Power', code: 'KC_PWR'},
+        {name: 'Power OSX', code: 'KC_POWER'},
         {name: 'Sleep', code: 'KC_SLEP'},
         {name: 'Wake', code: 'KC_WAKE'},
         {name: 'Calc', code: 'KC_CALC'},
@@ -1003,7 +984,8 @@ export function getKeycodes() {
         {name: 'Forward', code: 'KC_WWW_FORWARD'},
         {name: 'Stop', code: 'KC_WWW_STOP'},
         {name: 'Refresh', code: 'KC_WWW_REFRESH'},
-        {name: 'Favorites', code: 'KC_WWW_FAVORITES'}
+        {name: 'Favorites', code: 'KC_WWW_FAVORITES'},
+        {name: 'Search', code: 'KC_WWW_SEARCH'}
       ]
     },
     {
@@ -1038,6 +1020,24 @@ export function getKeycodes() {
         {name: 'BL Toggle', code: 'BL_TOGG'},
         {name: 'BL +', code: 'BL_INC'},
         {name: 'BL -', code: 'BL_DEC'},
+        {name: 'BL On', code: 'BL_ON'},
+        {name: 'BL Off', code: 'BL_OFF'},
+        {name: 'Breathing Toggle', code: 'BL_BRTG'},
+        {name: 'BL Cycle', code: 'BL_STEP'},
+        {name: 'BR +', code: 'BR_INC'},
+        {name: 'BR -', code: 'BR_DEC'},
+        {name: 'EF +', code: 'EF_INC'},
+        {name: 'EF -', code: 'EF_DEC'},
+        {name: 'ES +', code: 'ES_INC'},
+        {name: 'ES -', code: 'ES_DEC'},
+        {name: 'H1 +', code: 'H1_INC'},
+        {name: 'H1 -', code: 'H1_DEC'},
+        {name: 'H2 +', code: 'H2_INC'},
+        {name: 'H2 -', code: 'H2_DEC'},
+        {name: 'S1 +', code: 'S1_INC'},
+        {name: 'S1 -', code: 'S1_DEC'},
+        {name: 'S2 +', code: 'S2_INC'},
+        {name: 'S2 -', code: 'S2_DEC'},
         {name: 'BL Cycle', code: 'BL_STEP'},
         {name: 'RGB Toggle', code: 'RGB_TOG'},
         {name: 'RGB Mode +', code: 'RGB_MOD'},
@@ -1050,6 +1050,7 @@ export function getKeycodes() {
         {name: 'Bright -', code: 'RGB_VAD'},
         {name: 'Effect +', code: 'RGB_SPI'},
         {name: 'Effect -', code: 'RGB_SPD'},
+        {name: 'Bright -', code: 'RGB_VAD'},
         {name: 'RGB Mode P', code: 'RGB_M_P', title: 'Plain'},
         {name: 'RGB Mode B', code: 'RGB_M_B', title: 'Breathe'},
         {name: 'RGB Mode R', code: 'RGB_M_R', title: 'Rainbow'},
