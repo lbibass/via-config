@@ -20,6 +20,8 @@ export function getByteForCode(code) {
   const byte = basicKeyToByte[code];
   if (byte) {
     return byte;
+  } else if (isLayerCode(code)) {
+    return getByteForLayerCode(code);
   }
   throw `Could not find byte for ${code}`;
 }
@@ -30,6 +32,38 @@ const QK_OSL = 0x5400;
 const QK_TG = 0x5300;
 const QK_TT = 0x5800;
 const QK_DF = 0x5200;
+
+function isLayerCode(code) {
+  return /([A-Za-z]+)\((\d+)\)/.test(code);
+}
+
+function getByteForLayerCode(keycode) {
+  const [, code, layer] = keycode.match(/([A-Za-z]+)\((\d+)\)/);
+  const numLayer = parseInt(layer);
+  switch (code) {
+    case 'MO': {
+      return QK_MO | numLayer;
+    }
+    case 'TG': {
+      return QK_TG | numLayer;
+    }
+    case 'TO': {
+      return QK_TO | numLayer;
+    }
+    case 'TT': {
+      return QK_TT | numLayer;
+    }
+    case 'DF': {
+      return QK_DF | numLayer;
+    }
+    case 'OSL': {
+      return QK_OSL | numLayer;
+    }
+    default: {
+      throw 'Incorrect code';
+    }
+  }
+}
 
 function getCodeForLayerByte(byte) {
   const layer = byte & 0xff;
@@ -473,7 +507,7 @@ export const byteToKey = Object.keys(basicKeyToByte).reduce((p, n) => {
 }, {});
 
 export function keycodeInMaster(keycode) {
-  return keycode in basicKeyToByte;
+  return keycode in basicKeyToByte || isLayerCode(keycode);
 }
 
 function shorten(str) {
@@ -525,6 +559,81 @@ export function getOtherMenu() {
       name: code.replace('KC_', '').replace(/_/g, ' '),
       code: code
     }))
+  };
+}
+
+// Flat map that #@!$
+function flatMap(arr, fn) {
+  return [].concat(...arr.map(fn));
+}
+
+export function buildLayerMenu() {
+  const menu = {
+    label: 'Layers',
+    width: 'label',
+    keycodes: [
+      {
+        name: 'MO',
+        code: 'MO(layer)',
+        type: 'layer',
+        layer: 0,
+        title: 'Momentary turn layer on'
+      },
+      {
+        name: 'TG',
+        code: 'TG(layer)',
+        type: 'layer',
+        layer: 0,
+        title: 'Toggle layer on/off'
+      },
+      {
+        name: 'TO',
+        code: 'TO(layer)',
+        type: 'layer',
+        layer: 0,
+        title: 'Turn on layer when pressed'
+      },
+      {
+        name: 'TT',
+        code: 'TT(layer)',
+        type: 'layer',
+        layer: 0,
+        title:
+          "Normally acts like MO unless it's tapped multple times which toggles layer on"
+      },
+      {
+        name: 'DF',
+        code: 'DF(layer)',
+        type: 'layer',
+        layer: 0,
+        title: 'Sets the default layer'
+      },
+      {
+        name: 'OSL',
+        code: 'OSL(layer)',
+        type: 'layer',
+        layer: 0,
+        title: 'Switch to layer for one keypress'
+      }
+    ]
+  };
+
+  // Statically generate layer codes from 0-3 instead of making it an input
+  return {
+    ...menu,
+    keycodes: flatMap(menu.keycodes, keycode => {
+      let res = [];
+      for (let idx = 0; idx < 4; idx++) {
+        const newTitle = keycode.title.replace('layer', `layer ${idx}`);
+        const newCode = keycode.code.replace('layer', idx);
+        const newName = keycode.name + `(${idx})`;
+        res = [
+          ...res,
+          {...keycode, name: newName, title: newTitle, code: newCode}
+        ];
+      }
+      return res;
+    })
   };
 }
 
@@ -721,55 +830,7 @@ export function getKeycodes() {
         }
       ]
     },
-    {
-      label: 'Layers',
-      width: 'label',
-      keycodes: [
-        {
-          name: 'MO',
-          code: 'MO(layer)',
-          type: 'layer',
-          layer: 0,
-          title: 'Momentary turn layer on'
-        },
-        {
-          name: 'TG',
-          code: 'TG(layer)',
-          type: 'layer',
-          layer: 0,
-          title: 'Toggle layer on/off'
-        },
-        {
-          name: 'TO',
-          code: 'TO(layer)',
-          type: 'layer',
-          layer: 0,
-          title: 'Turn on layer when pressed'
-        },
-        {
-          name: 'TT',
-          code: 'TT(layer)',
-          type: 'layer',
-          layer: 0,
-          title:
-            "Normally acts like MO unless it's tapped multple times which toggles layer on"
-        },
-        {
-          name: 'DF',
-          code: 'DF(layer)',
-          type: 'layer',
-          layer: 0,
-          title: 'Sets the default layer'
-        },
-        {
-          name: 'OSL',
-          code: 'OSL(layer)',
-          type: 'layer',
-          layer: 0,
-          title: 'Switch to layer for one keypress'
-        }
-      ]
-    },
+    buildLayerMenu(),
     {
       label: 'Mod+_',
       width: 'label',
