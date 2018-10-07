@@ -24,6 +24,30 @@ export function getByteForCode(code) {
   throw `Could not find byte for ${code}`;
 }
 
+const QK_MO = 0x5100;
+const QK_TO = 0x5000;
+const QK_OSL = 0x5400;
+const QK_TG = 0x5300;
+const QK_TT = 0x5800;
+const QK_DF = 0x5200;
+
+function getCodeForLayerByte(byte) {
+  const layer = byte & 0xff;
+  if (QK_MO <= byte && (QK_MO | 0xff) >= byte) {
+    return `MO(${layer})`;
+  } else if (QK_TO <= byte && (QK_TO | 0xff) >= byte) {
+    return `TO(${layer})`;
+  } else if (QK_OSL <= byte && (QK_OSL | 0xff) >= byte) {
+    return `OSL(${layer})`;
+  } else if (QK_TG <= byte && (QK_TG | 0xff) >= byte) {
+    return `TG(${layer})`;
+  } else if (QK_TT <= byte && (QK_TT | 0xff) >= byte) {
+    return `TT(${layer})`;
+  } else if (QK_DF <= byte && (QK_DF | 0xff) >= byte) {
+    return `DF(${layer})`;
+  }
+}
+
 // Todo remove duplicates
 export const basicKeyToByte = {
   KC_LCTL: 0x00e0,
@@ -266,7 +290,6 @@ export const basicKeyToByte = {
   //MEDIA
   // APP
   KC_MAIL: 0x00b1,
-  KC_MY_COMPUTER: 0x00b3,
   KC_WWW_SEARCH: 0x00b4,
   KC_WWW_HOME: 0x00b5,
   KC_WWW_BACK: 0x00b6,
@@ -472,9 +495,17 @@ export function getLabelForByte(byte, size = 100) {
       .replace('KC_', '')
       .replace('FN_', '')
       .replace(/_/g, ' ');
+  } else if (isLayerKey(byte)) {
+    return getCodeForLayerByte(byte);
   } else {
     return 'N/A';
   }
+}
+
+function isLayerKey(byte) {
+  return [QK_DF, QK_MO, QK_OSL, QK_TG, QK_TO, QK_TT].some(
+    code => byte >= code && byte <= (code | 0xff)
+  );
 }
 
 export function getKeycodeForByte(byte) {
@@ -934,16 +965,17 @@ export function getKeycodes() {
         {name: 'Mail', code: 'KC_MAIL'},
         {name: 'Help', code: 'KC_HELP'},
         {name: 'Stop', code: 'KC_STOP'},
-        {name: 'Alternate Erase', code: 'KC_ERAS'},
+        {name: 'Alt Erase', code: 'KC_ERAS'},
         {name: 'Again', code: 'KC_AGAIN'},
         {name: 'Menu', code: 'KC_MENU'},
         {name: 'Undo', code: 'KC_UNDO'},
-        {name: 'Select', code: 'KC_SLCT'},
-        {name: 'Exec', code: 'KC_EXEC'},
+        {name: 'Select', code: 'KC_SELECT'},
+        {name: 'Exec', code: 'KC_EXECUTE'},
         {name: 'Cut', code: 'KC_CUT'},
         {name: 'Copy', code: 'KC_COPY'},
         {name: 'Paste', code: 'KC_PASTE'},
-        {name: 'Find', code: 'KC_FIND'}
+        {name: 'Find', code: 'KC_FIND'},
+        {name: 'My Comp', code: 'KC_MYCM'}
       ]
     },
     {
