@@ -31,11 +31,11 @@ export default class Home extends Component<Props, {}> {
   constructor() {
     super();
     const keyboards = getKeyboards();
-    const firstKeyboard = keyboards[0];
+    const firstKeyboard = keyboards[0] || null;
 
     this.state = {
       keyboards,
-      selectedKeyboard: firstKeyboard || null,
+      selectedKeyboard: firstKeyboard,
       selectedKey: null,
       selectedTitle: firstKeyboard && Title.KEYS,
       activeLayer: 0,
@@ -189,13 +189,13 @@ export default class Home extends Component<Props, {}> {
     if (api) {
       const [, , val] = await api.getRGBMode();
       const newVal = val === 9 ? 0 : 9;
-      await this.setRGBMode(newVal);
-      await timeoutPromise(300);
-      await this.setRGBMode(val);
-      await timeoutPromise(300);
-      await this.setRGBMode(newVal);
-      await timeoutPromise(300);
-      await this.setRGBMode(val);
+      await api.setRGBMode(newVal);
+      await timeoutPromise(200);
+      await api.setRGBMode(val);
+      await timeoutPromise(200);
+      await api.setRGBMode(newVal);
+      await timeoutPromise(200);
+      await api.setRGBMode(val);
     }
   }
 
