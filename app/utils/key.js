@@ -177,13 +177,6 @@ export const basicKeyToByte = {
   KC_EJCT: 0x00b0,
   KC_CALC: 0x00b2,
   KC_MYCM: 0x00b3,
-  KC_WSCH: 0x00b4,
-  KC_WHOM: 0x00b5,
-  KC_WBAK: 0x00b6,
-  KC_WFWD: 0x00b7,
-  KC_WSTP: 0x00b8,
-  KC_WREF: 0x00b9,
-  KC_WFAV: 0x00ba,
   KC_TRNS: 0x0001,
   KC_NO: 0x0000,
   KC_A: 0x0004,
@@ -266,10 +259,6 @@ export const basicKeyToByte = {
   KC_COPY: 0x007c,
   KC_PASTE: 0x007d,
   KC_FIND: 0x007e,
-  //MACONLY
-  KC__MUTE: 0x007f,
-  KC__VOLUP: 0x0080,
-  KC__VOLDOWN: 0x0081,
   //MACONLYEND
   KC_KP_EQUAL_AS400: 0x0086,
   // INTERNATIONAL
@@ -298,11 +287,8 @@ export const basicKeyToByte = {
   KC_CLEAR_AGAIN: 0x00a2,
   KC_CRSEL: 0x00a3,
   KC_EXSEL: 0x00a4,
-  KC_LSHIFT: 0x00e1,
   KC_LALT: 0x00e2,
   KC_LGUI: 0x00e3,
-  KC_RCTRL: 0x00e4,
-  KC_RSHIFT: 0x00e5,
   KC_RALT: 0x00e6,
   KC_RGUI: 0x00e7,
   //SYSTEM
@@ -367,7 +353,6 @@ export const basicKeyToByte = {
   RESET: 0x5c00,
   DEBUG: 0x5c01,
   KC_GESC: 0x5c15,
-  GRAVE_ESC: 0x5c15,
   BL_ON: 0x5cb9,
   BL_OFF: 0x5cba,
   BL_DEC: 0x5cbb,
@@ -1012,7 +997,13 @@ export function getKeycodes() {
         {name: 'Copy', code: 'KC_COPY'},
         {name: 'Paste', code: 'KC_PASTE'},
         {name: 'Find', code: 'KC_FIND'},
-        {name: 'My Comp', code: 'KC_MYCM'}
+        {name: 'My Comp', code: 'KC_MYCM'},
+        {name: 'Home', code: 'KC_WWW_HOME'},
+        {name: 'Back', code: 'KC_WWW_BACK'},
+        {name: 'Forward', code: 'KC_WWW_FORWARD'},
+        {name: 'Stop', code: 'KC_WWW_STOP'},
+        {name: 'Refresh', code: 'KC_WWW_REFRESH'},
+        {name: 'Favorites', code: 'KC_WWW_FAVORITES'}
       ]
     },
     {
