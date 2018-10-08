@@ -20,9 +20,10 @@ import {
 import {OVERRIDE_DETECT} from '../utils/override';
 
 export class Keyboard extends Component {
-  componentWillMount() {
+  async componentWillMount() {
     if (this.useMatrixKeycodes()) {
-      this.props.updateFullMatrix(0, this.props.selectedKeyboard);
+      await this.props.checkIfDetected(this.props.selectedKeyboard);
+      await this.props.updateFullMatrix(0, this.props.selectedKeyboard);
     }
   }
 
@@ -125,11 +126,11 @@ export class Keyboard extends Component {
       selectedKey,
       selectedKeyboard,
       selectedTitle,
+      detected,
       clearSelectedKey,
       updateLayer,
       matrixKeycodes = []
     } = this.props;
-    const detected = !!selectedKeyboard;
     const device = this.getDevice();
     if (device) {
       const keyboard = getKeyboardFromDevice(device);

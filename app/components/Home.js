@@ -36,6 +36,7 @@ export default class Home extends Component<Props, {}> {
     if (firstKeyboard) {
       this.state = {
         keyboards,
+        detected: false,
         selectedKeyboard: firstKeyboard,
         selectedKey: null,
         selectedTitle: Title.KEYS,
@@ -47,6 +48,7 @@ export default class Home extends Component<Props, {}> {
     } else {
       this.state = {
         keyboards,
+        detected: false,
         selectedKeyboard: null,
         selectedKey: null,
         selectedTitle: null,
@@ -66,6 +68,16 @@ export default class Home extends Component<Props, {}> {
   componentWillUnmount() {
     usbDetect.off('change');
     document.body.removeEventListener('keydown', this.handleKeys);
+  }
+
+  async checkIfDetected(selectedKeyboard) {
+    this.setState({detected: false});
+    if (selectedKeyboard && selectedKeyboard.path) {
+      const res = await this.getAPI(selectedKeyboard).getProtocolVersion();
+      if (res === 7) {
+        this.setState({detected: true});
+      }
+    }
   }
 
   handleKeys(evt) {
@@ -107,6 +119,7 @@ export default class Home extends Component<Props, {}> {
           },
           selectedTitle: Title.KEYS
         });
+        await this.checkIfDetected(selectedKeyboard);
         await this.updateFullMatrix(0, selectedKeyboard);
       } else {
         this.setState({
@@ -187,15 +200,63 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
+  setKeyInMatrix(
+    key,
+    numSelectedKey,
+    activeLayer,
+    selectedKeyboard,
+    matrixKeycodes
+  ) {
+    const matrixLayerKeycodes = matrixKeycodes[selectedKeyboard.path];
+    const layerKeycodes = matrixLayerKeycodes[activeLayer];
+    const newLayerKeycodes = layerKeycodes
+      .slice(0, numSelectedKey)
+      .concat(key)
+      .concat(layerKeycodes.slice(numSelectedKey + 1));
+    const newDeviceMatrixKeycodes = matrixLayerKeycodes
+      .slice(0, activeLayer)
+      .concat([newLayerKeycodes])
+      .concat(matrixLayerKeycodes.slice(activeLayer + 1));
+
+    this.setState({
+      matrixKeycodes: {
+        ...matrixKeycodes,
+        [selectedKeyboard.path]: newDeviceMatrixKeycodes
+      }
+    });
+  }
+
   async updateSelectedKey(value) {
-    const {activeLayer, selectedKeyboard, selectedKey} = this.state;
+    const {
+      activeLayer,
+      selectedKeyboard,
+      selectedKey,
+      matrixKeycodes
+    } = this.state;
     const api = this.getAPI(selectedKeyboard);
     const matrixLayout = this.getMatrix(selectedKeyboard);
+    const numSelectedKey = parseInt(selectedKey);
 
     if (api && selectedKey && selectedKeyboard) {
-      const {row, col} = matrixLayout[parseInt(selectedKey)];
+      const {row, col} = matrixLayout[numSelectedKey];
+      //Optimistically set
+      this.setKeyInMatrix(
+        value,
+        numSelectedKey,
+        activeLayer,
+        selectedKeyboard,
+        matrixKeycodes
+      );
       const key = await api.setKey(activeLayer, row, col, value);
-      await this.updateFullMatrix(activeLayer, selectedKeyboard);
+      if (key !== value) {
+        this.setKeyInMatrix(
+          key,
+          numSelectedKey,
+          activeLayer,
+          selectedKeyboard,
+          matrixKeycodes
+        );
+      }
     }
   }
 
@@ -275,6 +336,7 @@ export default class Home extends Component<Props, {}> {
         selectedKey: null,
         activeLayer: 0
       });
+      await this.checkIfDetected(selectedKeyboard);
       await this.updateFullMatrix(0, selectedKeyboard);
       await this.toggleLights(selectedKeyboard);
     }
@@ -297,6 +359,7 @@ export default class Home extends Component<Props, {}> {
   render() {
     const {
       activeLayer,
+      detected,
       selectedKey,
       matrixKeycodes,
       selectedKeyboard,
@@ -311,9 +374,11 @@ export default class Home extends Component<Props, {}> {
         />
         <Keyboard
           activeLayer={activeLayer}
+          detected={detected}
           selectedKey={selectedKey}
           selectedKeyboard={selectedKeyboard}
           selectedTitle={selectedTitle}
+          checkIfDetected={this.checkIfDetected.bind(this)}
           matrixKeycodes={this.getLayerMatrix(selectedKeyboard, activeLayer)}
           clearSelectedKey={this.clearSelectedKey.bind(this)}
           setSelectedKey={this.setSelectedKey.bind(this)}

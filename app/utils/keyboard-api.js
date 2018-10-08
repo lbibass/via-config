@@ -100,7 +100,7 @@ export class KeyboardAPI {
       DYNAMIC_KEYMAP_SET_KEYCODE,
       [layer, row, column, hi, lo].map(val => parseInt(val))
     );
-    return res;
+    return (res[4] << 8) | res[5];
   }
 
   async hidCommand(command, bytes = []): Promise<any> {

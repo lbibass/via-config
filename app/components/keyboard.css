@@ -26,7 +26,6 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAG0lEQVQYV2
   user-select: none; /* Likely future */
   transform: scale(1);
   opacity: 0;
-  transition: all 0.2s ease-out;
 }
 
 .detected {
