@@ -6,11 +6,14 @@
   position: relative;
 }
 
+.keycodesContainer {
+  overflow: auto;
+}
+
 .keycodes {
   padding: 0 5px 5px 5px;
   display: flex;
   flex-flow: wrap;
-  overflow: auto;
   margin: 0 auto;
   max-width: 1000px;
 }

@@ -46,29 +46,31 @@ export class KeycodeMenu extends Component {
       <div className={styles.menu}>
         {this.renderCategories()}
         <div className={styles.keycodeDesc}>{mouseOverDesc}</div>
-        <div className={styles.keycodes}>
-          {selectedCategoryKeycodes.map(({code, title, name}) => (
-            <div
-              alt={title}
-              className={[
-                !keycodeInMaster(code) && styles.disabled,
-                styles.keycode
-              ].join(' ')}
-              key={code}
-              onClick={() =>
-                keycodeInMaster(code) &&
-                this.props.updateSelectedKey(getByteForCode(code))
-              }
-              onMouseOver={_ => {
-                this.setState({
-                  mouseOverDesc: title ? `${code}: ${title}` : code
-                });
-              }}
-              onMouseOut={_ => this.setState({mouseOverDesc: null})}
-            >
-              {name}
-            </div>
-          ))}
+        <div className={styles.keycodesContainer}>
+          <div className={styles.keycodes}>
+            {selectedCategoryKeycodes.map(({code, title, name}) => (
+              <div
+                alt={title}
+                className={[
+                  !keycodeInMaster(code) && styles.disabled,
+                  styles.keycode
+                ].join(' ')}
+                key={code}
+                onClick={() =>
+                  keycodeInMaster(code) &&
+                  this.props.updateSelectedKey(getByteForCode(code))
+                }
+                onMouseOver={_ => {
+                  this.setState({
+                    mouseOverDesc: title ? `${code}: ${title}` : code
+                  });
+                }}
+                onMouseOut={_ => this.setState({mouseOverDesc: null})}
+              >
+                {name}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
