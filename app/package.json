@@ -5,9 +5,9 @@
   "description": "Yet another keyboard configurator",
   "main": "./main.prod.js",
   "author": {
-    "name": "C. T. Lin",
-    "email": "chentsulin@gmail.com",
-    "url": "https://github.com/chentsulin"
+    "name": "Olivia B",
+    "email": "ofbriggs@gmail.com",
+    "url": "https://github.com/olivia"
   },
   "scripts": {
     "electron-rebuild": "node -r babel-register ../internals/scripts/ElectronRebuild.js",
