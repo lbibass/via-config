@@ -317,22 +317,22 @@ export const basicKeyToByte = {
   KC_FN29: 0x00dd,
   KC_FN30: 0x00de,
   KC_FN31: 0x00df,
-  KC_MS_UP: 0x00f0,
-  KC_MS_DOWN: 0x00f1,
-  KC_MS_LEFT: 0x00f2,
-  KC_MS_RIGHT: 0x00f3,
-  KC_MS_BTN1: 0x00f4,
-  KC_MS_BTN2: 0x00f5,
-  KC_MS_BTN3: 0x00f6,
-  KC_MS_BTN4: 0x00f7,
-  KC_MS_BTN5: 0x00f8,
-  KC_MS_WH_UP: 0x00f9,
-  KC_MS_WH_DOWN: 0x00fa,
-  KC_MS_WH_LEFT: 0x00fb,
-  KC_MS_WH_RIGHT: 0x00fc,
-  KC_MS_ACCEL0: 0x00fd,
-  KC_MS_ACCEL1: 0x00fe,
-  KC_MS_ACCEL2: 0x00ff,
+  //  KC_MS_UP: 0x00f0, Remove for now as mouse is not enabled by the firmware
+  //  KC_MS_DOWN: 0x00f1,
+  //  KC_MS_LEFT: 0x00f2,
+  //  KC_MS_RIGHT: 0x00f3,
+  //  KC_MS_BTN1: 0x00f4,
+  //  KC_MS_BTN2: 0x00f5,
+  //  KC_MS_BTN3: 0x00f6,
+  //  KC_MS_BTN4: 0x00f7,
+  //  KC_MS_BTN5: 0x00f8,
+  //  KC_MS_WH_UP: 0x00f9,
+  //  KC_MS_WH_DOWN: 0x00fa,
+  //  KC_MS_WH_LEFT: 0x00fb,
+  //  KC_MS_WH_RIGHT: 0x00fc,
+  //  KC_MS_ACCEL0: 0x00fd,
+  //  KC_MS_ACCEL1: 0x00fe,
+  //  KC_MS_ACCEL2: 0x00ff,
   RESET: 0x5c00,
   DEBUG: 0x5c01,
   KC_GESC: 0x5c15,
@@ -477,6 +477,382 @@ export function getLabelForByte(byte, size = 100) {
   }
 }
 
+export function mapEvtToKeycode(evt) {
+  switch (evt.code) {
+    case 'Digit1': {
+      return 'KC_1';
+    }
+    case 'Digit2': {
+      return 'KC_2';
+    }
+    case 'Digit3': {
+      return 'KC_3';
+    }
+    case 'Digit4': {
+      return 'KC_4';
+    }
+    case 'Digit5': {
+      return 'KC_5';
+    }
+    case 'Digit6': {
+      return 'KC_6';
+    }
+    case 'Digit7': {
+      return 'KC_7';
+    }
+    case 'Digit8': {
+      return 'KC_8';
+    }
+    case 'Digit9': {
+      return 'KC_9';
+    }
+    case 'Digit0': {
+      return 'KC_0';
+    }
+    case 'KeyA': {
+      return 'KC_A';
+    }
+    case 'KeyB': {
+      return 'KC_B';
+    }
+    case 'KeyC': {
+      return 'KC_C';
+    }
+    case 'KeyD': {
+      return 'KC_D';
+    }
+    case 'KeyB': {
+      return 'KC_B';
+    }
+    case 'KeyC': {
+      return 'KC_C';
+    }
+    case 'KeyD': {
+      return 'KC_D';
+    }
+    case 'KeyE': {
+      return 'KC_E';
+    }
+    case 'KeyF': {
+      return 'KC_F';
+    }
+    case 'KeyG': {
+      return 'KC_G';
+    }
+    case 'KeyH': {
+      return 'KC_H';
+    }
+    case 'KeyI': {
+      return 'KC_I';
+    }
+    case 'KeyJ': {
+      return 'KC_J';
+    }
+    case 'KeyK': {
+      return 'KC_K';
+    }
+    case 'KeyL': {
+      return 'KC_L';
+    }
+    case 'KeyM': {
+      return 'KC_M';
+    }
+    case 'KeyN': {
+      return 'KC_N';
+    }
+    case 'KeyO': {
+      return 'KC_O';
+    }
+    case 'KeyP': {
+      return 'KC_P';
+    }
+    case 'KeyQ': {
+      return 'KC_Q';
+    }
+    case 'KeyR': {
+      return 'KC_R';
+    }
+    case 'KeyS': {
+      return 'KC_S';
+    }
+    case 'KeyT': {
+      return 'KC_T';
+    }
+    case 'KeyU': {
+      return 'KC_U';
+    }
+    case 'KeyV': {
+      return 'KC_V';
+    }
+    case 'KeyW': {
+      return 'KC_W';
+    }
+    case 'KeyX': {
+      return 'KC_X';
+    }
+    case 'KeyY': {
+      return 'KC_Y';
+    }
+    case 'KeyZ': {
+      return 'KC_Z';
+    }
+    case 'Comma': {
+      return 'KC_COMM';
+    }
+    case 'Period': {
+      return 'KC_DOT';
+    }
+    case 'Semicolon': {
+      return 'KC_SCLN';
+    }
+    case 'Quote': {
+      return 'KC_QUOT';
+    }
+    case 'BracketLeft': {
+      return 'KC_LBRC';
+    }
+    case 'BracketRight': {
+      return 'KC_RBRC';
+    }
+    case 'Backquote': {
+      return 'KC_GRV';
+    }
+    case 'Slash': {
+      return 'KC_SLSH';
+    }
+    case 'Backslash': {
+      return 'KC_BSLS';
+    }
+    case 'Minus': {
+      return 'KC_MINS';
+    }
+    case 'Equal': {
+      return 'KC_EQL';
+    }
+    case 'IntlRo': {
+      return 'KC_RO';
+    }
+    case 'IntlYen': {
+      return 'KC_JYEN';
+    }
+    case 'AltLeft': {
+      return 'KC_LALT';
+    }
+    case 'AltRight': {
+      return 'KC_RALT';
+    }
+    case 'CapsLock': {
+      return 'KC_CAPS';
+    }
+    case 'ControlLeft': {
+      return 'KC_LCTL';
+    }
+    case 'ControlRight': {
+      return 'KC_RCTL';
+    }
+    case 'OSLeft': {
+      return 'KC_LGUI';
+    }
+    case 'OSRight': {
+      return 'KC_RGUI';
+    }
+    case 'ShiftLeft': {
+      return 'KC_LSFT';
+    }
+    case 'ShiftRight': {
+      return 'KC_RSFT';
+    }
+    case 'ContextMenu': {
+      return 'KC_APP';
+    }
+    case 'Enter': {
+      return 'KC_ENT';
+    }
+    case 'Space': {
+      return 'KC_SPC';
+    }
+    case 'Tab': {
+      return 'KC_TAB';
+    }
+    case 'Delete': {
+      return 'KC_DEL';
+    }
+    case 'End': {
+      return 'KC_END';
+    }
+    case 'Help': {
+      return 'KC_HELP';
+    }
+    case 'Home': {
+      return 'KC_HOME';
+    }
+    case 'Insert': {
+      return 'KC_INS';
+    }
+    case 'PageDown': {
+      return 'KC_PGDN';
+    }
+    case 'PageUp': {
+      return 'KC_PGUP';
+    }
+    case 'ArrowDown': {
+      return 'KC_DOWN';
+    }
+    case 'ArrowLeft': {
+      return 'KC_LEFT';
+    }
+    case 'ArrowRight': {
+      return 'KC_RGHT';
+    }
+    case 'ArrowUp': {
+      return 'KC_UP';
+    }
+    case 'Escape': {
+      return 'KC_ESC';
+    }
+    case 'PrintScreen': {
+      return 'KC_PSCR';
+    }
+    case 'ScrollLock': {
+      return 'KC_SLCK';
+    }
+    case 'Pause': {
+      return 'KC_PAUS';
+    }
+    case 'F1': {
+      return 'KC_F1';
+    }
+    case 'F2': {
+      return 'KC_F2';
+    }
+    case 'F3': {
+      return 'KC_F3';
+    }
+    case 'F4': {
+      return 'KC_F4';
+    }
+    case 'F5': {
+      return 'KC_F5';
+    }
+    case 'F6': {
+      return 'KC_F6';
+    }
+    case 'F7': {
+      return 'KC_F7';
+    }
+    case 'F8': {
+      return 'KC_F8';
+    }
+    case 'F9': {
+      return 'KC_F9';
+    }
+    case 'F10': {
+      return 'KC_F10';
+    }
+    case 'F11': {
+      return 'KC_F11';
+    }
+    case 'F12': {
+      return 'KC_F12';
+    }
+    case 'F13': {
+      return 'KC_F13';
+    }
+    case 'F14': {
+      return 'KC_F14';
+    }
+    case 'F15': {
+      return 'KC_F15';
+    }
+    case 'F16': {
+      return 'KC_F16';
+    }
+    case 'F17': {
+      return 'KC_F17';
+    }
+    case 'F18': {
+      return 'KC_F18';
+    }
+    case 'F19': {
+      return 'KC_F19';
+    }
+    case 'F20': {
+      return 'KC_F20';
+    }
+    case 'F21': {
+      return 'KC_F21';
+    }
+    case 'F22': {
+      return 'KC_F22';
+    }
+    case 'F23': {
+      return 'KC_F23';
+    }
+    case 'F24': {
+      return 'KC_F24';
+    }
+    case 'NumLock': {
+      return 'KC_NLCK';
+    }
+    case 'Numpad0': {
+      return 'KC_P0';
+    }
+    case 'Numpad1': {
+      return 'KC_P1';
+    }
+    case 'Numpad2': {
+      return 'KC_P2';
+    }
+    case 'Numpad3': {
+      return 'KC_P3';
+    }
+    case 'Numpad4': {
+      return 'KC_P4';
+    }
+    case 'Numpad5': {
+      return 'KC_P5';
+    }
+    case 'Numpad6': {
+      return 'KC_P6';
+    }
+    case 'Numpad7': {
+      return 'KC_P7';
+    }
+    case 'Numpad8': {
+      return 'KC_P8';
+    }
+    case 'Numpad9': {
+      return 'KC_P9';
+    }
+    case 'NumpadAdd': {
+      return 'KC_PPLS';
+    }
+    case 'NumpadComma': {
+      return 'KC_COMM';
+    }
+    case 'NumpadDecimal': {
+      return 'KC_PDOT';
+    }
+    case 'NumpadDivide': {
+      return 'KC_PSLS';
+    }
+    case 'NumpadEnter': {
+      return 'KC_PENT';
+    }
+    case 'NumpadEqual': {
+      return 'KC_PEQL';
+    }
+    case 'NumpadMultiply': {
+      return 'KC_PAST';
+    }
+    case 'NumpadSubtract': {
+      return 'KC_PMNS';
+    }
+    default:
+      console.error('Unreacheable keydown code', evt);
+  }
+}
+
 function isLayerKey(byte) {
   return [QK_DF, QK_MO, QK_OSL, QK_TG, QK_TO, QK_TT].some(
     code => byte >= code && byte <= (code | 0xff)
@@ -496,10 +872,24 @@ export function getOtherMenu() {
       name: code.replace('KC_', '').replace(/_/g, ' '),
       code: code
     }));
+  const staticList = [
+    {name: 'F13', code: 'KC_F13'},
+    {name: 'F14', code: 'KC_F14'},
+    {name: 'F15', code: 'KC_F15'},
+    {name: 'F16', code: 'KC_F16'},
+    {name: 'F17', code: 'KC_F17'},
+    {name: 'F18', code: 'KC_F18'},
+    {name: 'F19', code: 'KC_F19'},
+    {name: 'F20', code: 'KC_F20'},
+    {name: 'F21', code: 'KC_F21'},
+    {name: 'F22', code: 'KC_F22'},
+    {name: 'F23', code: 'KC_F23'},
+    {name: 'F24', code: 'KC_F24'}
+  ];
 
   return {
     label: 'Other',
-    keycodes: otherKeycodes
+    keycodes: [].concat(otherKeycodes)
   };
 }
 
@@ -584,35 +974,32 @@ export function getKeycodes() {
       label: 'Basic',
       keycodes: [
         {name: 'Esc', code: 'KC_ESC', keys: 'esc'},
-        {name: 'F1', code: 'KC_F1'},
-        {name: 'F2', code: 'KC_F2'},
-        {name: 'F3', code: 'KC_F3'},
-        {name: 'F4', code: 'KC_F4'},
-        {name: 'F5', code: 'KC_F5'},
-        {name: 'F6', code: 'KC_F6'},
-        {name: 'F7', code: 'KC_F7'},
-        {name: 'F8', code: 'KC_F8'},
-        {name: 'F9', code: 'KC_F9'},
-        {name: 'F10', code: 'KC_F10'},
-        {name: 'F11', code: 'KC_F11'},
-        {name: 'F12', code: 'KC_F12'},
-        {name: 'F13', code: 'KC_F13'},
-        {name: 'F14', code: 'KC_F14'},
-        {name: 'F15', code: 'KC_F15'},
-        {name: 'F16', code: 'KC_F16'},
-        {name: 'F17', code: 'KC_F17'},
-        {name: 'F18', code: 'KC_F18'},
-        {name: 'F19', code: 'KC_F19'},
-        {name: 'F20', code: 'KC_F20'},
-        {name: 'F21', code: 'KC_F21'},
-        {name: 'F22', code: 'KC_F22'},
-        {name: 'F23', code: 'KC_F23'},
-        {name: 'F24', code: 'KC_F24'},
-        {name: 'Print Screen', code: 'KC_PSCR', shortName: 'Print'},
-        {name: 'Locking Scroll Lock', code: 'KC_LSCR', shortName: 'Scroll'},
-        {name: 'Scroll Lock', code: 'KC_SLCK', shortName: 'Scroll'},
-        {name: 'Pause', code: 'KC_PAUS'},
-        {name: '~\n`', code: 'KC_GRV', keys: '`'},
+        {name: 'A', code: 'KC_A', keys: 'a'},
+        {name: 'B', code: 'KC_B', keys: 'b'},
+        {name: 'C', code: 'KC_C', keys: 'c'},
+        {name: 'D', code: 'KC_D', keys: 'd'},
+        {name: 'E', code: 'KC_E', keys: 'e'},
+        {name: 'F', code: 'KC_F', keys: 'f'},
+        {name: 'G', code: 'KC_G', keys: 'g'},
+        {name: 'H', code: 'KC_H', keys: 'h'},
+        {name: 'I', code: 'KC_I', keys: 'i'},
+        {name: 'J', code: 'KC_J', keys: 'j'},
+        {name: 'K', code: 'KC_K', keys: 'k'},
+        {name: 'L', code: 'KC_L', keys: 'l'},
+        {name: 'M', code: 'KC_M', keys: 'm'},
+        {name: 'N', code: 'KC_N', keys: 'n'},
+        {name: 'O', code: 'KC_O', keys: 'o'},
+        {name: 'P', code: 'KC_P', keys: 'p'},
+        {name: 'Q', code: 'KC_Q', keys: 'q'},
+        {name: 'R', code: 'KC_R', keys: 'r'},
+        {name: 'S', code: 'KC_S', keys: 's'},
+        {name: 'T', code: 'KC_T', keys: 't'},
+        {name: 'U', code: 'KC_U', keys: 'u'},
+        {name: 'V', code: 'KC_V', keys: 'v'},
+        {name: 'W', code: 'KC_W', keys: 'w'},
+        {name: 'X', code: 'KC_X', keys: 'x'},
+        {name: 'Y', code: 'KC_Y', keys: 'y'},
+        {name: 'Z', code: 'KC_Z', keys: 'z'},
         {name: '!\n1', code: 'KC_1', keys: '1'},
         {name: '@\n2', code: 'KC_2', keys: '2'},
         {name: '#\n3', code: 'KC_3', keys: '3'},
@@ -625,6 +1012,34 @@ export function getKeycodes() {
         {name: ')\n0', code: 'KC_0', keys: '0'},
         {name: '_\n-', code: 'KC_MINS', keys: '-'},
         {name: '+\n=', code: 'KC_EQL', keys: '='},
+        {name: '~\n`', code: 'KC_GRV', keys: '`'},
+        {name: '{\n[', code: 'KC_LBRC', keys: '['},
+        {name: '}\n]', code: 'KC_RBRC', keys: ']'},
+        {name: '|\n\\', code: 'KC_BSLS', keys: '\\', width: 1500},
+        {name: ':\n;', code: 'KC_SCLN', keys: ';'},
+        {name: '"\n\'', code: 'KC_QUOT', keys: "'"},
+        {name: '<\n,', code: 'KC_COMM', keys: ','},
+        {name: '>\n.', code: 'KC_DOT', keys: '.'},
+        {name: '?\n/', code: 'KC_SLSH', keys: '/'},
+        {name: '=', code: 'KC_PEQL'},
+        {name: ',', code: 'KC_PCMM'},
+        {name: 'F1', code: 'KC_F1'},
+        {name: 'F2', code: 'KC_F2'},
+        {name: 'F3', code: 'KC_F3'},
+        {name: 'F4', code: 'KC_F4'},
+        {name: 'F5', code: 'KC_F5'},
+        {name: 'F6', code: 'KC_F6'},
+        {name: 'F7', code: 'KC_F7'},
+        {name: 'F8', code: 'KC_F8'},
+        {name: 'F9', code: 'KC_F9'},
+        {name: 'F10', code: 'KC_F10'},
+        {name: 'F11', code: 'KC_F11'},
+        {name: 'F12', code: 'KC_F12'},
+        {name: 'Print Screen', code: 'KC_PSCR', shortName: 'Print'},
+        {name: 'Locking Scroll Lock', code: 'KC_LSCR', shortName: 'Scroll'},
+        {name: 'Scroll Lock', code: 'KC_SLCK', shortName: 'Scroll'},
+        {name: 'Pause', code: 'KC_PAUS'},
+        {name: 'Tab', code: 'KC_TAB', keys: 'tab', width: 1500},
         {
           name: 'Back Space',
           code: 'KC_BSPC',
@@ -633,62 +1048,41 @@ export function getKeycodes() {
           shortName: '⌫'
         },
         {name: 'Insert', code: 'KC_INS', keys: 'insert', shortName: 'Ins'},
-        {name: 'Home', code: 'KC_HOME', keys: 'home'},
-        {name: 'Page Up', code: 'KC_PGUP', keys: 'pageup', shortName: 'PgUp'},
-        {name: 'Locking Num Lock', code: 'KC_LNUM', keys: 'num'},
-        {name: 'Num Lock', code: 'KC_NLCK', keys: 'num'},
-        {name: '/', code: 'KC_PSLS', keys: 'num_divide'},
-        {name: '*', code: 'KC_PAST', keys: 'num_multiply'},
-        {name: '-', code: 'KC_PMNS', keys: 'num_subtract'},
-        {name: 'Tab', code: 'KC_TAB', keys: 'tab', width: 1500},
-        {name: 'q', code: 'KC_Q', keys: 'q'},
-        {name: 'w', code: 'KC_W', keys: 'w'},
-        {name: 'e', code: 'KC_E', keys: 'e'},
-        {name: 'r', code: 'KC_R', keys: 'r'},
-        {name: 't', code: 'KC_T', keys: 't'},
-        {name: 'y', code: 'KC_Y', keys: 'y'},
-        {name: 'u', code: 'KC_U', keys: 'u'},
-        {name: 'i', code: 'KC_I', keys: 'i'},
-        {name: 'o', code: 'KC_O', keys: 'o'},
-        {name: 'p', code: 'KC_P', keys: 'p'},
-        {name: '{\n[', code: 'KC_LBRC', keys: '['},
-        {name: '}\n]', code: 'KC_RBRC', keys: ']'},
-        {name: '|\n\\', code: 'KC_BSLS', keys: '\\', width: 1500},
         {name: 'Del', code: 'KC_DEL', keys: 'delete'},
+        {name: 'Home', code: 'KC_HOME', keys: 'home'},
         {name: 'End', code: 'KC_END', keys: 'end'},
+        {name: 'Page Up', code: 'KC_PGUP', keys: 'pageup', shortName: 'PgUp'},
         {
           name: 'Page Down',
           code: 'KC_PGDN',
           keys: 'pagedown',
           shortName: 'PgDn'
         },
-        {name: '7', code: 'KC_P7', keys: 'num_7'},
-        {name: '8', code: 'KC_P8', keys: 'num_8'},
-        {name: '9', code: 'KC_P9', keys: 'num_9'},
-        {name: '+', code: 'KC_PPLS', keys: 'num_add'},
+        {name: 'Num Lock', code: 'KC_NLCK', keys: 'num'},
+        {name: 'Caps Lock', code: 'KC_CAPS', keys: 'caps_lock', width: 1750},
+        {name: 'Locking Num Lock', code: 'KC_LNUM', keys: 'num'},
         {
           name: 'Locking Caps Lock',
           code: 'KC_LCAP',
           keys: 'caps_lock',
           width: 1750
         },
-        {name: 'Caps Lock', code: 'KC_CAPS', keys: 'caps_lock', width: 1750},
-        {name: 'a', code: 'KC_A', keys: 'a'},
-        {name: 's', code: 'KC_S', keys: 's'},
-        {name: 'd', code: 'KC_D', keys: 'd'},
-        {name: 'f', code: 'KC_F', keys: 'f'},
-        {name: 'g', code: 'KC_G', keys: 'g'},
-        {name: 'h', code: 'KC_H', keys: 'h'},
-        {name: 'j', code: 'KC_J', keys: 'j'},
-        {name: 'k', code: 'KC_K', keys: 'k'},
-        {name: 'l', code: 'KC_L', keys: 'l'},
-        {name: ':\n;', code: 'KC_SCLN', keys: ';'},
-        {name: '"\n\'', code: 'KC_QUOT', keys: "'"},
         {name: 'Enter', code: 'KC_ENT', keys: 'enter', width: 2250},
+        {name: '1', code: 'KC_P1', keys: 'num_1'},
+        {name: '2', code: 'KC_P2', keys: 'num_2'},
+        {name: '3', code: 'KC_P3', keys: 'num_3'},
         {name: '4', code: 'KC_P4', keys: 'num_4'},
         {name: '5', code: 'KC_P5', keys: 'num_5'},
         {name: '6', code: 'KC_P6', keys: 'num_6'},
-        {name: ',', code: 'KC_PCMM'},
+        {name: '7', code: 'KC_P7', keys: 'num_7'},
+        {name: '8', code: 'KC_P8', keys: 'num_8'},
+        {name: '9', code: 'KC_P9', keys: 'num_9'},
+        {name: '0', code: 'KC_P0', width: 2000, keys: 'num_0'},
+        {name: '/', code: 'KC_PSLS', keys: 'num_divide'},
+        {name: '*', code: 'KC_PAST', keys: 'num_multiply'},
+        {name: '-', code: 'KC_PMNS', keys: 'num_subtract'},
+        {name: '+', code: 'KC_PPLS', keys: 'num_add'},
+        {name: '.', code: 'KC_PDOT', keys: 'num_decimal'},
         {
           name: 'Left Shift',
           code: 'KC_LSFT',
@@ -696,23 +1090,9 @@ export function getKeycodes() {
           width: 2250,
           shortName: 'LShft'
         },
-        {name: 'z', code: 'KC_Z', keys: 'z'},
-        {name: 'x', code: 'KC_X', keys: 'x'},
-        {name: 'c', code: 'KC_C', keys: 'c'},
-        {name: 'v', code: 'KC_V', keys: 'v'},
-        {name: 'b', code: 'KC_B', keys: 'b'},
-        {name: 'n', code: 'KC_N', keys: 'n'},
-        {name: 'm', code: 'KC_M', keys: 'm'},
-        {name: '<\n,', code: 'KC_COMM', keys: ','},
-        {name: '>\n.', code: 'KC_DOT', keys: '.'},
-        {name: '?\n/', code: 'KC_SLSH', keys: '/'},
         {name: 'Right Shift', code: 'KC_RSFT', width: 2750, shortName: 'RShft'},
-        {name: 'Up', code: 'KC_UP', keys: 'up', shortName: '↑'},
-        {name: '1', code: 'KC_P1', keys: 'num_1'},
-        {name: '2', code: 'KC_P2', keys: 'num_2'},
-        {name: '3', code: 'KC_P3', keys: 'num_3'},
-        {name: '=', code: 'KC_PEQL'},
         {name: 'Left Ctrl', code: 'KC_LCTL', keys: 'ctrl', width: 1250},
+        {name: 'Right Ctrl', code: 'KC_RCTL', width: 1250, shortName: 'RCtl'},
         {
           name: 'Left OS',
           code: 'KC_LGUI',
@@ -720,6 +1100,7 @@ export function getKeycodes() {
           width: 1250,
           shortName: 'LOS'
         },
+        {name: 'Right OS', code: 'KC_RGUI', width: 1250, shortName: 'ROS'},
         {
           name: 'Left Alt',
           code: 'KC_LALT',
@@ -727,16 +1108,13 @@ export function getKeycodes() {
           width: 1250,
           shortName: 'LAlt'
         },
-        {name: 'Space', code: 'KC_SPC', keys: 'space', width: 6250},
         {name: 'Right Alt', code: 'KC_RALT', width: 1250, shortName: 'RAlt'},
-        {name: 'Right OS', code: 'KC_RGUI', width: 1250, shortName: 'ROS'},
+        {name: 'Space', code: 'KC_SPC', keys: 'space', width: 6250},
         {name: 'Menu', code: 'KC_APP', width: 1250, shortName: 'RApp'},
-        {name: 'Right Ctrl', code: 'KC_RCTL', width: 1250, shortName: 'RCtl'},
         {name: 'Left', code: 'KC_LEFT', keys: 'left', shortName: '←'},
         {name: 'Down', code: 'KC_DOWN', keys: 'down', shortName: '↓'},
+        {name: 'Up', code: 'KC_UP', keys: 'up', shortName: '↑'},
         {name: 'Right', code: 'KC_RGHT', keys: 'right', shortName: '→'},
-        {name: '0', code: 'KC_P0', width: 2000, keys: 'num_0'},
-        {name: '.', code: 'KC_PDOT', keys: 'num_decimal'},
         {name: 'Enter', code: 'KC_PENT', keys: 'num_enter'}
       ]
     },
@@ -986,31 +1364,6 @@ export function getKeycodes() {
         {name: 'Refresh', code: 'KC_WWW_REFRESH'},
         {name: 'Favorites', code: 'KC_WWW_FAVORITES'},
         {name: 'Search', code: 'KC_WWW_SEARCH'}
-      ]
-    },
-    {
-      label: 'Magic',
-      width: 'label',
-      keycodes: [
-        {name: 'Swap C/Caps', code: 'MAGIC_SWAP_CONTROL_CAPSLOCK'},
-        {name: 'Caps>C', code: 'MAGIC_CAPSLOCK_TO_CONTROL'},
-        {name: 'Swap LA/LO', code: 'MAGIC_SWAP_LALT_LGUI'},
-        {name: 'Swap RA/RO', code: 'MAGIC_SWAP_RALT_RGUI'},
-        {name: 'No O', code: 'MAGIC_NO_GUI'},
-        {name: 'Swap `/Esc', code: 'MAGIC_SWAP_GRAVE_ESC'},
-        {name: 'Swap \\/BS', code: 'MAGIC_SWAP_BACKSLASH_BACKSPACE'},
-        {name: 'NKRO', code: 'MAGIC_HOST_NKRO'},
-        {name: 'Swap A/O', code: 'MAGIC_SWAP_ALT_GUI'},
-        {name: 'Rev C/Caps', code: 'MAGIC_UNSWAP_CONTROL_CAPSLOCK'},
-        {name: 'Rev Caps>C', code: 'MAGIC_UNCAPSLOCK_TO_CONTROL'},
-        {name: 'Rev LA/LO', code: 'MAGIC_UNSWAP_LALT_LGUI'},
-        {name: 'Rev RA/RO', code: 'MAGIC_UNSWAP_RALT_RGUI'},
-        {name: 'Rev No O', code: 'MAGIC_UNNO_GUI'},
-        {name: 'Rev `/Esc', code: 'MAGIC_UNSWAP_GRAVE_ESC'},
-        {name: 'Rev \\/BS', code: 'MAGIC_UNSWAP_BACKSLASH_BACKSPACE'},
-        {name: 'Rev NKRO', code: 'MAGIC_UNHOST_NKRO'},
-        {name: 'Rev A/O', code: 'MAGIC_UNSWAP_ALT_GUI'},
-        {name: 'Togg NKRO', code: 'MAGIC_TOGGLE_NKRO'}
       ]
     },
     {

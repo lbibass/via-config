@@ -5,7 +5,7 @@ import styles from './Home.css';
 import {Key} from './Key';
 import {Keyboard} from './keyboard';
 import {KeycodeMenu} from './keycode-menu';
-import {getByteForCode, getKeycodes} from '../utils/key';
+import {mapEvtToKeycode, getByteForCode, getKeycodes} from '../utils/key';
 import {getKeyboardFromDevice, getKeyboards} from '../utils/hid-keyboards';
 import {MatrixLayout} from '../utils/layout-parser';
 import {KeyboardAPI} from '../utils/keyboard-api';
@@ -30,6 +30,7 @@ export default class Home extends Component<Props, {}> {
 
   constructor() {
     super();
+    this.handleKeys = this.handleKeys.bind(this);
     const keyboards = getKeyboards();
     const firstKeyboard = keyboards[0] || null;
     if (firstKeyboard) {
@@ -59,10 +60,18 @@ export default class Home extends Component<Props, {}> {
     const updateDevices = timeoutRepeater(() => this.updateDevices(), 500, 10);
     usbDetect.on('change', updateDevices);
     updateDevices();
+    document.body.addEventListener('keydown', this.handleKeys);
   }
 
   componentWillUnmount() {
     usbDetect.off('change');
+    document.body.removeEventListener('keydown', this.handleKeys);
+  }
+
+  handleKeys(evt) {
+    if (this.state.selectedKey) {
+      this.updateSelectedKey(getByteForCode(mapEvtToKeycode(evt)));
+    }
   }
 
   clearSelectedKey(evt) {
