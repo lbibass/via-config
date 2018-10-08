@@ -1,10 +1,5 @@
-.menuContainer {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background: #eaeaea;
+.menu {
   position: relative;
-  box-shadow: inset #a7a7a7 0 1px 1px;
 }
 
 .keycodes {
@@ -72,7 +67,7 @@
 }
 
 .keycodeDesc {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   width: 100%;

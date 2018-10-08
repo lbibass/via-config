@@ -57,7 +57,7 @@ export default class Home extends Component<Props, {}> {
   }
 
   componentDidMount() {
-    const updateDevices = timeoutRepeater(() => this.updateDevices(), 500, 10);
+    const updateDevices = timeoutRepeater(() => this.updateDevices(), 500, 5);
     usbDetect.on('change', updateDevices);
     updateDevices();
     document.body.addEventListener('keydown', this.handleKeys);
@@ -281,10 +281,12 @@ export default class Home extends Component<Props, {}> {
   }
 
   getLayerMatrix(selectedKeyboard, selectedLayer) {
-    const deviceMatrixKeycodes = this.state.matrixKeycodes[
-      selectedKeyboard.path
-    ] || [[], [], [], []];
-    return deviceMatrixKeycodes[selectedLayer];
+    if (selectedKeyboard) {
+      const deviceMatrixKeycodes = this.state.matrixKeycodes[
+        selectedKeyboard.path
+      ] || [[], [], [], []];
+      return deviceMatrixKeycodes[selectedLayer];
+    }
   }
 
   updateLayer(activeLayer) {
@@ -322,8 +324,10 @@ export default class Home extends Component<Props, {}> {
           nextKeyboard={() => this.offsetKeyboard(1)}
         />
         <div className={styles.container} data-tid="container">
-          {this.renderDebug(false)}
-          {this.renderMenu(selectedTitle)}
+          <div class={styles.menuContainer}>
+            {this.renderDebug(false)}
+            {this.renderMenu(selectedTitle)}
+          </div>
         </div>
       </div>
     );

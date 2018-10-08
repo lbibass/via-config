@@ -18,13 +18,13 @@
   user-select: none;
 }
 
-.menuContainer {
+.menu {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #eaeaea;
   position: relative;
-  box-shadow: inset #a7a7a7 0 1px 1px;
+  width: 1000px;
+  margin: 0 auto;
 }
 
 .selected {

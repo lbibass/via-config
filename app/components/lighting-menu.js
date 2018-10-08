@@ -43,7 +43,7 @@ export class LightingMenu extends Component {
 
   render() {
     return (
-      <div className={styles.menuContainer}>
+      <div className={styles.menu}>
         {this.renderCategories()}
         <input
           type="range"

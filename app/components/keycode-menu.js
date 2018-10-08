@@ -43,7 +43,7 @@ export class KeycodeMenu extends Component {
     ).keycodes;
 
     return (
-      <div className={styles.menuContainer}>
+      <div className={styles.menu}>
         {this.renderCategories()}
         <div className={styles.keycodeDesc}>{mouseOverDesc}</div>
         <div className={styles.keycodes}>
