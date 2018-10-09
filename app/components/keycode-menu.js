@@ -67,7 +67,7 @@ export class KeycodeMenu extends Component {
                 }}
                 onMouseOut={_ => this.setState({mouseOverDesc: null})}
               >
-                {name}
+                <div className={styles.innerKeycode}>{name}</div>
               </div>
             ))}
           </div>

@@ -264,7 +264,7 @@ export const basicKeyToByte = {
   KC_CANCEL: 0x009b,
   KC_CLEAR: 0x009c,
   KC_PRIOR: 0x009d,
-  KC_SEPARATOR: 0x009f,
+  //KC_SEPARATOR: 0x009f,
   KC_OUT: 0x00a0,
   KC_OPER: 0x00a1,
   KC_CLEAR_AGAIN: 0x00a2,
@@ -452,18 +452,28 @@ export function keycodeInMaster(keycode) {
 }
 
 function shorten(str) {
-  return str.replace(/[aeiou ]/gi, '');
+  return str
+    .split(' ')
+    .map(word => word.slice(0, 1) + word.slice(1).replace(/[aeiou ]/gi, ''))
+    .join('');
 }
 
 export function getLabelForByte(byte, size = 100) {
   const keycode = byteToKey[byte];
   const basicKeycode = keycodesList.find(({code}) => code === keycode);
   if (basicKeycode) {
-    const {name, shortName} = basicKeycode;
+    const {code, name, shortName} = basicKeycode;
     if (size <= 150 && shortName) {
       return shortName;
     }
-    return size === 100 && name.length > 5 ? shorten(name) : name;
+    if (size === 100 && name.length > 5) {
+      const shortenedName = shorten(name);
+      const shortCode = code.replace('KC_', '').replace('_', ' ');
+      return shortenedName.length > 4 && shortCode.length < shortenedName.length
+        ? shortCode
+        : shortenedName;
+    }
+    return name;
   } else if (keycode) {
     console.log(`Add map for ${keycode}`);
     return keycode
@@ -1036,7 +1046,7 @@ export function getKeycodes() {
         {name: 'F11', code: 'KC_F11'},
         {name: 'F12', code: 'KC_F12'},
         {name: 'Print Screen', code: 'KC_PSCR', shortName: 'Print'},
-        {name: 'Locking Scroll Lock', code: 'KC_LSCR', shortName: 'Scroll'},
+        {name: 'Locking Scroll Lock', code: 'KC_LSCR'},
         {name: 'Scroll Lock', code: 'KC_SLCK', shortName: 'Scroll'},
         {name: 'Pause', code: 'KC_PAUS'},
         {name: 'Tab', code: 'KC_TAB', keys: 'tab', width: 1500},
@@ -1374,7 +1384,7 @@ export function getKeycodes() {
         {name: 'BL +', code: 'BL_INC'},
         {name: 'BL -', code: 'BL_DEC'},
         {name: 'BL On', code: 'BL_ON'},
-        {name: 'BL Off', code: 'BL_OFF'},
+        {name: 'BL Off', code: 'BL_OFF', shortName: 'BL Off'},
         {name: 'BL Cycle', code: 'BL_STEP'},
         {name: 'BR Toggle', code: 'BL_BRTG'},
         {name: 'BR +', code: 'BR_INC'},
