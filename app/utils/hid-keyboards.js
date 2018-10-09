@@ -47,16 +47,14 @@ function isValidVendorProduct({productId, vendorId}) {
 }
 
 const hid_device = {
-  [0x5241006a]: {name: 'M6A', layout: M6A, rows: 2, cols: 3},
-  [0x5241006b]: {name: 'M6B', layout: M6B, rows: 2, cols: 3},
+  [0x5241006a]: {name: 'M6A', layout: M6A},
+  [0x5241006b]: {name: 'M6B', layout: M6B},
   [0xfeed6065]: {
     name: 'ZEAL65',
-    layout: LAYOUT_zeal65_split_bs_olivia,
-    rows: 5,
-    cols: 15
+    layout: LAYOUT_zeal65_split_bs_olivia
   },
-  [0xfeed6060]: {name: 'ZEAL60', layout: LAYOUT_zeal60_all, rows: 5, cols: 14},
-  [0x5241060a]: {name: 'M60A', layout: M60_A, rows: 5, cols: 14}
+  [0xfeed6060]: {name: 'ZEAL60', layout: LAYOUT_zeal60_all},
+  [0x5241060a]: {name: 'M60A', layout: M60_A}
 };
 
 export function getKeyboardFromDevice({productId, vendorId}) {
