@@ -35,7 +35,6 @@ export class Key extends Component<Props> {
       2,
       '0'
     )}`;
-    console.log(res);
     return res;
   }
 

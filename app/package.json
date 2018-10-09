@@ -1,8 +1,13 @@
 {
   "name": "via-config",
   "productName": "via-config",
+<<<<<<< HEAD
   "version": "0.2.0",
   "description": "Yet another keyboard configurator",
+=======
+  "version": "0.1.1",
+  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+>>>>>>> 180a76c... Bump to 0.1.1
   "main": "./main.prod.js",
   "author": {
     "name": "Olivia B",
