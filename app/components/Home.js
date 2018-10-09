@@ -248,6 +248,7 @@ export default class Home extends Component<Props, {}> {
         matrixKeycodes
       );
       const key = await api.setKey(activeLayer, row, col, value);
+      this.keyboard.overlay.animateSuccess();
       if (key !== value) {
         this.setKeyInMatrix(
           key,
@@ -374,6 +375,7 @@ export default class Home extends Component<Props, {}> {
         />
         <Keyboard
           activeLayer={activeLayer}
+          ref={keyboard => (this.keyboard = keyboard)}
           detected={detected}
           selectedKey={selectedKey}
           selectedKeyboard={selectedKeyboard}

@@ -175,6 +175,7 @@ export class Keyboard extends Component {
             activeLayer={activeLayer}
           />
           <KeyOverlay
+            ref={overlay => (this.overlay = overlay)}
             device={device}
             matrixLayout={matrixLayout}
             matrixKeycodes={matrixKeycodes}

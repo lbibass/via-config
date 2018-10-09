@@ -4,6 +4,17 @@ import {KeyboardAPI} from '../utils/keyboard-api';
 import {getKeycodeForByte} from '../utils/key';
 
 export class KeyOverlay extends Component {
+  animateSuccess() {
+    this.el.animate(
+      [
+        {background: 'black', easing: 'ease-out'},
+        {background: '#98b79a', easing: 'ease-out'},
+        {background: 'black', easing: 'ease-out'}
+      ],
+      {duration: 600}
+    );
+  }
+
   render() {
     const {
       device,
@@ -18,6 +29,7 @@ export class KeyOverlay extends Component {
       const keycode = matrixKeycodes[sKey];
       return (
         <div
+          ref={el => (this.el = el)}
           className={[!!selectedKey && styles.selected, styles.keyOverlay].join(
             ' '
           )}
