@@ -23,16 +23,17 @@ export class KeyOverlay extends Component {
       selectedKey,
       useMatrixKeycodes
     } = this.props;
-    if (selectedKey) {
-      const sKey = parseInt(selectedKey);
+    if (selectedKey !== null) {
+      const sKey = selectedKey;
       const {row, col} = matrixLayout[sKey];
       const keycode = matrixKeycodes[sKey];
       return (
         <div
           ref={el => (this.el = el)}
-          className={[!!selectedKey && styles.selected, styles.keyOverlay].join(
-            ' '
-          )}
+          className={[
+            selectedKey !== null && styles.selected,
+            styles.keyOverlay
+          ].join(' ')}
         >
           {getKeycodeForByte(keycode)}
         </div>

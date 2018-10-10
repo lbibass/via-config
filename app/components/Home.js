@@ -83,7 +83,7 @@ export default class Home extends Component<Props, {}> {
   }
 
   handleKeys(evt) {
-    if (this.state.selectedKey) {
+    if (this.state.selectedKey !== null) {
       this.updateSelectedKey(getByteForCode(mapEvtToKeycode(evt)));
     }
   }
@@ -239,9 +239,9 @@ export default class Home extends Component<Props, {}> {
     } = this.state;
     const api = this.getAPI(selectedKeyboard);
     const matrixLayout = this.getMatrix(selectedKeyboard);
-    const numSelectedKey = parseInt(selectedKey);
+    const numSelectedKey = selectedKey;
 
-    if (api && selectedKey && selectedKeyboard) {
+    if (api && selectedKey != null && selectedKeyboard) {
       const {row, col} = matrixLayout[numSelectedKey];
       //Optimistically set
       this.setKeyInMatrix(
