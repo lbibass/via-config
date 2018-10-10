@@ -114,6 +114,7 @@ export default class Home extends Component<Props, {}> {
           keyboards,
           selectedKeyboard,
           selectedKey: null,
+          connected: false,
           detected: true,
           activeLayer: 0,
           matrixKeycodes: {
