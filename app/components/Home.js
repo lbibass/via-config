@@ -400,7 +400,7 @@ export default class Home extends Component<Props, {}> {
           nextKeyboard={() => this.offsetKeyboard(1)}
         />
         <div className={styles.container} data-tid="container">
-          <div class={styles.menuContainer}>
+          <div className={styles.menuContainer}>
             {this.renderDebug(false)}
             {this.renderMenu(selectedTitle)}
           </div>

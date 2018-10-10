@@ -42,10 +42,8 @@ export const LAYOUT_zeal65_split_bs_olivia = `[{c:"#DEBFB3",t:"#363636"},"Esc",{
 
 export function parseKLERaw(kle: string) {
   const kleArr = kle.split(',\n');
-  console.log(kleArr);
   return kleArr.reduce(
     (prev, kle) => {
-      console.log('kl', prev);
       const row = kle
         .replace(/\n/g, '\\n')
         .replace(/\\/g, '\\\\')

@@ -27,15 +27,16 @@ export class Keyboard extends Component {
     }
   }
 
-  chooseKey({c, t, label, size, margin}, idx: string, useMatrixKeycodes) {
+  chooseKey({c, t, label, size, margin}, idx, useMatrixKeycodes) {
     const {matrixKeycodes = [], selectedKey, setSelectedKey} = this.props;
+    const key = `${idx}`;
     const onClick = evt => {
       evt.stopPropagation();
       setSelectedKey(idx);
     };
 
     if (useMatrixKeycodes) {
-      const byte = matrixKeycodes[parseInt(idx)];
+      const byte = matrixKeycodes[idx];
       label = byte ? getLabelForByte(byte, size) : '';
     }
 
@@ -43,7 +44,7 @@ export class Keyboard extends Component {
       return (
         label && (
           <Key
-            key={idx}
+            key={key}
             label={label.toUpperCase()}
             size={size}
             c={c}
@@ -58,7 +59,7 @@ export class Keyboard extends Component {
       return (
         label && (
           <Key
-            key={idx}
+            key={key}
             label={label.toUpperCase()}
             size={size}
             c={c}
@@ -76,7 +77,7 @@ export class Keyboard extends Component {
         topLabel &&
         bottomLabel && (
           <Key
-            key={idx}
+            key={key}
             topLabel={topLabel}
             bottomLabel={bottomLabel}
             c={c}
@@ -91,7 +92,7 @@ export class Keyboard extends Component {
     } else {
       return (
         <CenterKey
-          key={idx}
+          key={key}
           label={label}
           indent={margin}
           c={c}
@@ -150,9 +151,9 @@ export class Keyboard extends Component {
             ].join(' ')}
           >
             {selectedLayout.map((arr, row) => (
-              <div className={styles.row}>
+              <div key={row} className={styles.row}>
                 {arr.map((key, column) =>
-                  this.chooseKey(key, `${keyCounter++}`, useMatrixKeycodes)
+                  this.chooseKey(key, keyCounter++, useMatrixKeycodes)
                 )}
               </div>
             ))}
