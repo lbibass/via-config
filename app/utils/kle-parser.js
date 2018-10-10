@@ -16,8 +16,8 @@ export const M60_A = `[{c:"#4d525a",t:"#e2e2e2"},"Esc",{c:"#e2e2e2",t:"#4d525a"}
 [{w:2.25},"Shift",{c:"#e2e2e2",t:"#363636"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#4d525a",t:"#e2e2e2",w:1.75},"Shift",{c:"#f5cb01",t:"#4d525a"},"Fn"],
 [{x:1.5,c:"#4d525a",t:"#e2e2e2"},"Alt",{w:1.5},"Meta",{c:"#e2e2e2",t:"#4d525a",a:7,w:6.25},"",{c:"#4d525a",t:"#e2e2e2",a:4,w:1.5},"Meta","Alt"]`;
 
-export const M6A = `["Q","W","E"],
-["Z","X","C"]`;
+export const M6A = `[{c:"#505557",t:"#d9d7d7",a:7},"x","x","x"],
+["x","x","x"]`;
 
 export const M6B = `["Q","W","E"],
 ["Z","X","C"]`;

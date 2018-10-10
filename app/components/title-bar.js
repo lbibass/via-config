@@ -16,8 +16,8 @@ export class TitleBar extends Component {
     return (keyboard && keyboard.name) || 'M60A';
   }
 
-  getTitlesForKeyboard(name) {
-    if (name === 'M6A') {
+  getTitlesForKeyboard(keyboard) {
+    if (!keyboard.lights) {
       return [Title.KEYS];
     } else {
       return [Title.KEYS, Title.LIGHTING];
@@ -26,7 +26,6 @@ export class TitleBar extends Component {
 
   render() {
     const {selectedTitle} = this.props;
-    const titles = [Title.KEYS, Title.LIGHTING];
 
     return (
       <div className={styles.titleBarContainer}>
@@ -36,7 +35,7 @@ export class TitleBar extends Component {
               <div key="kbname" className={styles.kbName}>
                 {this.getKeyboardName()}
               </div>,
-              this.getTitlesForKeyboard(this.getKeyboardName()).map(title => (
+              this.getTitlesForKeyboard(this.props.getKeyboard()).map(title => (
                 <div
                   onClick={_ => this.props.setSelectedTitle(title)}
                   key={title}

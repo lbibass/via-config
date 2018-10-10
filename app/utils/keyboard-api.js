@@ -141,6 +141,7 @@ export class KeyboardAPI {
     const buffer = await this.getByteBuffer(kbAddr);
     const bufferCommandBytes = buffer.slice(0, commandBytes.length - 1);
     if (!eqArr(commandBytes.slice(1), bufferCommandBytes)) {
+      console.error('Command:', commandBytes, ' Resp:', buffer);
       throw 'Receiving incorrect response for command';
     }
     return buffer;

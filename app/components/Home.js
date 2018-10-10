@@ -36,7 +36,8 @@ export default class Home extends Component<Props, {}> {
     if (firstKeyboard) {
       this.state = {
         keyboards,
-        detected: false,
+        connected: false,
+        detected: true,
         selectedKeyboard: firstKeyboard,
         selectedKey: null,
         selectedTitle: Title.KEYS,
@@ -48,6 +49,7 @@ export default class Home extends Component<Props, {}> {
     } else {
       this.state = {
         keyboards,
+        connected: false,
         detected: false,
         selectedKeyboard: null,
         selectedKey: null,
@@ -71,11 +73,11 @@ export default class Home extends Component<Props, {}> {
   }
 
   async checkIfDetected(selectedKeyboard) {
-    this.setState({detected: false});
+    this.setState({connected: false});
     if (selectedKeyboard && selectedKeyboard.path) {
       const res = await this.getAPI(selectedKeyboard).getProtocolVersion();
       if (res === 7) {
-        this.setState({detected: true});
+        this.setState({connected: true});
       }
     }
   }
@@ -112,6 +114,7 @@ export default class Home extends Component<Props, {}> {
           keyboards,
           selectedKeyboard,
           selectedKey: null,
+          detected: true,
           activeLayer: 0,
           matrixKeycodes: {
             ...this.state.matrixKeycodes,
@@ -125,6 +128,7 @@ export default class Home extends Component<Props, {}> {
         this.setState({
           keyboards,
           selectedKeyboard: undefined,
+          detected: false,
           selectedKey: null,
           activeLayer: 0,
           selectedTitle: null
@@ -271,7 +275,8 @@ export default class Home extends Component<Props, {}> {
 
   async toggleLights(selectedKeyboard) {
     const api = this.getAPI(selectedKeyboard);
-    if (api) {
+    const keyboard = getKeyboardFromDevice(selectedKeyboard);
+    if (api && keyboard.lights) {
       const [, , val] = await api.getRGBMode();
       const newVal = val === 9 ? 0 : 9;
       await api.setRGBMode(newVal);
@@ -335,6 +340,8 @@ export default class Home extends Component<Props, {}> {
       this.setState({
         selectedKeyboard,
         selectedKey: null,
+        detected: true,
+        connected: false,
         activeLayer: 0
       });
       await this.checkIfDetected(selectedKeyboard);
@@ -360,6 +367,7 @@ export default class Home extends Component<Props, {}> {
   render() {
     const {
       activeLayer,
+      connected,
       detected,
       selectedKey,
       matrixKeycodes,
@@ -376,6 +384,7 @@ export default class Home extends Component<Props, {}> {
         <Keyboard
           activeLayer={activeLayer}
           ref={keyboard => (this.keyboard = keyboard)}
+          connected={connected}
           detected={detected}
           selectedKey={selectedKey}
           selectedKeyboard={selectedKeyboard}

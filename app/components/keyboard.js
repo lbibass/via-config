@@ -126,6 +126,7 @@ export class Keyboard extends Component {
       selectedKey,
       selectedKeyboard,
       selectedTitle,
+      connected,
       detected,
       clearSelectedKey,
       updateLayer,
@@ -144,6 +145,7 @@ export class Keyboard extends Component {
           <div
             className={[
               styles.keyboard,
+              connected && styles.connected,
               (detected || OVERRIDE_DETECT) && styles.detected
             ].join(' ')}
           >
