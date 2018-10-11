@@ -114,7 +114,7 @@ export class Keyboard extends Component {
 
   getDevice() {
     const {selectedKeyboard} = this.props;
-    const fakeDevice = {vendorId: 0x5241, productId: 0x060a}; //M60A
+    const fakeDevice = {vendorId: 0xfeed, productId: 0x6060}; //ZEAL60
     if (OVERRIDE_DETECT) {
       return selectedKeyboard || fakeDevice;
     }
