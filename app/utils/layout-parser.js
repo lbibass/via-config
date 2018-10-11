@@ -1,4 +1,4 @@
-export const M6A_LAYOUT = `
+export const MATRIX_M6_A = `
 #define LAYOUT(                         \
     K00, K01, K02, K03, K04, K05)       \
     {                                   \
@@ -6,7 +6,15 @@ export const M6A_LAYOUT = `
     }
 `;
 
-export const M60A_LAYOUT = `
+export const MATRIX_M6_B = `
+#define LAYOUT(                         \
+    K00, K01, K02, K03, K04, K05)       \
+    {                                   \
+        {K00, K01, K02, K03, K04, K05}, \
+    }
+`;
+
+export const MATRIX_M60_A = `
 #define LAYOUT_60_hhkb( \
     K00, K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, K0B, K0C, K0D, K2D, \
     K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, K1B, K1C, K1D, \
@@ -22,39 +30,7 @@ export const M60A_LAYOUT = `
 }
 `;
 
-export const ZEAL65_BS_LAYOUT = `
-#define LAYOUT_65_split_bs( \
-    K00, K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, K0B, K0C, K0D, K2D, K0E, \
-    K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, K1B, K1C, K1D, K1E, \
-    K20, K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A, K2B, K2C,      K2E, \
-    K30,      K32, K33, K34, K35, K36, K37, K38, K39, K3A, K3B, K3C, K3D, K3E, \
-    K40, K41,                          K47,           K4A, K4B, K4C, K4D, K4E  \
-) { \
-    { K00, K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, K0B, K0C, K0D, K0E }, \
-    { K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, K1B, K1C, K1D, K1E }, \
-    { K20, K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A, K2B, K2C, K2D, K2E }, \
-    { K30, XXX, K32, K33, K34, K35, K36, K37, K38, K39, K3A, K3B, K3C, K3D, K3E }, \
-    { K40, K41, XXX, XXX, XXX, XXX, XXX, K47, XXX, XXX, K4A, K4B, K4C, K4D, K4E }  \
-}
-`;
-
-export const ZEAL65_NORMAL_LAYOUT = `
-#define LAYOUT_65_normie( \
-    K00, K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, K0B, K0C, K0D, K0E, \
-    K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, K1B, K1C, K1D, K1E, \
-    K20, K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A, K2B, K2C,      K2E, \
-    K30,      K32, K33, K34, K35, K36, K37, K38, K39, K3A, K3B, K3C, K3D, K3E, \
-    K40, K41,                          K47,           K4A, K4B, K4C, K4D, K4E  \
-) { \
-    { K00, K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, K0B, K0C, K0D, K0E }, \
-    { K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, K1B, K1C, K1D, K1E }, \
-    { K20, K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A, K2B, K2C, XXX, K2E }, \
-    { K30, XXX, K32, K33, K34, K35, K36, K37, K38, K39, K3A, K3B, K3C, K3D, K3E }, \
-    { K40, K41, XXX, XXX, XXX, XXX, XXX, K47, XXX, XXX, K4A, K4B, K4C, K4D, K4E }  \
-}
-`;
-
-export const ZEAL60_LAYOUT_60_ALL = `
+export const MATRIX_ZEAL60 = `
 #define LAYOUT_60_all( \
     K00, K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, K0B, K0C, K0D, K2D, \
     K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, K1B, K1C, K1D, \
@@ -67,6 +43,22 @@ export const ZEAL60_LAYOUT_60_ALL = `
     { K20, K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A, K2B, K2C, K2D }, \
     { K30, K31, K32, K33, K34, K35, K36, K37, K38, K39, K3A, K3B, K3C, K3D }, \
     { K40, K41, K42, XXX, XXX, XXX, XXX, K47, XXX, XXX, K4A, K4B, K4C, K4D }  \
+}
+`;
+
+export const MATRIX_ZEAL65 = `
+#define LAYOUT_65_split_bs( \
+    K00, K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, K0B, K0C, K0D, K2D, K0E, \
+    K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, K1B, K1C, K1D, K1E, \
+    K20, K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A, K2B, K2C,      K2E, \
+    K30,      K32, K33, K34, K35, K36, K37, K38, K39, K3A, K3B, K3C, K3D, K3E, \
+    K40, K41,                          K47,           K4A, K4B, K4C, K4D, K4E  \
+) { \
+    { K00, K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, K0B, K0C, K0D, K0E }, \
+    { K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, K1B, K1C, K1D, K1E }, \
+    { K20, K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A, K2B, K2C, K2D, K2E }, \
+    { K30, XXX, K32, K33, K34, K35, K36, K37, K38, K39, K3A, K3B, K3C, K3D, K3E }, \
+    { K40, K41, XXX, XXX, XXX, XXX, XXX, K47, XXX, XXX, K4A, K4B, K4C, K4D, K4E }  \
 }
 `;
 
@@ -85,10 +77,11 @@ const LS = {
 };
 
 export const MatrixLayout = {
-  M60A: parseLayout(M60A_LAYOUT),
-  M6A: parseLayout(M6A_LAYOUT),
-  ZEAL60: parseLayout(ZEAL60_LAYOUT_60_ALL),
-  ZEAL65: parseLayout(ZEAL65_BS_LAYOUT)
+  'RAMA WORKS M6-A': parseLayout(MATRIX_M6_A),
+  'RAMA WORKS M6-B': parseLayout(MATRIX_M6_B),
+  'RAMA WORKS M60-A': parseLayout(MATRIX_M60_A),
+  'ZEAL60': parseLayout(MATRIX_ZEAL60),
+  'ZEAL65': parseLayout(MATRIX_ZEAL65)
 };
 
 function error(state, nextToken) {

@@ -1055,7 +1055,7 @@ export function getKeycodes() {
           code: 'KC_BSPC',
           keys: 'backspace',
           width: 2000,
-          shortName: '⌫'
+          shortName: 'Bksp'
         },
         {name: 'Insert', code: 'KC_INS', keys: 'insert', shortName: 'Ins'},
         {name: 'Del', code: 'KC_DEL', keys: 'delete'},

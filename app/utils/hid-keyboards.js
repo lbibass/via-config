@@ -1,10 +1,10 @@
 import {
-  M6A,
-  M6B,
-  M60_A,
+  parseKLERaw,
+  LAYOUT_M6_A,
+  LAYOUT_M6_B,
+  LAYOUT_M60_A,
   LAYOUT_zeal60_all,
   LAYOUT_zeal65_split_bs,
-  parseKLERaw,
   LAYOUT_zeal65_split_bs_olivia
 } from './kle-parser';
 
@@ -35,11 +35,11 @@ function isValidInterfaceOSX({usage, usagePage}) {
 
 function isValidVendorProduct({productId, vendorId}) {
   const VALID_VENDOR_PRODUCT_IDS = [
-    0xfeed6060,
-    0xfeed6065,
-    0x5241006a,
-    0x5241006b,
-    0x5241060a
+    0x5241006a, // RAMA WORKS M6-A
+    0x5241006b, // RAMA WORKS M6-B
+    0x5241060a, // RAMA WORKS M60-A
+    0xfeed6060, // Zeal60
+    0xfeed6065  // Zeal65
   ];
   // JS bitwise operations is only 32-bit so we lose numbers if we shift too high
   const vendorProductId = vendorId * 65536 + productId;
@@ -47,15 +47,31 @@ function isValidVendorProduct({productId, vendorId}) {
 }
 
 const hid_device = {
-  [0x5241006a]: {name: 'M6A', layout: M6A, lights: false},
-  [0x5241006b]: {name: 'M6B', layout: M6B, lights: true},
+  [0x5241006a]: {
+    name: 'RAMA WORKS M6-A',
+    layout: LAYOUT_M6_A,
+    lights: false
+  },
+  [0x5241006b]: {
+    name: 'RAMA WORKS M6-B',
+    layout: LAYOUT_M6_B,
+    lights: true
+  },
+  [0x5241060a]: {
+    name: 'RAMA WORKS M60-A',
+    layout: LAYOUT_M60_A,
+    lights: true
+  },
+  [0xfeed6060]: {
+    name: 'ZEAL60',
+    layout: LAYOUT_zeal60_all,
+    lights: true
+  },
   [0xfeed6065]: {
     name: 'ZEAL65',
     layout: LAYOUT_zeal65_split_bs_olivia,
     lights: true
-  },
-  [0xfeed6060]: {name: 'ZEAL60', layout: LAYOUT_zeal60_all, lights: true},
-  [0x5241060a]: {name: 'M60A', layout: M60_A, lights: true}
+  }
 };
 
 export function getKeyboardFromDevice({productId, vendorId}) {
