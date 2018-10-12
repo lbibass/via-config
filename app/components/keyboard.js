@@ -17,6 +17,7 @@ import {
   isNumericSymbol,
   isNumericOrShiftedSymbol
 } from '../utils/key';
+import {THEMES} from '../utils/themes';
 import {OVERRIDE_DETECT} from '../utils/override';
 
 export class Keyboard extends Component {
@@ -27,13 +28,21 @@ export class Keyboard extends Component {
     }
   }
 
-  chooseKey({c, t, label, size, margin}, idx, useMatrixKeycodes) {
+  chooseKey(
+    {c, t, label, size, margin},
+    idx,
+    useMatrixKeycodes,
+    colorMap,
+    theme = THEMES.PBT_HEAVY_INDUSTRY
+  ) {
     const {matrixKeycodes = [], selectedKey, setSelectedKey} = this.props;
+    const themeColors = theme[colorMap[`${c}:${t}`]];
     const key = `${idx}`;
     const onClick = evt => {
       evt.stopPropagation();
       setSelectedKey(idx);
     };
+    ({c, t} = themeColors);
 
     if (useMatrixKeycodes) {
       const byte = matrixKeycodes[idx];
@@ -136,7 +145,7 @@ export class Keyboard extends Component {
     const device = this.getDevice();
     if (device) {
       const keyboard = getKeyboardFromDevice(device);
-      const selectedLayout = getLayoutFromDevice(device);
+      const {res: selectedLayout, colorMap} = getLayoutFromDevice(device);
       const matrixLayout = MatrixLayout[keyboard.name];
       const showLayer = selectedTitle === Title.KEYS;
       const useMatrixKeycodes = this.useMatrixKeycodes() && matrixKeycodes;
@@ -153,7 +162,7 @@ export class Keyboard extends Component {
             {selectedLayout.map((arr, row) => (
               <div key={row} className={styles.row}>
                 {arr.map((key, column) =>
-                  this.chooseKey(key, keyCounter++, useMatrixKeycodes)
+                  this.chooseKey(key, keyCounter++, useMatrixKeycodes, colorMap)
                 )}
               </div>
             ))}

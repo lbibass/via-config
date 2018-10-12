@@ -1,8 +1,8 @@
-export const LAYOUT_M60_A = `[{c:"#4d525a",t:"#e2e2e2"},"Esc",{c:"#e2e2e2",t:"#4d525a"},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=","|\n\\",{c:"#4d525a",t:"#e2e2e2"},"n"],
+export const LAYOUT_M60_A = `[{c:"#4d525a",t:"#e2e2e2"},"Esc",{c:"#e2e2e2",t:"#363636"},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=","|\n\\",{c:"#4d525a",t:"#e2e2e2"},"n"],
 [{w:1.5},"Tab",{c:"#e2e2e2",t:"#363636"},"Q","W","E","R","T","Y","U","I","O","P","{\n[","}\n]",{c:"#4d525a",t:"#e2e2e2",w:1.5},"Backspace"],
 [{c:"#f5cb01",t:"#4d525a",w:1.75},"Control",{c:"#e2e2e2",t:"#363636"},"A","S","D","F","G","H","J","K","L",":\n;","\"\n'",{c:"#4d525a",t:"#e2e2e2",w:2.25},"Enter"],
 [{w:2.25},"Shift",{c:"#e2e2e2",t:"#363636"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#4d525a",t:"#e2e2e2",w:1.75},"Shift",{c:"#f5cb01",t:"#4d525a"},"Fn"],
-[{x:1.5,c:"#4d525a",t:"#e2e2e2"},"Alt",{w:1.5},"Meta",{c:"#e2e2e2",t:"#4d525a",a:7,w:6.25},"",{c:"#4d525a",t:"#e2e2e2",a:4,w:1.5},"Meta","Alt"]`;
+[{x:1.5,c:"#4d525a",t:"#e2e2e2"},"Alt",{w:1.5},"Meta",{c:"#e2e2e2",t:"#363636",a:7,w:6.25},"",{c:"#4d525a",t:"#e2e2e2",a:4,w:1.5},"Meta","Alt"]`;
 
 export const LAYOUT_M6_A = `[{c:"#505557",t:"#d9d7d7",a:7},"x","x","x"],
 ["x","x","x"]`;
@@ -26,11 +26,11 @@ export const LAYOUT_zeal65_split_bs_olivia = `[{c:"#DEBFB3",t:"#363636"},"Esc",{
 [{w:1.5},"Tab",{c:"#ebebeb",t:"#363636"},"Q","W","E","R","T","Y","U","I","O","P","{\n[","}\n]",{c:"#363636",t:"#DEBFB3",w:1.5},"|\n\\","Insert"],
 [{w:1.75},"Caps Lock",{c:"#ebebeb",t:"#363636"},"A","S","D","F","G","H","J","K","L",":\n;","\"\n'",{c:"#363636",t:"#DEBFB3",w:2.25},"Enter","Home"],
 [{w:2.25},"Shift",{c:"#ebebeb",t:"#363636"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#363636",t:"#DEBFB3",w:1.75},"Shift",{c:"#DEBFB3",t:"#363636"},"↑",{c:"#363636",t:"#DEBFB3"},"/"],
-[{w:1.5},"Ctrl",{w:1.5},"Alt",{c:"#DEBFB3",t:"#000000",a:7,w:7},"",{c:"#363636",t:"#DEBFB3",a:4,w:1.5},"Alt",{w:1.5},"Ctrl",{c:"#DEBFB3",t:"#363636"},"←","↓","→"]`;
+[{w:1.5},"Ctrl",{w:1.5},"Alt",{c:"#DEBFB3",t:"#363636",a:7,w:7},"",{c:"#363636",t:"#DEBFB3",a:4,w:1.5},"Alt",{w:1.5},"Ctrl",{c:"#DEBFB3",t:"#363636"},"←","↓","→"]`;
 
 export function parseKLERaw(kle: string) {
   const kleArr = kle.split(',\n');
-  return kleArr.reduce(
+  const parsedKLE = kleArr.reduce(
     (prev, kle) => {
       const row = kle
         .replace(/\n/g, '\\n')
@@ -38,10 +38,10 @@ export function parseKLERaw(kle: string) {
         .replace(/\"\"(?!,)/g, '"\\"')
         .replace(/([{,])([A-Za-z])(:)/g, '$1"$2"$3');
       const parsedRow = JSON.parse(row).reduce(
-        ({size, margin, res, c, t}, n) => {
+        ({size, margin, res, c, t, colorCount}, n) => {
           // Check if object and apply formatting
           if (typeof n !== 'string') {
-            let obj = {c, t, res};
+            let obj = {colorCount, c, t, res};
             if (n.w > 1) {
               obj = {...obj, size: 100 * n.w};
             }
@@ -56,23 +56,54 @@ export function parseKLERaw(kle: string) {
             }
             return obj;
           } else if (typeof n === 'string') {
+            const colorCountKey = `${c}:${t}`;
+            const newColorCount = {
+              ...colorCount,
+              [colorCountKey]:
+                colorCount[colorCountKey] === undefined
+                  ? 1
+                  : colorCount[colorCountKey] + 1
+            };
             return {
               margin: 0,
               size: 100,
               c,
+              colorCount: newColorCount,
               t,
               res: [...res, {c, t, label: n, size, margin}]
             };
           }
-          return {margin, size, c, t, res};
+          return {margin, size, c, t, res, colorCount};
         },
-        {...prev.prevFormatting, margin: 0, size: 100, res: []}
+        {
+          ...prev.prevFormatting,
+          colorCount: prev.colorCount,
+          margin: 0,
+          size: 100,
+          res: []
+        }
       );
       return {
+        colorCount: parsedRow.colorCount,
         prevFormatting: {c: parsedRow.c, t: parsedRow.t},
         res: [...prev.res, parsedRow.res]
       };
     },
-    {prevFormatting: {c: '#f5f5f5', t: '#444444'}, res: []}
-  ).res;
+    {prevFormatting: {c: '#f5f5f5', t: '#444444'}, res: [], colorCount: {}}
+  );
+
+  const {colorCount, res} = parsedKLE;
+  const colorCountKeys = Object.keys(colorCount);
+  colorCountKeys.sort((a, b) => colorCount[b] - colorCount[a]);
+  if (colorCountKeys.length > 3) {
+    console.error('Please correct layout:', parsedKLE);
+  }
+  return {
+    res,
+    colorMap: {
+      [colorCountKeys[0]]: 'alphas',
+      [colorCountKeys[1]]: 'mods',
+      [colorCountKeys[2]]: 'accents'
+    }
+  };
 }
