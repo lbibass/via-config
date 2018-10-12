@@ -28,7 +28,7 @@ export const LAYOUT_zeal65_split_bs_olivia = `[{c:"#DEBFB3",t:"#363636"},"Esc",{
 [{w:2.25},"Shift",{c:"#ebebeb",t:"#363636"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#363636",t:"#DEBFB3",w:1.75},"Shift",{c:"#DEBFB3",t:"#363636"},"↑",{c:"#363636",t:"#DEBFB3"},"/"],
 [{w:1.5},"Ctrl",{w:1.5},"Alt",{c:"#DEBFB3",t:"#363636",a:7,w:7},"",{c:"#363636",t:"#DEBFB3",a:4,w:1.5},"Alt",{w:1.5},"Ctrl",{c:"#DEBFB3",t:"#363636"},"←","↓","→"]`;
 
-export const LAYOUT_KOYU = `[{c:"#c28080",t:"#fff5f0",a:6},"Esc",{c:"#fff5f0",t:"#c28080",a:4},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=",{c:"#91c4c3",a:6,w:2},"Backspace","Home"],
+export const LAYOUT_KOYU = `[{c:"#c28080",t:"#fff5f0",a:6},"Esc",{c:"#fff5f0",t:"#c28080",a:4},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=",{c:"#91c4c3",a:6},"Backspace","Backspace","Home"],
 [{w:1.5},"Tab",{c:"#fff5f0",a:4,f:7},"Q","W","E","R","T","Y","U","I","O","P",{f:3},"{\n[","}\n]",{c:"#91c4c3",w:1.5},"|\n\\",{a:6},"PgUp"],
 [{w:1.75},"Caps Lock",{c:"#fff5f0",a:4,f:7},"A","S","D","F","G","H","J","K","L",{f:3},":\n;","\"\n'",{c:"#c28080",t:"#fff5f0",a:6,w:2.25},"Enter",{c:"#91c4c3",t:"#c28080"},"PgDn"],
 [{w:2.25},"Shift",{c:"#fff5f0",a:4,f:7},"Z","X","C","V","B","N","M",{f:3},"<\n,",">\n.","?\n/",{c:"#91c4c3",a:6,w:1.75},"Shift","↑","Fn"],

@@ -36,15 +36,15 @@
 }
 
 .indent25U {
-  margin-left: calc(var(--base-width) * 1);
+  margin-left: calc(var(--base-width) * 0.25);
 }
 
 .indent50U {
-  margin-left: calc(var(--base-width) * 1);
+  margin-left: calc(var(--base-width) * 0.5);
 }
 
 .indent75U {
-  margin-left: calc(var(--base-width) * 1);
+  margin-left: calc(var(--base-width) * 0.75);
 }
 
 .indent100U {
