@@ -76,7 +76,7 @@ export default class Home extends Component<Props, {}> {
     this.setState({connected: false});
     if (selectedKeyboard && selectedKeyboard.path) {
       const res = await this.getAPI(selectedKeyboard).getProtocolVersion();
-      if (res === 7) {
+      if ([1, 7].includes(res)) {
         this.setState({connected: true});
       }
     }
