@@ -1,1 +1,1 @@
-export const OVERRIDE_DETECT = true;
+export const OVERRIDE_DETECT = false;
