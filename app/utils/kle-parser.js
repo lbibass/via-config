@@ -34,6 +34,13 @@ export const LAYOUT_KOYU = `[{c:"#c28080",t:"#fff5f0",a:6},"Esc",{c:"#fff5f0",t:
 [{w:2.25},"Shift",{c:"#fff5f0",a:4,f:7},"Z","X","C","V","B","N","M",{f:3},"<\n,",">\n.","?\n/",{c:"#91c4c3",a:6,w:1.75},"Shift","↑","Fn"],
 [{w:1.5},"Ctrl","Alt",{w:1.5},"Alt",{c:"#fff5f0",a:7,w:7},"",{c:"#91c4c3",a:6,w:1.5},"Alt",{x:0.5},"←","↓","→"]`;
 
+export const LAYOUT_WT80_A = `[{c:"#afb0ae",t:"#505557"},"Esc",{x:1,c:"#505557",t:"#aeb0b0"},"F1","F2","F3","F4",{x:0.5,c:"#6b7173"},"F5","F6","F7","F8",{x:0.5,c:"#505557"},"F9","F10","F11","F12",{x:0.25,c:"#6b7173"},"PrtSc","Scroll Lock","Pause\nBreak"],
+[{y:0.25},"~\n\`",{c:"#505557"},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=",{c:"#6b7173",w:2},"Backspace",{x:0.25},"Insert","Home","PgUp"],
+[{w:1.5},"Tab",{c:"#505557"},"Q","W","E","R","T","Y","U","I","O","P","{\n[","}\n]",{c:"#6b7173",w:1.5},"|\n\\",{x:0.25},"Delete","End","PgDn"],
+[{w:1.75},"Caps Lock",{c:"#505557"},"A","S","D","F","G","H","J","K","L",":\n;","\"\n'",{c:"#afb0ae",t:"#505557",w:2.25},"Enter"],
+[{c:"#6b7173",t:"#aeb0b0",w:2.25},"Shift",{c:"#505557"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#6b7173",w:2.75},"Shift",{x:1.25},"↑"],
+[{w:1.25},"Ctrl",{w:1.25},"Win",{w:1.25},"Alt",{c:"#505557",a:7,w:6.25},"",{c:"#6b7173",a:4,w:1.25},"Alt",{w:1.25},"Win",{w:1.25},"Menu",{w:1.25},"Ctrl",{x:0.25},"←","↓","→"]`;
+
 export function parseKLERaw(kle: string) {
   const kleArr = kle.split(',\n');
   const parsedKLE = kleArr.reduce(
