@@ -266,6 +266,20 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
+  async setBrightness(value) {
+    const {selectedKeyboard} = this.state;
+    const api = this.getAPI(selectedKeyboard);
+    if (api) {
+      await api.setBrightness(value);
+    }
+  }
+  async setColor(hue, sat) {
+    const {selectedKeyboard} = this.state;
+    const api = this.getAPI(selectedKeyboard);
+    if (api) {
+      await api.setColor(hue, sat);
+    }
+  }
   async setRGBMode(value) {
     const {selectedKeyboard} = this.state;
     const api = this.getAPI(selectedKeyboard);
@@ -318,13 +332,18 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
-  renderMenu(selectedTitle) {
+  renderMenu(selectedTitle, selectedKeyboard) {
     if (selectedTitle === Title.KEYS) {
       return (
         <KeycodeMenu updateSelectedKey={this.updateSelectedKey.bind(this)} />
       );
     } else if (selectedTitle === Title.LIGHTING) {
-      return <LightingMenu setRGBMode={this.setRGBMode.bind(this)} />;
+      return (
+        <LightingMenu
+          api={this.getAPI(selectedKeyboard)}
+          setRGBMode={this.setRGBMode.bind(this)}
+        />
+      );
     }
   }
 
@@ -403,7 +422,7 @@ export default class Home extends Component<Props, {}> {
         <div className={styles.container} data-tid="container">
           <div className={styles.menuContainer}>
             {this.renderDebug(false)}
-            {this.renderMenu(selectedTitle)}
+            {this.renderMenu(selectedTitle, selectedKeyboard)}
           </div>
         </div>
       </div>

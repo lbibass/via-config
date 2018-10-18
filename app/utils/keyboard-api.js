@@ -10,6 +10,28 @@ const DYNAMIC_KEYMAP_CLEAR_ALL = 0x06;
 const BACKLIGHT_CONFIG_SET_VALUE = 0x07;
 const BACKLIGHT_CONFIG_GET_VALUE = 0x08;
 const BACKLIGHT_CONFIG_SAVE = 0x09;
+const BACKLIGHT_USE_SPLIT_BACKSPACE = 0x01;
+const BACKLIGHT_USE_SPLIT_LEFT_SHIFT = 0x02;
+const BACKLIGHT_USE_SPLIT_RIGHT_SHIFT = 0x03;
+const BACKLIGHT_USE_7U_SPACEBAR = 0x04;
+const BACKLIGHT_USE_ISO_ENTER = 0x05;
+const BACKLIGHT_DISABLE_HHKB_BLOCKER_LEDS = 0x06;
+const BACKLIGHT_DISABLE_WHEN_USB_SUSPENDEd = 0x07;
+const BACKLIGHT_DISABLE_AFTER_TIMEOUT = 0x08;
+const BACKLIGHT_BRIGHTNESS = 0x09;
+const BACKLIGHT_EFFECT = 0x0a;
+const BACKLIGHT_EFFECT_SPEED = 0x0b;
+const BACKLIGHT_COLOR_1 = 0x0c;
+const BACKLIGHT_COLOR_2 = 0x0d;
+const BACKLIGHT_CAPS_LOCK_INDICATOR_COLOR = 0x0e;
+const BACKLIGHT_CAPS_LOCK_INDICATOR_ROW_Col = 0x0f;
+const BACKLIGHT_LAYER_1_INDICATOR_COLOR = 0x10;
+const BACKLIGHT_LAYER_1_INDICATOR_ROW_COL = 0x11;
+const BACKLIGHT_LAYER_2_INDICATOR_COLOR = 0x12;
+const BACKLIGHT_LAYER_2_INDICATOR_ROW_COL = 0x13;
+const BACKLIGHT_LAYER_3_INDICATOR_COLOR = 0x14;
+const BACKLIGHT_LAYER_3_INDICATOR_ROW_COL = 0x15;
+const BACKLIGHT_ALPHAS_MODS = 0x16;
 
 const cache = {};
 
@@ -82,13 +104,40 @@ export class KeyboardAPI {
   }
 
   async getRGBMode() {
-    const bytes = [0xa];
+    const bytes = [BACKLIGHT_EFFECT];
     const val = await this.hidCommand(BACKLIGHT_CONFIG_GET_VALUE, bytes);
     return val;
   }
 
-  async setRGBMode(brightness = 0) {
-    const bytes = [0xa, brightness];
+  async getBrightness() {
+    const bytes = [BACKLIGHT_BRIGHTNESS];
+    const brightness = await this.hidCommand(BACKLIGHT_CONFIG_GET_VALUE, bytes);
+    return brightness;
+  }
+
+  async getColor(number) {
+    const bytes = [number === 1 ? BACKLIGHT_COLOR_1 : BACKLIGHT_COLOR_2];
+    const color = await this.hidCommand(BACKLIGHT_CONFIG_GET_VALUE, bytes);
+    return color;
+  }
+
+  async setColor(number, hue, sat) {
+    const bytes = [
+      number === 1 ? BACKLIGHT_COLOR_1 : BACKLIGHT_COLOR_2,
+      hue,
+      sat,
+      255
+    ];
+    await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
+  }
+
+  async setBrightness(brightness) {
+    const bytes = [BACKLIGHT_BRIGHTNESS, brightness];
+    await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
+  }
+
+  async setRGBMode(pattern) {
+    const bytes = [BACKLIGHT_EFFECT, pattern];
     await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
   }
 
