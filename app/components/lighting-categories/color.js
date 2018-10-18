@@ -42,9 +42,9 @@ export class ColorCategory extends Component {
     const width = this.refWidth;
     const height = this.refHeight;
     const {offsetX, offsetY} = evt.nativeEvent;
-    const lensTransform = `translate3d(${offsetX - 5}px, ${offsetY - 5}px, 0)`;
-    const hue = 360 * Math.min(1, offsetX / width);
-    const sat = 1 - Math.min(1, offsetY / height);
+    const [x, y] = [Math.max(0, offsetX), Math.max(0, offsetY)];
+    const hue = 360 * Math.min(1, x / width);
+    const sat = 1 - Math.min(1, y / height);
     return {hue, sat};
   }
 
@@ -77,13 +77,16 @@ export class ColorCategory extends Component {
 
   render() {
     return (
-      <div style={{background: this.state.selectedColor.rgb}}>
-        <div
-          onClick={this.onClick.bind(this)}
-          onMouseMove={this.onMouseMove.bind(this)}
-          className={styles.container}
-        >
-          <div ref={ref => (this.ref = ref)} className={styles.outer}>
+      <div
+        className={styles.colorCategory}
+        style={{background: this.state.selectedColor.rgb}}
+      >
+        <div onClick={this.onClick.bind(this)} className={styles.container}>
+          <div
+            onMouseMove={this.onMouseMove.bind(this)}
+            ref={ref => (this.ref = ref)}
+            className={styles.outer}
+          >
             <div className={styles.inner}>
               <div
                 className={styles.lens}

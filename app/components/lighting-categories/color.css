@@ -11,8 +11,15 @@
   transform: translate3d(195px, 195px, 0);
 }
 
+.colorCategory {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+}
+
 .container {
-  border: 10px solid grey;
+  border: 10px solid whitesmoke;
   width: 200px;
   height: 200px;
 }
