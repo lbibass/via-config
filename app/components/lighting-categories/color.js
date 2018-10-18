@@ -12,20 +12,33 @@ export class ColorCategory extends Component {
     super();
     this.state = {
       lensTransform: '',
-      selectedColor: {
-        hue: null,
-        sat: null,
-        rgb: null,
-        lensTransform: null
-      },
       mouseDown: false
     };
+  }
+
+  componentDidUpdate({color}) {
+    if (color !== this.props.color) {
+      const {width, height} = this.ref.getBoundingClientRect();
+      this.refWidth = width;
+      this.refHeight = height;
+      const {hue, sat} = this.props.color;
+      const offsetX = (width * hue) / 255;
+      const offsetY = height * (1 - sat / 255);
+      const lensTransform = `translate3d(${offsetX - 5}px, ${offsetY -
+        5}px, 0)`;
+      this.setState({lensTransform});
+    }
   }
 
   componentDidMount() {
     const {width, height} = this.ref.getBoundingClientRect();
     this.refWidth = width;
     this.refHeight = height;
+    const {hue, sat} = this.props.color;
+    const offsetX = (width * hue) / 255;
+    const offsetY = (height * sat) / 255;
+    const lensTransform = `translate3d(${offsetX - 5}px, ${offsetY - 5}px, 0)`;
+    this.setState({lensTransform});
   }
 
   // For the color picker uses a conical gradient
