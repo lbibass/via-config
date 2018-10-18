@@ -360,6 +360,7 @@ export default class Home extends Component<Props, {}> {
       this.setState({
         selectedKeyboard,
         selectedKey: null,
+        selectedTitle: Title.KEYS,
         detected: true,
         connected: false,
         activeLayer: 0
