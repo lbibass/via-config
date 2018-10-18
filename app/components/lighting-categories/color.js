@@ -3,8 +3,8 @@ import styles from './color.css';
 import {
   getRGBPrime,
   toDegrees,
-  calcHue,
-  calcMagnitude
+  calcRadialHue,
+  calcRadialMagnitude
 } from '../../utils/color-math';
 
 export class ColorCategory extends Component {
@@ -21,12 +21,38 @@ export class ColorCategory extends Component {
     };
   }
 
+  componentDidMount() {
+    const {width, height} = this.ref.getBoundingClientRect();
+    this.refWidth = width;
+    this.refHeight = height;
+  }
+
+  // For the color picker uses a conical gradient
+  getRadialHueSat(evt) {
+    const {offsetX, offsetY} = evt.nativeEvent;
+    const lensTransform = `translate3d(${offsetX - 5}px, ${offsetY - 5}px, 0)`;
+    const hue = toDegrees(calcRadialHue(offsetX, offsetY));
+    const sat = Math.min(1, calcRadialMagnitude(offsetX, offsetY));
+    return {hue, sat};
+  }
+
+  // For standard color picker uses a conical gradient
+  getLinearHueSat(evt) {
+    // calculate later
+    const width = this.refWidth;
+    const height = this.refHeight;
+    const {offsetX, offsetY} = evt.nativeEvent;
+    const lensTransform = `translate3d(${offsetX - 5}px, ${offsetY - 5}px, 0)`;
+    const hue = 360 * Math.min(1, offsetX / width);
+    const sat = 1 - Math.min(1, offsetY / height);
+    return {hue, sat};
+  }
+
   onMouseMove(evt) {
     const {offsetX, offsetY} = evt.nativeEvent;
     const lensTransform = `translate3d(${offsetX - 5}px, ${offsetY - 5}px, 0)`;
-    const hue = toDegrees(calcHue(offsetX, offsetY));
-    const sat = Math.min(1, calcMagnitude(offsetX, offsetY));
 
+    const {hue, sat} = this.getLinearHueSat(evt);
     const c = sat;
     const x = c * (1 - Math.abs(((hue / 60) % 2) - 1));
     const m = 1 - c;
@@ -57,7 +83,7 @@ export class ColorCategory extends Component {
           onMouseMove={this.onMouseMove.bind(this)}
           className={styles.container}
         >
-          <div className={styles.outer}>
+          <div ref={ref => (this.ref = ref)} className={styles.outer}>
             <div className={styles.inner}>
               <div
                 className={styles.lens}

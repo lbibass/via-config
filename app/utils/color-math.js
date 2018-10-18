@@ -20,7 +20,7 @@ export function toDegrees(rad) {
   return rad * (180 / Math.PI);
 }
 
-export function calcHue(x, y) {
+export function calcRadialHue(x, y) {
   if (x < 200 && y < 200) {
     const nX = 200 - x;
     const nY = 200 - y;
@@ -44,7 +44,7 @@ export function calcHue(x, y) {
   }
 }
 
-export function calcMagnitude(x, y) {
+export function calcRadialMagnitude(x, y) {
   if (x < 200 && y < 200) {
     const nX = 200 - x;
     const nY = 200 - y;
