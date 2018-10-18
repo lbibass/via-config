@@ -17,7 +17,8 @@ export class ColorCategory extends Component {
         sat: null,
         rgb: null,
         lensTransform: null
-      }
+      },
+      mouseDown: false
     };
   }
 
@@ -49,25 +50,28 @@ export class ColorCategory extends Component {
   }
 
   onMouseMove(evt) {
-    const {offsetX, offsetY} = evt.nativeEvent;
-    const lensTransform = `translate3d(${offsetX - 5}px, ${offsetY - 5}px, 0)`;
+    if (this.mouseDown) {
+      const {offsetX, offsetY} = evt.nativeEvent;
+      const lensTransform = `translate3d(${offsetX - 5}px, ${offsetY -
+        5}px, 0)`;
 
-    const {hue, sat} = this.getLinearHueSat(evt);
-    const c = sat;
-    const x = c * (1 - Math.abs(((hue / 60) % 2) - 1));
-    const m = 1 - c;
-    const [r, g, b] = getRGBPrime(hue, c, x).map(n =>
-      Math.round(255 * (m + n))
-    );
-    const rgb = `rgba(${r},${g},${b},1)`;
-    this.setState({
-      lensTransform,
-      selectedColor: {
-        hue,
-        sat,
-        rgb
-      }
-    });
+      const {hue, sat} = this.getLinearHueSat(evt);
+      const c = sat;
+      const x = c * (1 - Math.abs(((hue / 60) % 2) - 1));
+      const m = 1 - c;
+      const [r, g, b] = getRGBPrime(hue, c, x).map(n =>
+        Math.round(255 * (m + n))
+      );
+      const rgb = `rgba(${r},${g},${b},1)`;
+      this.setState({
+        lensTransform,
+        selectedColor: {
+          hue,
+          sat,
+          rgb
+        }
+      });
+    }
   }
 
   onClick(evt) {
@@ -75,14 +79,27 @@ export class ColorCategory extends Component {
     this.props.setColor(Math.round(255 * (hue / 360)), Math.round(255 * sat));
   }
 
+  onMouseDown(evt) {
+    this.mouseDown = true;
+    this.onMouseMove(evt);
+    this.ref.classList.add(styles.hideCursor);
+  }
+
+  onMouseUp(evt) {
+    this.mouseDown = false;
+    this.ref.classList.remove(styles.hideCursor);
+  }
+
   render() {
     return (
       <div
         className={styles.colorCategory}
+        onMouseUp={this.onMouseUp.bind(this)}
         style={{background: this.state.selectedColor.rgb}}
       >
         <div onClick={this.onClick.bind(this)} className={styles.container}>
           <div
+            onMouseDown={this.onMouseDown.bind(this)}
             onMouseMove={this.onMouseMove.bind(this)}
             ref={ref => (this.ref = ref)}
             className={styles.outer}
