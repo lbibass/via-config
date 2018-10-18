@@ -11,8 +11,8 @@
   transform: translate3d(195px, 195px, 0);
 }
 
-.hideCursor {
-  cursor: none;
+.mouseDown {
+  cursor: pointer;
 }
 
 .colorCategory {

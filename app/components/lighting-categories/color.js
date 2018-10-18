@@ -82,12 +82,12 @@ export class ColorCategory extends Component {
   onMouseDown(evt) {
     this.mouseDown = true;
     this.onMouseMove(evt);
-    this.ref.classList.add(styles.hideCursor);
+    this.ref.classList.add(styles.mouseDown);
   }
 
   onMouseUp(evt) {
     this.mouseDown = false;
-    this.ref.classList.remove(styles.hideCursor);
+    this.ref.classList.remove(styles.mouseDown);
   }
 
   render() {
