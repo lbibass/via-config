@@ -56,28 +56,14 @@ export class ColorCategory extends Component {
         5}px, 0)`;
 
       const {hue, sat} = this.getLinearHueSat(evt);
-      const c = sat;
-      const x = c * (1 - Math.abs(((hue / 60) % 2) - 1));
-      const m = 1 - c;
-      const [r, g, b] = getRGBPrime(hue, c, x).map(n =>
-        Math.round(255 * (m + n))
-      );
-      const rgb = `rgba(${r},${g},${b},1)`;
+      this.props.setColor(Math.round(255 * (hue / 360)), Math.round(255 * sat));
       this.setState({
-        lensTransform,
-        selectedColor: {
-          hue,
-          sat,
-          rgb
-        }
+        lensTransform
       });
     }
   }
 
-  onClick(evt) {
-    const {hue, sat} = this.state.selectedColor;
-    this.props.setColor(Math.round(255 * (hue / 360)), Math.round(255 * sat));
-  }
+  onClick(evt) {}
 
   onMouseDown(evt) {
     this.mouseDown = true;
@@ -90,12 +76,24 @@ export class ColorCategory extends Component {
     this.ref.classList.remove(styles.mouseDown);
   }
 
+  getRGB({hue, sat}) {
+    sat = sat / 255;
+    hue = Math.round(360 * hue) / 255;
+    const c = sat;
+    const x = c * (1 - Math.abs(((hue / 60) % 2) - 1));
+    const m = 1 - c;
+    const [r, g, b] = getRGBPrime(hue, c, x).map(n =>
+      Math.round(255 * (m + n))
+    );
+    return `rgba(${r},${g},${b},1)`;
+  }
+
   render() {
     return (
       <div
         className={styles.colorCategory}
         onMouseUp={this.onMouseUp.bind(this)}
-        style={{background: this.state.selectedColor.rgb}}
+        style={{background: this.getRGB(this.props.color)}}
       >
         <div onClick={this.onClick.bind(this)} className={styles.container}>
           <div

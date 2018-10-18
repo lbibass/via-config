@@ -26,6 +26,7 @@
   border: 10px solid whitesmoke;
   width: 200px;
   height: 200px;
+  box-shadow: rgba(0, 0, 0, 0.11) 0 1px 1px 1px;
 }
 
 .inner {

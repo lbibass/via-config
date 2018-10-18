@@ -105,20 +105,26 @@ export class KeyboardAPI {
 
   async getRGBMode() {
     const bytes = [BACKLIGHT_EFFECT];
-    const val = await this.hidCommand(BACKLIGHT_CONFIG_GET_VALUE, bytes);
+    const [, , val] = await this.hidCommand(BACKLIGHT_CONFIG_GET_VALUE, bytes);
     return val;
   }
 
   async getBrightness() {
     const bytes = [BACKLIGHT_BRIGHTNESS];
-    const brightness = await this.hidCommand(BACKLIGHT_CONFIG_GET_VALUE, bytes);
+    const [, , brightness] = await this.hidCommand(
+      BACKLIGHT_CONFIG_GET_VALUE,
+      bytes
+    );
     return brightness;
   }
 
   async getColor(number) {
     const bytes = [number === 1 ? BACKLIGHT_COLOR_1 : BACKLIGHT_COLOR_2];
-    const color = await this.hidCommand(BACKLIGHT_CONFIG_GET_VALUE, bytes);
-    return color;
+    const [, , hue, sat] = await this.hidCommand(
+      BACKLIGHT_CONFIG_GET_VALUE,
+      bytes
+    );
+    return {hue, sat};
   }
 
   async setColor(number, hue, sat) {

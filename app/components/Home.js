@@ -292,7 +292,7 @@ export default class Home extends Component<Props, {}> {
     const api = this.getAPI(selectedKeyboard);
     const keyboard = getKeyboardFromDevice(selectedKeyboard);
     if (api && keyboard.lights) {
-      const [, , val] = await api.getRGBMode();
+      const val = await api.getRGBMode();
       const newVal = val === 9 ? 0 : 9;
       await api.setRGBMode(newVal);
       await timeoutPromise(200);
