@@ -6,7 +6,8 @@ import {
   LAYOUT_zeal60_all,
   LAYOUT_zeal65_split_bs,
   LAYOUT_zeal65_split_bs_olivia,
-  LAYOUT_KOYU
+  LAYOUT_KOYU,
+  LAYOUT_WT80_A
 } from './kle-parser';
 
 const HID = require('node-hid');
@@ -40,7 +41,8 @@ function isValidVendorProduct({productId, vendorId}) {
     0x5241006b, // RAMA WORKS M6-B
     0x5241060a, // RAMA WORKS M60-A
     0xfeed6060, // Zeal60
-    0xfeed6065 // Zeal65
+    0xfeed6065, // Zeal65
+    0x6582080a // WT80-A
   ];
   // JS bitwise operations is only 32-bit so we lose numbers if we shift too high
   const vendorProductId = vendorId * 65536 + productId;
@@ -72,6 +74,11 @@ const hid_device = {
     name: 'ZEAL65',
     layout: LAYOUT_zeal65_split_bs_olivia,
     lights: true
+  },
+  [0x6582080a]: {
+    name: 'WT80-A',
+    layout: LAYOUT_WT80_A,
+    lights: false
   }
 };
 
