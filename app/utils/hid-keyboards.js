@@ -3,10 +3,13 @@ import {
   LAYOUT_M6_A,
   LAYOUT_M6_B,
   LAYOUT_M60_A,
+  LAYOUT_U80_A,
   LAYOUT_zeal60_all,
   LAYOUT_zeal65_split_bs,
   LAYOUT_zeal65_split_bs_olivia,
   LAYOUT_KOYU,
+  LAYOUT_WT60_A,
+  LAYOUT_WT65_A,
   LAYOUT_WT80_A
 } from './kle-parser';
 
@@ -40,9 +43,12 @@ function isValidVendorProduct({productId, vendorId}) {
     0x5241006a, // RAMA WORKS M6-A
     0x5241006b, // RAMA WORKS M6-B
     0x5241060a, // RAMA WORKS M60-A
+    0x5241080a, // RAMA WORKS U80-A
     0xfeed6060, // Zeal60
     0xfeed6065, // Zeal65
-    0x6582080a // WT80-A
+    0x6582060a, // WT60-A
+    0x6582065a, // WT65-A
+    0x6582080a  // WT80-A
   ];
   // JS bitwise operations is only 32-bit so we lose numbers if we shift too high
   const vendorProductId = vendorId * 65536 + productId;
@@ -65,6 +71,11 @@ const hid_device = {
     layout: LAYOUT_M60_A,
     lights: true
   },
+  [0x5241060a]: {
+    name: 'RAMA WORKS U80-A',
+    layout: LAYOUT_U80_A,
+    lights: true
+  },
   [0xfeed6060]: {
     name: 'ZEAL60',
     layout: LAYOUT_zeal60_all,
@@ -74,6 +85,16 @@ const hid_device = {
     name: 'ZEAL65',
     layout: LAYOUT_zeal65_split_bs_olivia,
     lights: true
+  },
+  [0x6582060a]: {
+    name: 'WT60-A',
+    layout: LAYOUT_WT60_A,
+    lights: false
+  },
+  [0x6582065a]: {
+    name: 'WT65-A',
+    layout: LAYOUT_WT65_A,
+    lights: false
   },
   [0x6582080a]: {
     name: 'WT80-A',
