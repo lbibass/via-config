@@ -1,0 +1,15 @@
+.loadingScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background: #eaeaea;
+  overflow: hidden;
+}
+
+.loadingScreen svg {
+  background: #eaeaea;
+  transform: scale(2, 2) translate3d(0px, 0px, 0px) !important;
+}

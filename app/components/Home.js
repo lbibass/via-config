@@ -12,6 +12,7 @@ import {KeyboardAPI} from '../utils/keyboard-api';
 import {TitleBar, Title} from './title-bar';
 import {Wilba} from './Wilba';
 import {LightingMenu} from './lighting-menu';
+import {LoadingScreen} from './loading-screen';
 const usbDetect = require('usb-detection');
 usbDetect.startMonitoring();
 type Props = {};
@@ -33,7 +34,7 @@ export default class Home extends Component<Props, {}> {
     this.handleKeys = this.handleKeys.bind(this);
     const keyboards = getKeyboards();
     const firstKeyboard = keyboards[0] || null;
-    if (firstKeyboard) {
+    if (false && firstKeyboard) {
       this.state = {
         keyboards,
         connected: false,
@@ -125,6 +126,10 @@ export default class Home extends Component<Props, {}> {
         });
         await this.checkIfDetected(selectedKeyboard);
         await this.updateFullMatrix(0, selectedKeyboard);
+        this.setReady();
+        await this.updateFullMatrix(1, selectedKeyboard);
+        await this.updateFullMatrix(2, selectedKeyboard);
+        await this.updateFullMatrix(3, selectedKeyboard);
       } else {
         this.setState({
           keyboards,
@@ -288,6 +293,10 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
+  setReady() {
+    this.setState({ready: true});
+  }
+
   async toggleLights(selectedKeyboard) {
     const api = this.getAPI(selectedKeyboard);
     const keyboard = getKeyboardFromDevice(selectedKeyboard);
@@ -397,35 +406,39 @@ export default class Home extends Component<Props, {}> {
     } = this.state;
     return (
       <div className={styles.home}>
-        <TitleBar
-          selectedTitle={selectedTitle}
-          getKeyboard={this.getKeyboard.bind(this)}
-          setSelectedTitle={this.setSelectedTitle.bind(this)}
-        />
-        <Keyboard
-          activeLayer={activeLayer}
-          ref={keyboard => (this.keyboard = keyboard)}
-          connected={connected}
-          detected={detected}
-          selectedKey={selectedKey}
-          selectedKeyboard={selectedKeyboard}
-          selectedTitle={selectedTitle}
-          checkIfDetected={this.checkIfDetected.bind(this)}
-          matrixKeycodes={this.getLayerMatrix(selectedKeyboard, activeLayer)}
-          clearSelectedKey={this.clearSelectedKey.bind(this)}
-          setSelectedKey={this.setSelectedKey.bind(this)}
-          updateFullMatrix={this.updateFullMatrix.bind(this)}
-          updateLayer={this.updateLayer.bind(this)}
-          showCarouselButtons={this.state.keyboards.length > 1}
-          prevKeyboard={() => this.offsetKeyboard(-1)}
-          nextKeyboard={() => this.offsetKeyboard(1)}
-        />
-        <div className={styles.container} data-tid="container">
-          <div className={styles.menuContainer}>
-            {this.renderDebug(false)}
-            {this.renderMenu(selectedTitle, selectedKeyboard)}
+        <LoadingScreen ready={this.state.ready} />
+        {this.state.ready && [
+          <TitleBar
+            selectedTitle={selectedTitle}
+            getKeyboard={this.getKeyboard.bind(this)}
+            setSelectedTitle={this.setSelectedTitle.bind(this)}
+          />,
+          <Keyboard
+            activeLayer={activeLayer}
+            ref={keyboard => (this.keyboard = keyboard)}
+            connected={connected}
+            detected={detected}
+            selectedKey={selectedKey}
+            selectedKeyboard={selectedKeyboard}
+            selectedTitle={selectedTitle}
+            checkIfDetected={this.checkIfDetected.bind(this)}
+            matrixKeycodes={this.getLayerMatrix(selectedKeyboard, activeLayer)}
+            clearSelectedKey={this.clearSelectedKey.bind(this)}
+            setSelectedKey={this.setSelectedKey.bind(this)}
+            setReady={this.setReady.bind(this)}
+            updateFullMatrix={this.updateFullMatrix.bind(this)}
+            updateLayer={this.updateLayer.bind(this)}
+            showCarouselButtons={this.state.keyboards.length > 1}
+            prevKeyboard={() => this.offsetKeyboard(-1)}
+            nextKeyboard={() => this.offsetKeyboard(1)}
+          />,
+          <div className={styles.container} data-tid="container">
+            <div className={styles.menuContainer}>
+              {this.renderDebug(false)}
+              {this.renderMenu(selectedTitle, selectedKeyboard)}
+            </div>
           </div>
-        </div>
+        ]}
       </div>
     );
   }

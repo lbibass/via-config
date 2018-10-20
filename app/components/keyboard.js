@@ -25,6 +25,10 @@ export class Keyboard extends Component {
     if (this.useMatrixKeycodes()) {
       await this.props.checkIfDetected(this.props.selectedKeyboard);
       await this.props.updateFullMatrix(0, this.props.selectedKeyboard);
+      await this.props.updateFullMatrix(1, this.props.selectedKeyboard);
+      await this.props.updateFullMatrix(2, this.props.selectedKeyboard);
+      await this.props.updateFullMatrix(3, this.props.selectedKeyboard);
+      await this.props.setReady();
     }
   }
 
