@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import styles from './Home.css';
 import {Key} from './Key';
 import {Keyboard} from './keyboard';
-import {KeycodeMenu, LightingMenu} from './menus';
+import {DebugMenu, KeycodeMenu, LightingMenu} from './menus';
 import {mapEvtToKeycode, getByteForCode, getKeycodes} from '../utils/key';
 import {getKeyboardFromDevice, getKeyboards} from '../utils/hid-keyboards';
 import {MatrixLayout} from '../utils/layout-parser';
@@ -337,6 +337,8 @@ export default class Home extends Component<Props, {}> {
           setRGBMode={this.setRGBMode.bind(this)}
         />
       );
+    } else if (selectedTitle === Title.DEBUG) {
+      return <DebugMenu api={this.getAPI(selectedKeyboard)} />;
     }
   }
 

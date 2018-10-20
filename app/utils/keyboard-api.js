@@ -151,12 +151,11 @@ export class KeyboardAPI {
 
   async resetEEPROM() {
     const bytes = [];
-    await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
+    await this.hidCommand(EEPROM_RESET);
   }
 
   async jumpToBootloader() {
-    const bytes = [];
-    await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
+    await this.hidCommand(BOOTLOADER_JUMP);
   }
 
   async setKey(layer, row, column, val) {

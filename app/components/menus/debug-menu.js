@@ -6,8 +6,10 @@ export class DebugMenu extends Component {
     if (api) {
       return (
         <div>
-          <input type="button">Reset</input>
-          <input type="button">Jump to bootloader</input>
+          <button onClick={() => api.resetEEPROM()}>EEPROM Reset</button>
+          <button onClick={() => api.jumpToBootloader()}>
+            Bootloader Jump
+          </button>
         </div>
       );
     }
