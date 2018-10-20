@@ -48,7 +48,7 @@ function isValidVendorProduct({productId, vendorId}) {
     0xfeed6065, // Zeal65
     0x6582060a, // WT60-A
     0x6582065a, // WT65-A
-    0x6582080a  // WT80-A
+    0x6582080a // WT80-A
   ];
   // JS bitwise operations is only 32-bit so we lose numbers if we shift too high
   const vendorProductId = vendorId * 65536 + productId;
@@ -71,7 +71,7 @@ const hid_device = {
     layout: LAYOUT_M60_A,
     lights: true
   },
-  [0x5241060a]: {
+  [0x6582080a]: {
     name: 'RAMA WORKS U80-A',
     layout: LAYOUT_U80_A,
     lights: true
