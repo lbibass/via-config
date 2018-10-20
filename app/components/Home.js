@@ -393,38 +393,44 @@ export default class Home extends Component<Props, {}> {
     return (
       <div className={styles.home}>
         <LoadingScreen ready={this.state.ready} />
-        {this.state.ready && [
-          <TitleBar
-            selectedTitle={selectedTitle}
-            getKeyboard={this.getKeyboard.bind(this)}
-            setSelectedTitle={this.setSelectedTitle.bind(this)}
-          />,
-          <Keyboard
-            activeLayer={activeLayer}
-            ref={keyboard => (this.keyboard = keyboard)}
-            connected={connected}
-            detected={detected}
-            selectedKey={selectedKey}
-            selectedKeyboard={selectedKeyboard}
-            selectedTitle={selectedTitle}
-            checkIfDetected={this.checkIfDetected.bind(this)}
-            matrixKeycodes={this.getLayerMatrix(selectedKeyboard, activeLayer)}
-            clearSelectedKey={this.clearSelectedKey.bind(this)}
-            setSelectedKey={this.setSelectedKey.bind(this)}
-            setReady={this.setReady.bind(this)}
-            updateFullMatrix={this.updateFullMatrix.bind(this)}
-            updateLayer={this.updateLayer.bind(this)}
-            showCarouselButtons={this.state.keyboards.length > 1}
-            prevKeyboard={() => this.offsetKeyboard(-1)}
-            nextKeyboard={() => this.offsetKeyboard(1)}
-          />,
-          <div className={styles.container} data-tid="container">
-            <div className={styles.menuContainer}>
-              {this.renderDebug(false)}
-              {this.renderMenu(selectedTitle, selectedKeyboard)}
+        {this.state.ready && (
+          <React.Fragment>
+            <TitleBar
+              key="title-bar"
+              selectedTitle={selectedTitle}
+              getKeyboard={this.getKeyboard.bind(this)}
+              setSelectedTitle={this.setSelectedTitle.bind(this)}
+            />
+            <Keyboard
+              activeLayer={activeLayer}
+              ref={keyboard => (this.keyboard = keyboard)}
+              connected={connected}
+              detected={detected}
+              selectedKey={selectedKey}
+              selectedKeyboard={selectedKeyboard}
+              selectedTitle={selectedTitle}
+              checkIfDetected={this.checkIfDetected.bind(this)}
+              matrixKeycodes={this.getLayerMatrix(
+                selectedKeyboard,
+                activeLayer
+              )}
+              clearSelectedKey={this.clearSelectedKey.bind(this)}
+              setSelectedKey={this.setSelectedKey.bind(this)}
+              setReady={this.setReady.bind(this)}
+              updateFullMatrix={this.updateFullMatrix.bind(this)}
+              updateLayer={this.updateLayer.bind(this)}
+              showCarouselButtons={this.state.keyboards.length > 1}
+              prevKeyboard={() => this.offsetKeyboard(-1)}
+              nextKeyboard={() => this.offsetKeyboard(1)}
+            />
+            <div className={styles.container} data-tid="container">
+              <div className={styles.menuContainer}>
+                {this.renderDebug(false)}
+                {this.renderMenu(selectedTitle, selectedKeyboard)}
+              </div>
             </div>
-          </div>
-        ]}
+          </React.Fragment>
+        )}
       </div>
     );
   }
