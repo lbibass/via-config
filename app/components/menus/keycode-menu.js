@@ -5,7 +5,7 @@ import {
   getByteForCode,
   getKeycodes,
   getOtherMenu
-} from '../utils/key';
+} from '../../utils/key';
 
 const menu = getKeycodes().concat(getOtherMenu());
 export class KeycodeMenu extends Component {

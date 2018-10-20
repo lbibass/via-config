@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {BrightnessCategory} from './lighting-categories/brightness';
-import {ColorCategory} from './lighting-categories/color';
-import {PatternCategory} from './lighting-categories/pattern';
+import {
+  BrightnessCategory,
+  ColorCategory,
+  PatternCategory
+} from '../lighting-categories';
 import styles from './lighting-menu.css';
 
 export const Category = {

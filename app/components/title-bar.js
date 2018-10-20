@@ -3,7 +3,8 @@ import styles from './title-bar.css';
 
 export const Title = {
   KEYS: 'Keys',
-  LIGHTING: 'Lighting'
+  LIGHTING: 'Lighting',
+  DEBUG: 'Debug'
 };
 
 export class TitleBar extends Component {
@@ -17,11 +18,17 @@ export class TitleBar extends Component {
   }
 
   getTitlesForKeyboard(keyboard) {
-    if (!keyboard.lights) {
-      return [Title.KEYS];
-    } else {
-      return [Title.KEYS, Title.LIGHTING];
+    let titles = [Title.KEYS];
+    if (keyboard.lights) {
+      titles = [...titles, Title.LIGHTING];
     }
+    if (
+      process.env.NODE_ENV === 'development' ||
+      process.env.DEBUG_PROD === 'true'
+    ) {
+      titles = [...titles, Title.DEBUG];
+    }
+    return titles;
   }
 
   render() {

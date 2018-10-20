@@ -4,14 +4,13 @@ import {Link} from 'react-router-dom';
 import styles from './Home.css';
 import {Key} from './Key';
 import {Keyboard} from './keyboard';
-import {KeycodeMenu} from './keycode-menu';
+import {KeycodeMenu, LightingMenu} from './menus';
 import {mapEvtToKeycode, getByteForCode, getKeycodes} from '../utils/key';
 import {getKeyboardFromDevice, getKeyboards} from '../utils/hid-keyboards';
 import {MatrixLayout} from '../utils/layout-parser';
 import {KeyboardAPI} from '../utils/keyboard-api';
 import {TitleBar, Title} from './title-bar';
 import {Wilba} from './Wilba';
-import {LightingMenu} from './lighting-menu';
 import {LoadingScreen} from './loading-screen';
 const usbDetect = require('usb-detection');
 usbDetect.startMonitoring();
@@ -34,31 +33,16 @@ export default class Home extends Component<Props, {}> {
     this.handleKeys = this.handleKeys.bind(this);
     const keyboards = getKeyboards();
     const firstKeyboard = keyboards[0] || null;
-    if (false && firstKeyboard) {
-      this.state = {
-        keyboards,
-        connected: false,
-        detected: true,
-        selectedKeyboard: firstKeyboard,
-        selectedKey: null,
-        selectedTitle: Title.KEYS,
-        activeLayer: 0,
-        matrixKeycodes: {
-          [firstKeyboard.path]: [[], [], [], []]
-        }
-      };
-    } else {
-      this.state = {
-        keyboards,
-        connected: false,
-        detected: false,
-        selectedKeyboard: null,
-        selectedKey: null,
-        selectedTitle: null,
-        activeLayer: null,
-        matrixKeycodes: {}
-      };
-    }
+    this.state = {
+      keyboards,
+      connected: false,
+      detected: false,
+      selectedKeyboard: null,
+      selectedKey: null,
+      selectedTitle: null,
+      activeLayer: null,
+      matrixKeycodes: {}
+    };
   }
 
   componentDidMount() {

@@ -149,6 +149,16 @@ export class KeyboardAPI {
     await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
   }
 
+  async resetEEPROM() {
+    const bytes = [];
+    await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
+  }
+
+  async jumpToBootloader() {
+    const bytes = [];
+    await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
+  }
+
   async setKey(layer, row, column, val) {
     const key = parseInt(val);
     const hi = (key & 0xff00) >> 8;
