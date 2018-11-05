@@ -405,7 +405,7 @@ export const basicKeyToByte = {
   FN_MO23: 0x5f11,
   FN_TT13: 0x2f31,
   FN_TT23: 0x2f32,
-  MAGIC_TOGGLE_NKRO: 0x5c14,
+  MAGIC_TOGGLE_NKRO: 0x5c14
   // These are bitmasks not keycodes
   //MOD_LCTL: 0x0001,
   //MOD_LSFT: 0x0002,
@@ -910,6 +910,21 @@ function flatMap(arr, fn) {
 }
 
 export function buildLayerMenu() {
+  const hardCodedKeycodes = [
+    {
+      name: 'Fn1\n(Fn3)',
+      code: 'FN_MO13',
+      title: 'Hold = Layer 1, Hold with Fn2 = Layer 3',
+      shortName: 'Fn1(3)'
+    },
+    {
+      name: 'Fn2\n(Fn3)',
+      code: 'FN_MO23',
+      title: 'Hold = Layer 2, Hold with Fn1 = Layer 3',
+      shortName: 'Fn2(3)'
+    }
+  ];
+
   const menu = {
     label: 'Layers',
     width: 'label',
@@ -965,19 +980,22 @@ export function buildLayerMenu() {
   // Statically generate layer codes from 0-3 instead of making it an input
   return {
     ...menu,
-    keycodes: flatMap(menu.keycodes, keycode => {
-      let res = [];
-      for (let idx = 0; idx < 4; idx++) {
-        const newTitle = keycode.title.replace('layer', `layer ${idx}`);
-        const newCode = keycode.code.replace('layer', idx);
-        const newName = keycode.name + `(${idx})`;
-        res = [
-          ...res,
-          {...keycode, name: newName, title: newTitle, code: newCode}
-        ];
-      }
-      return res;
-    })
+    keycodes: [
+      ...hardCodedKeycodes,
+      ...flatMap(menu.keycodes, keycode => {
+        let res = [];
+        for (let idx = 0; idx < 4; idx++) {
+          const newTitle = keycode.title.replace('layer', `layer ${idx}`);
+          const newCode = keycode.code.replace('layer', idx);
+          const newName = keycode.name + `(${idx})`;
+          res = [
+            ...res,
+            {...keycode, name: newName, title: newTitle, code: newCode}
+          ];
+        }
+        return res;
+      })
+    ]
   };
 }
 
@@ -989,8 +1007,18 @@ export function getKeycodes() {
         {name: '', code: 'KC_NO', title: 'Nothing'},
         {name: '▽', code: 'KC_TRNS', title: 'Pass-through'},
         // TODO: remove "shortName" when multiline keycap labels are working
-        {name: 'Fn1\n(Fn3)', code: 'FN_MO13', title: 'Hold = Layer 1, Hold with Fn2 = Layer 3', shortName: 'Fn1(3)'},
-        {name: 'Fn2\n(Fn3)', code: 'FN_MO23', title: 'Hold = Layer 2, Hold with Fn1 = Layer 3', shortName: 'Fn2(3)'},
+        {
+          name: 'Fn1\n(Fn3)',
+          code: 'FN_MO13',
+          title: 'Hold = Layer 1, Hold with Fn2 = Layer 3',
+          shortName: 'Fn1(3)'
+        },
+        {
+          name: 'Fn2\n(Fn3)',
+          code: 'FN_MO23',
+          title: 'Hold = Layer 2, Hold with Fn1 = Layer 3',
+          shortName: 'Fn2(3)'
+        },
         {name: 'Esc', code: 'KC_ESC', keys: 'esc'},
         {name: 'A', code: 'KC_A', keys: 'a'},
         {name: 'B', code: 'KC_B', keys: 'b'},
@@ -1132,7 +1160,6 @@ export function getKeycodes() {
       label: 'Lighting',
       width: 'label',
       keycodes: [
-
         {name: 'BR -', code: 'BR_DEC', title: 'Brightness -'},
         {name: 'BR +', code: 'BR_INC', title: 'Brightness +'},
         {name: 'EF -', code: 'EF_DEC', title: 'Effect -'},
@@ -1146,7 +1173,7 @@ export function getKeycodes() {
         {name: 'S1 -', code: 'S1_DEC', title: 'Color1 Sat -'},
         {name: 'S1 +', code: 'S1_INC', title: 'Color1 Sat +'},
         {name: 'S2 -', code: 'S2_DEC', title: 'Color2 Sat -'},
-        {name: 'S2 +', code: 'S2_INC', title: 'Color2 Sat +'},
+        {name: 'S2 +', code: 'S2_INC', title: 'Color2 Sat +'}
       ]
     },
     {
@@ -1354,7 +1381,12 @@ export function getKeycodes() {
         },
         {name: 'Reset', code: 'RESET', title: 'Reset the keyboard'},
         {name: 'Debug', code: 'DEBUG', title: 'Toggle debug mode'},
-        {name: 'Toggle NKRO', code: 'MAGIC_TOGGLE_NKRO', shortName: 'NKRO', title: 'Toggle NKRO'},
+        {
+          name: 'Toggle NKRO',
+          code: 'MAGIC_TOGGLE_NKRO',
+          shortName: 'NKRO',
+          title: 'Toggle NKRO'
+        },
         // I don't even think the locking stuff is enabled...
         {name: 'Locking Num Lock', code: 'KC_LNUM'},
         {name: 'Locking Caps Lock', code: 'KC_LCAP'},
@@ -1404,8 +1436,8 @@ export function getKeycodes() {
           title: 'Manually enter any QMK keycode'
         }
       ]
-    },
-/* These are for controlling the original backlighting and bottom RGB.
+    }
+    /* These are for controlling the original backlighting and bottom RGB.
    TODO FIXME when other keyboards need this
     {
       label: 'QMK Lighting',
