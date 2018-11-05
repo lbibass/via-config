@@ -929,13 +929,6 @@ export function buildLayerMenu() {
         title: 'Toggle layer on/off'
       },
       {
-        name: 'TO',
-        code: 'TO(layer)',
-        type: 'layer',
-        layer: 0,
-        title: 'Turn on layer when pressed'
-      },
-      {
         name: 'TT',
         code: 'TT(layer)',
         type: 'layer',
@@ -944,19 +937,28 @@ export function buildLayerMenu() {
           "Normally acts like MO unless it's tapped multple times which toggles layer on"
       },
       {
-        name: 'DF',
-        code: 'DF(layer)',
-        type: 'layer',
-        layer: 0,
-        title: 'Sets the default layer'
-      },
-      {
         name: 'OSL',
         code: 'OSL(layer)',
         type: 'layer',
         layer: 0,
         title: 'Switch to layer for one keypress'
       }
+      /* Users are not ready for this ;-)
+      {
+        name: 'TO',
+        code: 'TO(layer)',
+        type: 'layer',
+        layer: 0,
+        title: 'Turn on layer when pressed'
+      },
+      {
+        name: 'DF',
+        code: 'DF(layer)',
+        type: 'layer',
+        layer: 0,
+        title: 'Sets the default layer'
+      }
+      */
     ]
   };
 
@@ -1383,6 +1385,18 @@ export function getKeycodes() {
         {name: 'Refresh', code: 'KC_WWW_REFRESH'},
         {name: 'Favorites', code: 'KC_WWW_FAVORITES'},
         {name: 'Search', code: 'KC_WWW_SEARCH'},
+        {name: 'F13', code: 'KC_F13'},
+        {name: 'F14', code: 'KC_F14'},
+        {name: 'F15', code: 'KC_F15'},
+        {name: 'F16', code: 'KC_F16'},
+        {name: 'F17', code: 'KC_F17'},
+        {name: 'F18', code: 'KC_F18'},
+        {name: 'F19', code: 'KC_F19'},
+        {name: 'F20', code: 'KC_F20'},
+        {name: 'F21', code: 'KC_F21'},
+        {name: 'F22', code: 'KC_F22'},
+        {name: 'F23', code: 'KC_F23'},
+        {name: 'F24', code: 'KC_F24'},
         {
           name: 'Any',
           code: 'text',
