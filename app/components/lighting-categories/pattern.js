@@ -16,21 +16,19 @@ const Pattern = [
 ];
 
 export class PatternCategory extends Component {
-  onRangeChange(event) {
-    const pattern = parseInt(event.target.value);
-    this.props.setRGBMode(pattern);
+  updatePattern(patternNum) {
+    this.props.setRGBMode(patternNum);
   }
 
   render() {
     return (
       <div>
-        <input
-          type="range"
-          value={this.props.rgbMode}
-          onChange={this.onRangeChange.bind(this)}
-          min={0}
-          max={10}
-        />
+        {Pattern.map((p, idx) => (
+          <div onClick={() => this.updatePattern(idx)} key={idx}>
+            {p}
+          </div>
+        ))}
+        <input type="range" value={this.props.rgbMode} min={0} max={10} />
       </div>
     );
   }

@@ -7,7 +7,9 @@ import {
   getOtherMenu
 } from '../../utils/key';
 
-const menu = getKeycodes().concat(getOtherMenu());
+const menu = getKeycodes()
+  .concat(getOtherMenu())
+  .filter(menu => !['Other', 'Mod+_'].includes(menu.label));
 export class KeycodeMenu extends Component {
   constructor() {
     super();
