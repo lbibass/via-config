@@ -405,17 +405,18 @@ export const basicKeyToByte = {
   FN_MO23: 0x5f11,
   FN_TT13: 0x2f31,
   FN_TT23: 0x2f32,
-  TG_NKRO: 0x5c14,
-  MOD_LCTL: 0x0001,
-  MOD_LSFT: 0x0002,
-  MOD_LALT: 0x0004,
-  MOD_LGUI: 0x0008,
-  MOD_RCTL: 0x0011,
-  MOD_RSFT: 0x0012,
-  MOD_RALT: 0x0014,
-  MOD_RGUI: 0x0018,
-  MOD_HYPR: 0x000f,
-  MOD_MEH: 0x0007
+  MAGIC_TOGGLE_NKRO: 0x5c14,
+  // These are bitmasks not keycodes
+  //MOD_LCTL: 0x0001,
+  //MOD_LSFT: 0x0002,
+  //MOD_LALT: 0x0004,
+  //MOD_LGUI: 0x0008,
+  //MOD_RCTL: 0x0011,
+  //MOD_RSFT: 0x0012,
+  //MOD_RALT: 0x0014,
+  //MOD_RGUI: 0x0018,
+  //MOD_HYPR: 0x000f,
+  //MOD_MEH: 0x0007
 };
 
 const keycodesList = getKeycodes().reduce((p, n) => p.concat(n.keycodes), []);
@@ -983,6 +984,11 @@ export function getKeycodes() {
     {
       label: 'Basic',
       keycodes: [
+        {name: '', code: 'KC_NO', title: 'Nothing'},
+        {name: '▽', code: 'KC_TRNS', title: 'Pass-through'},
+        // TODO: remove "shortName" when multiline keycap labels are working
+        {name: 'Fn1\n(Fn3)', code: 'FN_MO13', title: 'Hold = Layer 1, Hold with Fn2 = Layer 3', shortName: 'Fn1(3)'},
+        {name: 'Fn2\n(Fn3)', code: 'FN_MO23', title: 'Hold = Layer 2, Hold with Fn1 = Layer 3', shortName: 'Fn2(3)'},
         {name: 'Esc', code: 'KC_ESC', keys: 'esc'},
         {name: 'A', code: 'KC_A', keys: 'a'},
         {name: 'B', code: 'KC_B', keys: 'b'},
@@ -1046,7 +1052,6 @@ export function getKeycodes() {
         {name: 'F11', code: 'KC_F11'},
         {name: 'F12', code: 'KC_F12'},
         {name: 'Print Screen', code: 'KC_PSCR', shortName: 'Print'},
-        {name: 'Locking Scroll Lock', code: 'KC_LSCR'},
         {name: 'Scroll Lock', code: 'KC_SLCK', shortName: 'Scroll'},
         {name: 'Pause', code: 'KC_PAUS'},
         {name: 'Tab', code: 'KC_TAB', keys: 'tab', width: 1500},
@@ -1070,13 +1075,6 @@ export function getKeycodes() {
         },
         {name: 'Num Lock', code: 'KC_NLCK', keys: 'num'},
         {name: 'Caps Lock', code: 'KC_CAPS', keys: 'caps_lock', width: 1750},
-        {name: 'Locking Num Lock', code: 'KC_LNUM', keys: 'num'},
-        {
-          name: 'Locking Caps Lock',
-          code: 'KC_LCAP',
-          keys: 'caps_lock',
-          width: 1750
-        },
         {name: 'Enter', code: 'KC_ENT', keys: 'enter', width: 2250},
         {name: '1', code: 'KC_P1', keys: 'num_1'},
         {name: '2', code: 'KC_P2', keys: 'num_2'},
@@ -1093,6 +1091,7 @@ export function getKeycodes() {
         {name: '-', code: 'KC_PMNS', keys: 'num_subtract'},
         {name: '+', code: 'KC_PPLS', keys: 'num_add'},
         {name: '.', code: 'KC_PDOT', keys: 'num_decimal'},
+        {name: 'Numpad Enter', code: 'KC_PENT', shortName: 'Num Ent'},
         {
           name: 'Left Shift',
           code: 'KC_LSFT',
@@ -1124,39 +1123,45 @@ export function getKeycodes() {
         {name: 'Left', code: 'KC_LEFT', keys: 'left', shortName: '←'},
         {name: 'Down', code: 'KC_DOWN', keys: 'down', shortName: '↓'},
         {name: 'Up', code: 'KC_UP', keys: 'up', shortName: '↑'},
-        {name: 'Right', code: 'KC_RGHT', keys: 'right', shortName: '→'},
-        {name: 'Enter', code: 'KC_PENT', keys: 'num_enter'}
+        {name: 'Right', code: 'KC_RGHT', keys: 'right', shortName: '→'}
       ]
     },
     {
-      label: 'Intl',
+      label: 'Lighting',
       width: 'label',
       keycodes: [
-        {name: 'NUHS', code: 'KC_NUHS', title: 'Non-US # and ~'},
-        {name: 'NUBS', code: 'KC_NUBS', title: 'Non-US \\ and |'},
-        {name: 'Ro', code: 'KC_RO', title: 'JIS \\ and |'},
-        {name: '¥', code: 'KC_JYEN', title: 'JPN Yen'},
-        {name: '無変換', code: 'KC_MHEN', title: 'JIS Muhenkan'},
-        {name: '漢字', code: 'KC_HANJ', title: 'Hanja'},
-        {name: '한영', code: 'KC_HAEN', title: 'HanYeong'},
-        {name: '変換', code: 'KC_HENK', title: 'JIS Henkan'},
-        {name: 'かな', code: 'KC_KANA', title: 'JIS Katakana/Hiragana'}
+
+        {name: 'BR -', code: 'BR_DEC', title: 'Brightness -'},
+        {name: 'BR +', code: 'BR_INC', title: 'Brightness +'},
+        {name: 'EF -', code: 'EF_DEC', title: 'Effect -'},
+        {name: 'EF +', code: 'EF_INC', title: 'Effect +'},
+        {name: 'ES -', code: 'ES_DEC', title: 'Effect Speed -'},
+        {name: 'ES +', code: 'ES_INC', title: 'Effect Speed +'},
+        {name: 'H1 -', code: 'H1_DEC', title: 'Color1 Hue -'},
+        {name: 'H1 +', code: 'H1_INC', title: 'Color1 Hue +'},
+        {name: 'H2 -', code: 'H2_DEC', title: 'Color2 Hue -'},
+        {name: 'H2 +', code: 'H2_INC', title: 'Color2 Hue +'},
+        {name: 'S1 -', code: 'S1_DEC', title: 'Color1 Sat -'},
+        {name: 'S1 +', code: 'S1_INC', title: 'Color1 Sat +'},
+        {name: 'S2 -', code: 'S2_DEC', title: 'Color2 Sat -'},
+        {name: 'S2 +', code: 'S2_INC', title: 'Color2 Sat +'},
       ]
     },
     {
-      label: 'QMK',
+      label: 'Media',
       width: 'label',
       keycodes: [
-        {name: '', code: 'KC_NO', title: 'Nothing'},
-        {name: '▽', code: 'KC_TRNS', title: 'Pass-through'},
-        {name: 'Reset', code: 'RESET', title: 'Reset the keyboard'},
-        {name: 'Debug', code: 'DEBUG', title: 'Toggle debug mode'},
-        {
-          name: 'Any',
-          code: 'text',
-          type: 'text',
-          title: 'Manually enter any QMK keycode'
-        }
+        {name: 'Vol -', code: 'KC_VOLD', title: 'Volume Down'},
+        {name: 'Vol +', code: 'KC_VOLU', title: 'Volume Up'},
+        {name: 'Mute', code: 'KC_MUTE', title: 'Mute Audio'},
+        {name: 'Play', code: 'KC_MPLY', title: 'Play/Pause'},
+        {name: 'Media Stop', code: 'KC_MSTP', title: 'Media Stop'},
+        {name: 'Previous', code: 'KC_MPRV', title: 'Media Previous'},
+        {name: 'Next', code: 'KC_MNXT', title: 'Media Next'},
+        {name: 'Rewind', code: 'KC_MRWD', title: 'Rewind'},
+        {name: 'Fast Forward', code: 'KC_MFFD', title: 'Fast Forward'},
+        {name: 'Select', code: 'KC_MSEL', title: 'Media Select'},
+        {name: 'Eject', code: 'KC_EJCT', title: 'Media Eject'}
       ]
     },
     buildLayerMenu(),
@@ -1300,27 +1305,6 @@ export function getKeycodes() {
       label: 'Special',
       width: 'label',
       keycodes: [
-        {
-          name: 'Esc/~',
-          code: 'KC_GESC',
-          title: 'Esc normally, but ~ when shift/gui is pressed'
-        },
-        {
-          name: 'LS/(',
-          code: 'KC_LSPO',
-          title: 'Left shift when held, ( when tapped'
-        },
-        {
-          name: 'RS/)',
-          code: 'KC_RSPC',
-          title: 'Right shift when held, ) when tapped'
-        }
-      ]
-    },
-    {
-      label: 'symbols',
-      width: 'label',
-      keycodes: [
         {name: '~', code: 'KC_TILD', keys: '`'},
         {name: '!', code: 'KC_EXLM', keys: '!'},
         {name: '@', code: 'KC_AT', keys: '@'},
@@ -1341,13 +1325,38 @@ export function getKeycodes() {
         {name: ':', code: 'KC_COLN', keys: ':'},
         {name: '|', code: 'KC_PIPE', keys: '|'},
         {name: '?', code: 'KC_QUES', keys: '?'},
-        {name: '"', code: 'KC_DQUO', keys: '"'}
-      ]
-    },
-    {
-      label: 'App',
-      width: 'label',
-      keycodes: [
+        {name: '"', code: 'KC_DQUO', keys: '"'},
+        {name: 'NUHS', code: 'KC_NUHS', title: 'Non-US # and ~'},
+        {name: 'NUBS', code: 'KC_NUBS', title: 'Non-US \\ and |'},
+        {name: 'Ro', code: 'KC_RO', title: 'JIS \\ and |'},
+        {name: '¥', code: 'KC_JYEN', title: 'JPN Yen'},
+        {name: '無変換', code: 'KC_MHEN', title: 'JIS Muhenkan'},
+        {name: '漢字', code: 'KC_HANJ', title: 'Hanja'},
+        {name: '한영', code: 'KC_HAEN', title: 'HanYeong'},
+        {name: '変換', code: 'KC_HENK', title: 'JIS Henkan'},
+        {name: 'かな', code: 'KC_KANA', title: 'JIS Katakana/Hiragana'},
+        {
+          name: 'Esc/~',
+          code: 'KC_GESC',
+          title: 'Esc normally, but ~ when shift/gui is pressed'
+        },
+        {
+          name: 'LS/(',
+          code: 'KC_LSPO',
+          title: 'Left shift when held, ( when tapped'
+        },
+        {
+          name: 'RS/)',
+          code: 'KC_RSPC',
+          title: 'Right shift when held, ) when tapped'
+        },
+        {name: 'Reset', code: 'RESET', title: 'Reset the keyboard'},
+        {name: 'Debug', code: 'DEBUG', title: 'Toggle debug mode'},
+        {name: 'Toggle NKRO', code: 'MAGIC_TOGGLE_NKRO', shortName: 'NKRO', title: 'Toggle NKRO'},
+        // I don't even think the locking stuff is enabled...
+        {name: 'Locking Num Lock', code: 'KC_LNUM'},
+        {name: 'Locking Caps Lock', code: 'KC_LCAP'},
+        {name: 'Locking Scroll Lock', code: 'KC_LSCR'},
         {name: 'Power', code: 'KC_PWR'},
         {name: 'Power OSX', code: 'KC_POWER'},
         {name: 'Sleep', code: 'KC_SLEP'},
@@ -1373,11 +1382,19 @@ export function getKeycodes() {
         {name: 'Stop', code: 'KC_WWW_STOP'},
         {name: 'Refresh', code: 'KC_WWW_REFRESH'},
         {name: 'Favorites', code: 'KC_WWW_FAVORITES'},
-        {name: 'Search', code: 'KC_WWW_SEARCH'}
+        {name: 'Search', code: 'KC_WWW_SEARCH'},
+        {
+          name: 'Any',
+          code: 'text',
+          type: 'text',
+          title: 'Manually enter any QMK keycode'
+        }
       ]
     },
+/* These are for controlling the original backlighting and bottom RGB.
+   TODO FIXME when other keyboards need this
     {
-      label: 'Lighting',
+      label: 'QMK Lighting',
       width: 'label',
       keycodes: [
         {name: 'BL Toggle', code: 'BL_TOGG'},
@@ -1387,20 +1404,6 @@ export function getKeycodes() {
         {name: 'BL +', code: 'BL_INC'},
         {name: 'BL Cycle', code: 'BL_STEP'},
         {name: 'BR Toggle', code: 'BL_BRTG'},
-        {name: 'BR -', code: 'BR_DEC'},
-        {name: 'BR +', code: 'BR_INC'},
-        {name: 'EF -', code: 'EF_DEC'},
-        {name: 'EF +', code: 'EF_INC'},
-        {name: 'ES -', code: 'ES_DEC'},
-        {name: 'ES +', code: 'ES_INC'},
-        {name: 'H1 -', code: 'H1_DEC'},
-        {name: 'H1 +', code: 'H1_INC'},
-        {name: 'H2 -', code: 'H2_DEC'},
-        {name: 'H2 +', code: 'H2_INC'},
-        {name: 'S1 -', code: 'S1_DEC'},
-        {name: 'S1 +', code: 'S1_INC'},
-        {name: 'S2 -', code: 'S2_DEC'},
-        {name: 'S2 +', code: 'S2_INC'},
         {name: 'RGB Toggle', code: 'RGB_TOG'},
         {name: 'RGB Mode -', code: 'RGB_RMOD'},
         {name: 'RGB Mode +', code: 'RGB_MOD'},
@@ -1422,22 +1425,6 @@ export function getKeycodes() {
         {name: 'RGB Mode G', code: 'RGB_M_G', title: 'Gradient'}
       ]
     },
-    {
-      label: 'Media',
-      width: 'label',
-      keycodes: [
-        {name: 'Previous', code: 'KC_MPRV', title: 'Media Previous'},
-        {name: 'Select', code: 'KC_MSEL', title: 'Media Select'},
-        {name: 'Eject', code: 'KC_EJCT', title: 'Media Eject'},
-        {name: 'Next', code: 'KC_MNXT', title: 'Media Next'},
-        {name: 'Mute', code: 'KC_MUTE', title: 'Mute Audio'},
-        {name: 'Vol -', code: 'KC_VOLD', title: 'Volume Down'},
-        {name: 'Vol +', code: 'KC_VOLU', title: 'Volume Up'},
-        {name: 'Media Stop', code: 'KC_MSTP', title: 'Media Stop'},
-        {name: 'Play', code: 'KC_MPLY', title: 'Play/Pause'},
-        {name: 'Rewind', code: 'KC_MRWD', title: 'Rewind'},
-        {name: 'Fast Forward', code: 'KC_MFFD', title: 'Fast Forward'}
-      ]
-    }
+*/
   ];
 }
