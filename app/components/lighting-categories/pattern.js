@@ -28,7 +28,6 @@ export class PatternCategory extends Component {
             {p}
           </div>
         ))}
-        <input type="range" value={this.props.rgbMode} min={0} max={10} />
       </div>
     );
   }
