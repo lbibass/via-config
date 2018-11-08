@@ -28,3 +28,9 @@
 .selected {
   color: #717070;
 }
+
+.colorControls {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}

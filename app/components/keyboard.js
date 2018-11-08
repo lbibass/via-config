@@ -10,6 +10,7 @@ import {
 } from '../utils/hid-keyboards';
 import {MatrixLayout} from '../utils/layout-parser';
 import {M6B, ZEAL65, HHKB, parseKLERaw} from '../utils/kle-parser';
+import {BrightnessControl} from './brightness-control';
 import {LayerControl} from './LayerControl';
 import {
   getLabelForByte,
@@ -126,6 +127,7 @@ export class Keyboard extends Component {
   render() {
     const {
       activeLayer,
+      lightingData,
       selectedKey,
       selectedKeyboard,
       selectedTitle,
@@ -133,6 +135,7 @@ export class Keyboard extends Component {
       detected,
       clearSelectedKey,
       updateLayer,
+      updateBrightness,
       matrixKeycodes = []
     } = this.props;
     const device = this.getDevice();
@@ -141,6 +144,7 @@ export class Keyboard extends Component {
       const {res: selectedLayout, colorMap} = getLayoutFromDevice(device);
       const matrixLayout = MatrixLayout[keyboard.name];
       const showLayer = selectedTitle === Title.KEYS;
+      const showBrightness = selectedTitle === Title.LIGHTING;
       const useMatrixKeycodes = this.useMatrixKeycodes() && matrixKeycodes;
       let keyCounter = 0;
       return (
@@ -186,6 +190,11 @@ export class Keyboard extends Component {
             matrixKeycodes={matrixKeycodes}
             useMatrixKeycodes={this.useMatrixKeycodes()}
             selectedKey={selectedKey}
+          />
+          <BrightnessControl
+            brightness={lightingData.brightness}
+            updateBrightness={updateBrightness}
+            showControl={showBrightness}
           />
         </div>
       );

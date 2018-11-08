@@ -1,0 +1,67 @@
+.brightnessControl {
+  height: 30px;
+  background: #4c4a4a;
+  text-align: center;
+  border-radius: 4px;
+  flex-direction: row;
+  display: flex;
+  padding: 0 0;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 13px;
+  user-select: none;
+  transition: opacity 0.2s ease-out;
+  opacity: 0;
+  cursor: default;
+  font-family: Symbola;
+  font-size: 30px;
+}
+
+.showControl {
+  opacity: 1;
+}
+
+.label {
+  display: inline-block;
+  padding: 0 5px;
+  color: #dddfe0;
+  flex: 1;
+}
+
+@font-face {
+  font-family: Symbola;
+  src: url('../fonts/Symbola.ttf') format('opentype');
+}
+
+.brightnessControl input[type='range'] {
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 140px; /* Specific width is required for Firefox. */
+  background: transparent; /* Otherwise white in Chrome */
+}
+
+.brightnessControl input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+.brightnessControl input[type='range']:focus {
+  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+.brightnessControl input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 4px;
+  border-radius: 2px;
+  background: #dddfe0;
+  cursor: pointer;
+  margin-top: -7px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+}
+
+.brightnessControl input[type='range']::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  border-radius: 1px;
+  background: #dddfe0;
+}

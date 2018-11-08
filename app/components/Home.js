@@ -67,6 +67,27 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
+  async getCurrentLightingSettings(selectedKeyboard) {
+    const api = this.getAPI(selectedKeyboard);
+    if (api) {
+      const promises = [
+        api.getRGBMode(),
+        api.getBrightness(),
+        api.getColor(1),
+        api.getColor(2)
+      ];
+      const [rgbMode, brightness, color1, color2] = await Promise.all(promises);
+      const lightingData = {
+        rgbMode,
+        brightness,
+        color1,
+        color2
+      };
+      console.log(lightingData);
+      this.setState({lightingData});
+    }
+  }
+
   handleKeys(evt) {
     if (this.state.selectedKey !== null) {
       this.updateSelectedKey(getByteForCode(mapEvtToKeycode(evt)));
@@ -110,10 +131,11 @@ export default class Home extends Component<Props, {}> {
         });
         await this.checkIfDetected(selectedKeyboard);
         await this.updateFullMatrix(0, selectedKeyboard);
-        this.setReady();
         await this.updateFullMatrix(1, selectedKeyboard);
         await this.updateFullMatrix(2, selectedKeyboard);
         await this.updateFullMatrix(3, selectedKeyboard);
+        await this.getCurrentLightingSettings(selectedKeyboard);
+        this.setReady();
       } else {
         this.setState({
           keyboards,
@@ -380,11 +402,23 @@ export default class Home extends Component<Props, {}> {
     this.updateFullMatrix(activeLayer, this.state.selectedKeyboard);
   }
 
+  updateBrightness(api, brightness) {
+    const {lightingData} = this.state;
+    this.setState({
+      lightingData: {
+        ...lightingData,
+        brightness
+      }
+    });
+    api.setBrightness(brightness);
+  }
+
   render() {
     const {
       activeLayer,
       connected,
       detected,
+      lightingData,
       selectedKey,
       matrixKeycodes,
       selectedKeyboard,
@@ -414,11 +448,16 @@ export default class Home extends Component<Props, {}> {
                 selectedKeyboard,
                 activeLayer
               )}
+              lightingData={lightingData}
               clearSelectedKey={this.clearSelectedKey.bind(this)}
               setSelectedKey={this.setSelectedKey.bind(this)}
               setReady={this.setReady.bind(this)}
               updateFullMatrix={this.updateFullMatrix.bind(this)}
               updateLayer={this.updateLayer.bind(this)}
+              updateBrightness={this.updateBrightness.bind(
+                this,
+                this.getAPI(selectedKeyboard)
+              )}
               showCarouselButtons={this.state.keyboards.length > 1}
               prevKeyboard={() => this.offsetKeyboard(-1)}
               nextKeyboard={() => this.offsetKeyboard(1)}

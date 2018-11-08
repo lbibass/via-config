@@ -15,17 +15,30 @@
   cursor: pointer;
 }
 
+.label {
+  font-size: 14px;
+  color: #717070;
+}
+
+.colorCategoryContainer {
+  margin: 0 10px;
+}
+
 .colorCategory {
+  margin-top: 5px;
   display: flex;
   justify-content: center;
   height: 100%;
   align-items: center;
+  width: 250px;
+  height: 250px;
+  box-shadow: rgba(0, 0, 0, 0.11) 0 1px 1px 1px;
 }
 
 .container {
   border: 10px solid whitesmoke;
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
   box-shadow: rgba(0, 0, 0, 0.11) 0 1px 1px 1px;
 }
 

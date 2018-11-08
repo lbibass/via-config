@@ -7,7 +7,7 @@ import {
 import styles from './lighting-menu.css';
 
 export const Category = {
-  Pattern: 'Pattern',
+  Pattern: 'Patterns',
   Color1: 'Primary Color',
   Color2: 'Secondary Color',
   Brightness: 'Brightness'
@@ -49,12 +49,7 @@ export class LightingMenu extends Component {
 
   renderCategories() {
     const {selectedCategory} = this.state;
-    const menu = [
-      Category.Color1,
-      Category.Color2,
-      Category.Pattern,
-      Category.Brightness
-    ];
+    const menu = [Category.Pattern];
     return (
       <div className={styles.categories}>
         {menu.map(label => (
@@ -121,6 +116,8 @@ export class LightingMenu extends Component {
 
     if (api && lightingData) {
       const {color1, color2, brightness, rgbMode} = lightingData;
+      const colorsNeededArr = [0, 1, 2, 2, 2, 0, 0, 0, 0, 1, 0];
+      const colorsNeeded = colorsNeededArr[rgbMode];
       switch (category) {
         case Category.Brightness:
           return (
@@ -145,10 +142,34 @@ export class LightingMenu extends Component {
           );
         case Category.Pattern:
           return (
-            <PatternCategory
-              rgbMode={rgbMode}
-              setRGBMode={mode => this.setRGBMode(mode)}
-            />
+            <div>
+              <PatternCategory
+                rgbMode={rgbMode}
+                setRGBMode={mode => this.setRGBMode(mode)}
+              />
+              <div className={styles.colorControls}>
+                {colorsNeeded === 0 ? null : colorsNeeded === 1 ? (
+                  <ColorCategory
+                    label={'Primary Color'}
+                    color={color1}
+                    setColor={(hue, sat) => this.setColor(1, hue, sat)}
+                  />
+                ) : (
+                  <React.Fragment>
+                    <ColorCategory
+                      label={'Primary Color'}
+                      color={color1}
+                      setColor={(hue, sat) => this.setColor(1, hue, sat)}
+                    />
+                    <ColorCategory
+                      label={'Secondary Color'}
+                      color={color2}
+                      setColor={(hue, sat) => this.setColor(2, hue, sat)}
+                    />
+                  </React.Fragment>
+                )}
+              </div>
+            </div>
           );
       }
     }

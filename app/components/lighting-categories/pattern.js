@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import styles from './pattern.css';
 
+const ColorsNeeded = [0, 1, 2, 2, 2, 0, 0, 0, 0, 1, 0];
+
 const Pattern = [
   'All Off',
   'Solid Color 1',
@@ -21,10 +23,18 @@ export class PatternCategory extends Component {
   }
 
   render() {
+    const {rgbMode} = this.props;
     return (
-      <div>
+      <div className={styles.patternContainer}>
         {Pattern.map((p, idx) => (
-          <div onClick={() => this.updatePattern(idx)} key={idx}>
+          <div
+            className={[
+              rgbMode === idx && styles.selected,
+              styles.pattern
+            ].join(' ')}
+            onClick={() => this.updatePattern(idx)}
+            key={idx}
+          >
             {p}
           </div>
         ))}

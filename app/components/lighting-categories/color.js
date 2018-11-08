@@ -36,7 +36,7 @@ export class ColorCategory extends Component {
     this.refHeight = height;
     const {hue, sat} = this.props.color;
     const offsetX = (width * hue) / 255;
-    const offsetY = (height * sat) / 255;
+    const offsetY = height * (1 - sat / 255);
     const lensTransform = `translate3d(${offsetX - 5}px, ${offsetY - 5}px, 0)`;
     this.setState({lensTransform});
   }
@@ -103,23 +103,26 @@ export class ColorCategory extends Component {
 
   render() {
     return (
-      <div
-        className={styles.colorCategory}
-        onMouseUp={this.onMouseUp.bind(this)}
-        style={{background: this.getRGB(this.props.color)}}
-      >
-        <div onClick={this.onClick.bind(this)} className={styles.container}>
-          <div
-            onMouseDown={this.onMouseDown.bind(this)}
-            onMouseMove={this.onMouseMove.bind(this)}
-            ref={ref => (this.ref = ref)}
-            className={styles.outer}
-          >
-            <div className={styles.inner}>
-              <div
-                className={styles.lens}
-                style={{transform: this.state.lensTransform}}
-              />
+      <div className={styles.colorCategoryContainer}>
+        <div className={styles.label}>{this.props.label}</div>
+        <div
+          className={styles.colorCategory}
+          onMouseUp={this.onMouseUp.bind(this)}
+          style={{background: this.getRGB(this.props.color)}}
+        >
+          <div onClick={this.onClick.bind(this)} className={styles.container}>
+            <div
+              onMouseDown={this.onMouseDown.bind(this)}
+              onMouseMove={this.onMouseMove.bind(this)}
+              ref={ref => (this.ref = ref)}
+              className={styles.outer}
+            >
+              <div className={styles.inner}>
+                <div
+                  className={styles.lens}
+                  style={{transform: this.state.lensTransform}}
+                />
+              </div>
             </div>
           </div>
         </div>
