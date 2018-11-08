@@ -1,4 +1,5 @@
 const HID = require('node-hid');
+const debounce = require('lodash.debounce');
 
 const COMMAND_START = 0x00;
 const GET_PROTOCOL_VERSION = 0x01;
@@ -147,6 +148,10 @@ export class KeyboardAPI {
   async setRGBMode(pattern) {
     const bytes = [BACKLIGHT_EFFECT, pattern];
     await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
+  }
+
+  async saveLighting() {
+    await this.hidCommand(BACKLIGHT_CONFIG_SAVE);
   }
 
   async resetEEPROM() {

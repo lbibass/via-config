@@ -13,6 +13,7 @@ import {TitleBar, Title} from './title-bar';
 import {Wilba} from './Wilba';
 import {LoadingScreen} from './loading-screen';
 const usbDetect = require('usb-detection');
+const debounce = require('lodash.debounce');
 usbDetect.startMonitoring();
 type Props = {};
 
@@ -43,6 +44,7 @@ export default class Home extends Component<Props, {}> {
       activeLayer: null,
       matrixKeycodes: {}
     };
+    this.saveLighting = debounce(this.saveLighting.bind(this), 500);
   }
 
   componentDidMount() {
@@ -55,6 +57,11 @@ export default class Home extends Component<Props, {}> {
   componentWillUnmount() {
     usbDetect.off('change');
     document.body.removeEventListener('keydown', this.handleKeys);
+  }
+
+  saveLighting(api) {
+    console.log('saving', +new Date());
+    if (api) return api.saveLighting();
   }
 
   async checkIfDetected(selectedKeyboard) {
@@ -83,7 +90,6 @@ export default class Home extends Component<Props, {}> {
         color1,
         color2
       };
-      console.log(lightingData);
       this.setState({lightingData});
     }
   }
@@ -353,9 +359,14 @@ export default class Home extends Component<Props, {}> {
         <KeycodeMenu updateSelectedKey={this.updateSelectedKey.bind(this)} />
       );
     } else if (selectedTitle === Title.LIGHTING) {
+      const api = this.getAPI(selectedKeyboard);
       return (
         <LightingMenu
-          api={this.getAPI(selectedKeyboard)}
+          api={api}
+          lightingData={this.state.lightingData}
+          updateColor={this.updateColor.bind(this, api)}
+          updateRGBMode={this.updateRGBMode.bind(this, api)}
+          saveLighting={() => this.saveLighting(api)}
           setRGBMode={this.setRGBMode.bind(this)}
         />
       );
@@ -411,6 +422,40 @@ export default class Home extends Component<Props, {}> {
       }
     });
     api.setBrightness(brightness);
+    this.saveLighting(api);
+  }
+
+  updateColor(api, num, hue, sat) {
+    const {lightingData} = this.state;
+    if (num === 1) {
+      this.setState({
+        lightingData: {
+          ...lightingData,
+          color1: {hue, sat}
+        }
+      });
+    } else if (num === 2) {
+      this.setState({
+        lightingData: {
+          ...lightingData,
+          color2: {hue, sat}
+        }
+      });
+    }
+    api.setColor(num, hue, sat);
+    this.saveLighting(api);
+  }
+
+  updateRGBMode(api, rgbMode) {
+    const {lightingData} = this.state;
+    this.setState({
+      lightingData: {
+        ...lightingData,
+        rgbMode
+      }
+    });
+    api.setRGBMode(rgbMode);
+    this.saveLighting(api);
   }
 
   render() {
