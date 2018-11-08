@@ -119,27 +119,6 @@ export class LightingMenu extends Component {
       const colorsNeededArr = [0, 1, 2, 2, 2, 0, 0, 0, 0, 1, 0];
       const colorsNeeded = colorsNeededArr[rgbMode];
       switch (category) {
-        case Category.Brightness:
-          return (
-            <BrightnessCategory
-              brightness={brightness}
-              setBrightness={brightness => this.setBrightness(brightness)}
-            />
-          );
-        case Category.Color1:
-          return (
-            <ColorCategory
-              color={color1}
-              setColor={(hue, sat) => this.setColor(1, hue, sat)}
-            />
-          );
-        case Category.Color2:
-          return (
-            <ColorCategory
-              color={color2}
-              setColor={(hue, sat) => this.setColor(2, hue, sat)}
-            />
-          );
         case Category.Pattern:
           return (
             <div>
