@@ -1133,13 +1133,13 @@ export function getKeycodes() {
         {name: 'Left Ctrl', code: 'KC_LCTL', keys: 'ctrl', width: 1250},
         {name: 'Right Ctrl', code: 'KC_RCTL', width: 1250, shortName: 'RCtl'},
         {
-          name: 'Left OS',
+          name: 'Left Win',
           code: 'KC_LGUI',
           keys: 'cmd',
           width: 1250,
-          shortName: 'LOS'
+          shortName: 'LWin'
         },
-        {name: 'Right OS', code: 'KC_RGUI', width: 1250, shortName: 'ROS'},
+        {name: 'Right Win', code: 'KC_RGUI', width: 1250, shortName: 'RWin'},
         {
           name: 'Left Alt',
           code: 'KC_LALT',
