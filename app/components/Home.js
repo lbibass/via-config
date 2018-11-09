@@ -37,6 +37,7 @@ export default class Home extends Component<Props, {}> {
     this.state = {
       keyboards,
       connected: false,
+      loaded: false,
       detected: false,
       selectedKeyboard: null,
       selectedKey: null,
@@ -127,6 +128,7 @@ export default class Home extends Component<Props, {}> {
           selectedKeyboard,
           selectedKey: null,
           connected: false,
+          loaded: false,
           detected: true,
           activeLayer: 0,
           matrixKeycodes: {
@@ -142,11 +144,13 @@ export default class Home extends Component<Props, {}> {
         await this.updateFullMatrix(3, selectedKeyboard);
         await this.getCurrentLightingSettings(selectedKeyboard);
         this.setReady();
+        this.setLoaded();
       } else {
         this.setState({
           keyboards,
           selectedKeyboard: undefined,
           detected: false,
+          loaded: false,
           selectedKey: null,
           activeLayer: 0,
           selectedTitle: null
@@ -305,6 +309,14 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
+  setLoading() {
+    this.setState({loaded: false});
+  }
+
+  setLoaded() {
+    this.setState({loaded: true});
+  }
+
   setReady() {
     this.setState({ready: true});
   }
@@ -314,13 +326,13 @@ export default class Home extends Component<Props, {}> {
     const keyboard = getKeyboardFromDevice(selectedKeyboard);
     if (api && keyboard.lights) {
       const val = await api.getRGBMode();
-      const newVal = val === 9 ? 0 : 9;
-      await api.setRGBMode(newVal);
-      await timeoutPromise(200);
-      await api.setRGBMode(val);
-      await timeoutPromise(200);
-      await api.setRGBMode(newVal);
-      await timeoutPromise(200);
+      const newVal = val !== 0 ? 0 : 9;
+      api.setRGBMode(newVal);
+      api.timeout(200);
+      api.setRGBMode(val);
+      api.timeout(200);
+      api.setRGBMode(newVal);
+      api.timeout(200);
       await api.setRGBMode(val);
     }
   }
@@ -391,11 +403,17 @@ export default class Home extends Component<Props, {}> {
         selectedTitle: Title.KEYS,
         detected: true,
         connected: false,
+        loaded: false,
         activeLayer: 0
       });
       await this.checkIfDetected(selectedKeyboard);
-      await this.updateFullMatrix(0, selectedKeyboard);
       await this.toggleLights(selectedKeyboard);
+      await this.getCurrentLightingSettings(selectedKeyboard);
+      await this.updateFullMatrix(0, selectedKeyboard);
+      await this.updateFullMatrix(1, selectedKeyboard);
+      await this.updateFullMatrix(2, selectedKeyboard);
+      await this.updateFullMatrix(3, selectedKeyboard);
+      this.setLoaded();
     }
   }
 
@@ -463,6 +481,7 @@ export default class Home extends Component<Props, {}> {
       activeLayer,
       connected,
       detected,
+      loaded,
       lightingData,
       selectedKey,
       matrixKeycodes,
@@ -485,6 +504,7 @@ export default class Home extends Component<Props, {}> {
               ref={keyboard => (this.keyboard = keyboard)}
               connected={connected}
               detected={detected}
+              loaded={loaded}
               selectedKey={selectedKey}
               selectedKeyboard={selectedKeyboard}
               selectedTitle={selectedTitle}

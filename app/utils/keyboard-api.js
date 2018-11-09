@@ -174,6 +174,20 @@ export class KeyboardAPI {
     return (res[4] << 8) | res[5];
   }
 
+  async timeout(time) {
+    return new Promise((res, rej) => {
+      commandQueue.push({
+        res,
+        args: [
+          () => new Promise((r, j) => setTimeout(() => r() || res(), time))
+        ]
+      });
+      if (!isFlushing) {
+        this.flushQueue();
+      }
+    });
+  }
+
   async hidCommand(command, bytes = []): Promise<any> {
     return new Promise((res, rej) => {
       commandQueue.push({res, args: [this.kbAddr, command, bytes]});
@@ -190,8 +204,13 @@ export class KeyboardAPI {
     isFlushing = true;
     while (commandQueue.length !== 0) {
       const {res, args} = commandQueue.shift();
-      const ans = await this._hidCommand(...args);
-      res(ans);
+      if (typeof args[0] === 'function') {
+        await args[0]();
+        res();
+      } else {
+        const ans = await this._hidCommand(...args);
+        res(ans);
+      }
     }
     isFlushing = false;
   }

@@ -135,6 +135,7 @@ export class Keyboard extends Component {
       detected,
       clearSelectedKey,
       updateLayer,
+      loaded,
       updateBrightness,
       matrixKeycodes = []
     } = this.props;
@@ -153,6 +154,7 @@ export class Keyboard extends Component {
             className={[
               styles.keyboard,
               connected && styles.connected,
+              loaded && styles.loaded,
               (detected || OVERRIDE_DETECT) && styles.detected
             ].join(' ')}
           >
@@ -179,6 +181,7 @@ export class Keyboard extends Component {
             ].join(' ')}
           />
           <LayerControl
+            loaded={loaded}
             showLayer={showLayer}
             updateLayer={updateLayer}
             activeLayer={activeLayer}
