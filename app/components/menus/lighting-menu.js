@@ -7,7 +7,7 @@ import {
 import styles from './lighting-menu.css';
 
 export const Category = {
-  Pattern: 'Patterns',
+  Pattern: 'Effects',
   Color1: 'Primary Color',
   Color2: 'Secondary Color',
   Brightness: 'Brightness'
@@ -61,21 +61,21 @@ export class LightingMenu extends Component {
               <div className={styles.colorControls}>
                 {colorsNeeded === 0 ? null : colorsNeeded === 1 ? (
                   <ColorCategory
-                    label={'Primary Color'}
+                    label={'Color 1'}
                     color={color1}
                     setColor={(hue, sat) => this.props.updateColor(1, hue, sat)}
                   />
                 ) : (
                   <React.Fragment>
                     <ColorCategory
-                      label={'Primary Color'}
+                      label={'Color 1'}
                       color={color1}
                       setColor={(hue, sat) =>
                         this.props.updateColor(1, hue, sat)
                       }
                     />
                     <ColorCategory
-                      label={'Secondary Color'}
+                      label={'Color 2'}
                       color={color2}
                       setColor={(hue, sat) =>
                         this.props.updateColor(2, hue, sat)

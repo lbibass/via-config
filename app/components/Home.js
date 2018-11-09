@@ -110,7 +110,7 @@ export default class Home extends Component<Props, {}> {
   }
 
   setSelectedTitle(selectedTitle) {
-    this.setState({selectedTitle});
+    this.setState({selectedKey: null, selectedTitle});
   }
 
   async updateDevices() {

@@ -147,6 +147,7 @@ export class Keyboard extends Component {
       const showLayer = selectedTitle === Title.KEYS;
       const showBrightness = selectedTitle === Title.LIGHTING;
       const useMatrixKeycodes = this.useMatrixKeycodes() && matrixKeycodes;
+      const clickable = loaded && showLayer;
       let keyCounter = 0;
       return (
         <div onClick={clearSelectedKey} className={styles.keyboardContainer}>
@@ -154,6 +155,7 @@ export class Keyboard extends Component {
             className={[
               styles.keyboard,
               connected && styles.connected,
+              clickable && styles.clickable,
               loaded && styles.loaded,
               (detected || OVERRIDE_DETECT) && styles.detected
             ].join(' ')}

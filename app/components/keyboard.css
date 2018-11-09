@@ -35,11 +35,14 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAG0lEQVQYV2
   opacity: 1;
 }
 
+.clickable {
+  pointer-events: all;
+}
+
 .connected {
 }
 
 .loaded {
-  pointer-events: all;
   filter: blur(0px);
 }
 
