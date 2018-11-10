@@ -1,6 +1,6 @@
+// @flow
 const HID = require('node-hid');
 const debounce = require('lodash.debounce');
-
 const COMMAND_START = 0x00;
 const GET_PROTOCOL_VERSION = 0x01;
 const GET_KEYBOARD_VALUE = 0x02;
@@ -45,11 +45,27 @@ function eqArr(arr1, arr2) {
   return arr1.every((val, idx) => arr2[idx] === val);
 }
 
-let commandQueue = [];
+let commandQueue: CommandQueue = [];
 let isFlushing = false;
 
+type Command = number;
+type HIDAddress = string;
+type KB = {path: string};
+type Props = {kbAddr: HIDAddress};
+type MatrixEntry = {row: number, col: number};
+type Matrix = Array<MatrixEntry>;
+type Layer = number;
+type Row = number;
+type Column = number;
+type CommandQueueArgs = [string, number, Array<number>] | (() => Promise<void>);
+type CommandQueueEntry = {res: (val?: any) => void, args: CommandQueueArgs};
+type CommandQueue = Array<CommandQueueEntry>;
+
 export class KeyboardAPI {
-  constructor(kb) {
+  kbAddr: HIDAddress;
+  _i: number;
+
+  constructor(kb: KB) {
     const {path} = kb;
     this.kbAddr = path;
     this._i = 0;
@@ -58,11 +74,11 @@ export class KeyboardAPI {
     }
   }
 
-  refresh(kbAddr) {
+  refresh(kbAddr: HIDAddress) {
     cache[kbAddr] = new HID.HID(kbAddr);
   }
 
-  async getByteBuffer(kbAddr) {
+  async getByteBuffer(kbAddr: string) {
     return new Promise((res, rej) => {
       this.getHID(kbAddr).read((err, data) => {
         res(data);
@@ -75,7 +91,7 @@ export class KeyboardAPI {
     return (hi << 8) | lo;
   }
 
-  async getKey(layer, row, col) {
+  async getKey(layer: Layer, row: Row, col: Column) {
     const buffer = await this.hidCommand(DYNAMIC_KEYMAP_GET_KEYCODE, [
       layer,
       row,
@@ -84,7 +100,7 @@ export class KeyboardAPI {
     return (buffer[4] << 8) | buffer[5];
   }
 
-  async readLayout(columns, rows, layer = 0) {
+  async readLayout(columns: number, rows: number, layer: Layer = 0) {
     const res = [];
     try {
       for (let i = 0; i < columns; i++) {
@@ -97,7 +113,7 @@ export class KeyboardAPI {
     } catch (e) {}
   }
 
-  async readMatrix(matrix, layer) {
+  async readMatrix(matrix: Matrix, layer: number) {
     const res = [];
     for (let i = 0; i < matrix.length; i++) {
       const {row, col} = matrix[i];
@@ -121,8 +137,8 @@ export class KeyboardAPI {
     return brightness;
   }
 
-  async getColor(number) {
-    const bytes = [number === 1 ? BACKLIGHT_COLOR_1 : BACKLIGHT_COLOR_2];
+  async getColor(colorNumber: number) {
+    const bytes = [colorNumber === 1 ? BACKLIGHT_COLOR_1 : BACKLIGHT_COLOR_2];
     const [, , hue, sat] = await this.hidCommand(
       BACKLIGHT_CONFIG_GET_VALUE,
       bytes
@@ -130,9 +146,9 @@ export class KeyboardAPI {
     return {hue, sat};
   }
 
-  async setColor(number, hue, sat) {
+  async setColor(colorNumber: number, hue: number, sat: number) {
     const bytes = [
-      number === 1 ? BACKLIGHT_COLOR_1 : BACKLIGHT_COLOR_2,
+      colorNumber === 1 ? BACKLIGHT_COLOR_1 : BACKLIGHT_COLOR_2,
       hue,
       sat,
       255
@@ -140,13 +156,13 @@ export class KeyboardAPI {
     await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
   }
 
-  async setBrightness(brightness) {
+  async setBrightness(brightness: number) {
     const bytes = [BACKLIGHT_BRIGHTNESS, brightness];
     await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
   }
 
-  async setRGBMode(pattern) {
-    const bytes = [BACKLIGHT_EFFECT, pattern];
+  async setRGBMode(effect: number) {
+    const bytes = [BACKLIGHT_EFFECT, effect];
     await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
   }
 
@@ -163,7 +179,7 @@ export class KeyboardAPI {
     await this.hidCommand(BOOTLOADER_JUMP);
   }
 
-  async setKey(layer, row, column, val) {
+  async setKey(layer: Layer, row: Row, column: Column, val: number) {
     const key = parseInt(val);
     const hi = (key & 0xff00) >> 8;
     const lo = key & 0xff;
@@ -174,13 +190,11 @@ export class KeyboardAPI {
     return (res[4] << 8) | res[5];
   }
 
-  async timeout(time) {
+  async timeout(time: number) {
     return new Promise((res, rej) => {
       commandQueue.push({
         res,
-        args: [
-          () => new Promise((r, j) => setTimeout(() => r() || res(), time))
-        ]
+        args: () => new Promise((r, j) => setTimeout(() => r() || res(), time))
       });
       if (!isFlushing) {
         this.flushQueue();
@@ -188,7 +202,7 @@ export class KeyboardAPI {
     });
   }
 
-  async hidCommand(command, bytes = []): Promise<any> {
+  async hidCommand(command: Command, bytes: Array<number> = []): Promise<any> {
     return new Promise((res, rej) => {
       commandQueue.push({res, args: [this.kbAddr, command, bytes]});
       if (!isFlushing) {
@@ -204,8 +218,8 @@ export class KeyboardAPI {
     isFlushing = true;
     while (commandQueue.length !== 0) {
       const {res, args} = commandQueue.shift();
-      if (typeof args[0] === 'function') {
-        await args[0]();
+      if (typeof args === 'function') {
+        await args();
         res();
       } else {
         const ans = await this._hidCommand(...args);
@@ -215,11 +229,15 @@ export class KeyboardAPI {
     isFlushing = false;
   }
 
-  getHID(addr) {
+  getHID(addr: string) {
     return cache[addr];
   }
 
-  async _hidCommand(kbAddr, command, bytes = []): Promise<any> {
+  async _hidCommand(
+    kbAddr: HIDAddress,
+    command: Command,
+    bytes: Array<number> = []
+  ): Promise<any> {
     const commandBytes = [...[COMMAND_START, command], ...bytes];
     try {
       this.getHID(kbAddr).write(commandBytes);

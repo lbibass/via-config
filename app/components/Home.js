@@ -60,7 +60,7 @@ export default class Home extends Component<Props, {}> {
     document.body.removeEventListener('keydown', this.handleKeys);
   }
 
-  saveLighting(api) {
+  saveLighting(api: KeyboardAPI) {
     console.log('saving', +new Date());
     if (api) return api.saveLighting();
   }

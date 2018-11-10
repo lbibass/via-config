@@ -19,7 +19,7 @@ export class Key extends Component<Props> {
     return styles[`indent${indent}U`];
   }
 
-  getDarkenedColor(color) {
+  getDarkenedColor(color: string) {
     const darkOffset = 60;
     const cleanedColor = color.replace('#', '');
     const r =

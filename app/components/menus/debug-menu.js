@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import styles from './debug-menu.css';
-export class DebugMenu extends Component {
+import {KeyboardAPI} from '../../utils/keyboard-api';
+
+type Props = {api: KeyboardAPI};
+
+export class DebugMenu extends Component<Props> {
   render() {
     const {api} = this.props;
     if (api) {

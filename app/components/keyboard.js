@@ -1,3 +1,4 @@
+// @flow
 import React, {Component} from 'react';
 import {CenterKey} from './CenterKey';
 import {Key} from './Key';
