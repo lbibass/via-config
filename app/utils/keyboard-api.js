@@ -45,9 +45,6 @@ function eqArr(arr1, arr2) {
   return arr1.every((val, idx) => arr2[idx] === val);
 }
 
-let commandQueue: CommandQueue = [];
-let isFlushing = false;
-
 type Command = number;
 type HIDAddress = string;
 type KB = {path: string};
@@ -60,6 +57,9 @@ type Column = number;
 type CommandQueueArgs = [string, number, Array<number>] | (() => Promise<void>);
 type CommandQueueEntry = {res: (val?: any) => void, args: CommandQueueArgs};
 type CommandQueue = Array<CommandQueueEntry>;
+
+let commandQueue: CommandQueue = [];
+let isFlushing = false;
 
 export class KeyboardAPI {
   kbAddr: HIDAddress;
