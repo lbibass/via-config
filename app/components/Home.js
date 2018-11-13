@@ -10,7 +10,6 @@ import {getKeyboardFromDevice, getKeyboards} from '../utils/hid-keyboards';
 import {MatrixLayout} from '../utils/layout-parser';
 import {KeyboardAPI} from '../utils/keyboard-api';
 import {TitleBar, Title} from './title-bar';
-import {Wilba} from './Wilba';
 import {LoadingScreen} from './loading-screen';
 const usbDetect = require('usb-detection');
 const debounce = require('lodash.debounce');

@@ -1,9 +1,19 @@
 // @flow
-import React, {Component} from 'react';
+import * as React from 'react';
+import {Component} from 'react';
 import styles from './Key.css';
 
 type Props = {
-  label: string
+  label?: string,
+  centerLabel?: string,
+  topLabel?: string,
+  bottomLabel?: string,
+  c: string,
+  t: string,
+  size: number,
+  indent?: number,
+  selected: boolean,
+  onClick: (evt: any) => void
 };
 
 export class Key extends Component<Props> {
@@ -38,7 +48,7 @@ export class Key extends Component<Props> {
     return res;
   }
 
-  renderLegend(labels: string[], t) {
+  renderLegend(labels: string[], t: string): React$Element<'span'>[] {
     return labels.map(label => (
       <span key={label} className={styles.legend} style={{color: t}}>
         {label}
