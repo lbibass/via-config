@@ -55,7 +55,6 @@ export default class Home extends React.Component<Props, State> {
 
   constructor() {
     super();
-    this.handleKeys = this.handleKeys.bind(this);
     const keyboards = getKeyboards();
     const firstKeyboard = keyboards[0] || null;
     this.state = {
@@ -71,19 +70,25 @@ export default class Home extends React.Component<Props, State> {
       activeLayer: null,
       matrixKeycodes: {}
     };
-    this.saveLighting = debounce(this.saveLighting.bind(this), 500);
+    (this: any).saveLighting = debounce(this.saveLighting.bind(this), 500);
   }
 
   componentDidMount() {
     const updateDevices = timeoutRepeater(() => this.updateDevices(), 500, 5);
     usbDetect.on('change', updateDevices);
     updateDevices();
-    document.body.addEventListener('keydown', this.handleKeys);
+    const body = document.body;
+    if (body) {
+      body.addEventListener('keydown', this.handleKeys);
+    }
   }
 
   componentWillUnmount() {
     usbDetect.off('change');
-    document.body.removeEventListener('keydown', this.handleKeys);
+    const body = document.body;
+    if (body) {
+      body.removeEventListener('keydown', this.handleKeys);
+    }
   }
 
   saveLighting(api: KeyboardAPI) {
@@ -91,7 +96,7 @@ export default class Home extends React.Component<Props, State> {
     if (api) return api.saveLighting();
   }
 
-  async checkIfDetected(selectedKeyboard: Device): void {
+  async checkIfDetected(selectedKeyboard: Device): Promise<void> {
     this.setState({connected: false});
     const api = this.getAPI(selectedKeyboard);
     if (api) {
@@ -122,21 +127,21 @@ export default class Home extends React.Component<Props, State> {
     }
   }
 
-  handleKeys(evt: KeyboardEvent): void {
+  handleKeys = (evt: KeyboardEvent): void => {
     if (this.state.selectedKey !== null) {
       this.updateSelectedKey(getByteForCode(mapEvtToKeycode(evt)));
     }
-  }
+  };
 
   clearSelectedKey(evt: SyntheticEvent<HTMLDivElement>) {
     this.setState({selectedKey: null});
   }
 
-  setSelectedKey(idx) {
+  setSelectedKey(idx: number) {
     this.setState({selectedKey: idx});
   }
 
-  setSelectedTitle(selectedTitle) {
+  setSelectedTitle(selectedTitle: string | null) {
     this.setState({selectedKey: null, selectedTitle});
   }
 
@@ -264,7 +269,9 @@ export default class Home extends React.Component<Props, State> {
         matrixKeycodes
       );
       const key = await api.setKey(activeLayer, row, col, value);
-      this.keyboard.overlay.animateSuccess();
+      this.keyboard &&
+        this.keyboard.overlay &&
+        this.keyboard.overlay.animateSuccess();
       if (key !== value) {
         this.setKeyInMatrix(
           key,
@@ -350,19 +357,19 @@ export default class Home extends React.Component<Props, State> {
   }
 
   renderMenu(selectedTitle: string | null, selectedKeyboard: Device | null) {
+    const api = this.getAPI(selectedKeyboard);
     if (selectedTitle === Title.KEYS) {
       return (
         <KeycodeMenu updateSelectedKey={this.updateSelectedKey.bind(this)} />
       );
-    } else if (selectedTitle === Title.LIGHTING) {
-      const api = this.getAPI(selectedKeyboard);
+    } else if (selectedTitle === Title.LIGHTING && api) {
       return (
         <LightingMenu
           api={api}
           lightingData={this.state.lightingData}
           updateColor={this.updateColor.bind(this, api)}
           updateRGBMode={this.updateRGBMode.bind(this, api)}
-          saveLighting={() => this.saveLighting(api)}
+          saveLighting={() => api && this.saveLighting(api)}
           setRGBMode={this.setRGBMode.bind(this)}
         />
       );
