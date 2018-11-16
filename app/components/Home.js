@@ -25,6 +25,7 @@ type LightingData = {
   color1: HIDColor,
   color2: HIDColor
 };
+type MatrixKeycodes = {[path: string]: number[][]};
 type Props = {};
 type State = {
   keyboards: Device[],
@@ -36,8 +37,8 @@ type State = {
   selectedKey: number | null,
   selectedTitle: string | null,
   activeLayer: number | null,
-  matrixKeycodes: {[path: string]: number[][]},
-  lightingData: LightingData
+  matrixKeycodes: MatrixKeycodes,
+  lightingData: LightingData | null
 };
 
 const timeoutPromise = ms => new Promise(res => setTimeout(res, ms));
@@ -50,7 +51,7 @@ const timeoutRepeater = (fn, timeout, numToRepeat = 0) => () =>
   }, timeout);
 
 export default class Home extends React.Component<Props, State> {
-  props: Props;
+  keyboard: Keyboard;
 
   constructor() {
     super();
@@ -62,6 +63,8 @@ export default class Home extends React.Component<Props, State> {
       connected: false,
       loaded: false,
       detected: false,
+      ready: false,
+      lightingData: null,
       selectedKeyboard: null,
       selectedKey: null,
       selectedTitle: null,
@@ -208,11 +211,11 @@ export default class Home extends React.Component<Props, State> {
   }
 
   setKeyInMatrix(
-    key,
-    numSelectedKey,
-    activeLayer,
-    selectedKeyboard,
-    matrixKeycodes
+    key: number,
+    numSelectedKey: number,
+    activeLayer: number,
+    selectedKeyboard: Device,
+    matrixKeycodes: MatrixKeycodes
   ) {
     const matrixLayerKeycodes = matrixKeycodes[selectedKeyboard.path];
     const layerKeycodes = matrixLayerKeycodes[activeLayer];
@@ -255,7 +258,7 @@ export default class Home extends React.Component<Props, State> {
       //Optimistically set
       this.setKeyInMatrix(
         value,
-        numSelectedKey,
+        selectedKey,
         activeLayer,
         selectedKeyboard,
         matrixKeycodes
@@ -265,7 +268,7 @@ export default class Home extends React.Component<Props, State> {
       if (key !== value) {
         this.setKeyInMatrix(
           key,
-          numSelectedKey,
+          selectedKey,
           activeLayer,
           selectedKeyboard,
           matrixKeycodes
@@ -274,21 +277,15 @@ export default class Home extends React.Component<Props, State> {
     }
   }
 
-  async setBrightness(value) {
+  async setBrightness(value: number) {
     const {selectedKeyboard} = this.state;
     const api = this.getAPI(selectedKeyboard);
     if (api) {
       await api.setBrightness(value);
     }
   }
-  async setColor(hue, sat) {
-    const {selectedKeyboard} = this.state;
-    const api = this.getAPI(selectedKeyboard);
-    if (api) {
-      await api.setColor(hue, sat);
-    }
-  }
-  async setRGBMode(value) {
+
+  async setRGBMode(value: number) {
     const {selectedKeyboard} = this.state;
     const api = this.getAPI(selectedKeyboard);
     if (api) {
@@ -308,7 +305,7 @@ export default class Home extends React.Component<Props, State> {
     this.setState({ready: true});
   }
 
-  async toggleLights(selectedKeyboard) {
+  async toggleLights(selectedKeyboard: Device) {
     const api = this.getAPI(selectedKeyboard);
     const keyboard = getKeyboardFromDevice(selectedKeyboard);
     if (api && keyboard.lights) {
@@ -324,7 +321,7 @@ export default class Home extends React.Component<Props, State> {
     }
   }
 
-  async updateFullMatrix(activeLayer, selectedKeyboard) {
+  async updateFullMatrix(activeLayer: number, selectedKeyboard: Device) {
     const api = this.getAPI(selectedKeyboard);
     const matrixLayout = this.getMatrix(selectedKeyboard);
     if (api && matrixLayout) {
@@ -352,7 +349,7 @@ export default class Home extends React.Component<Props, State> {
     }
   }
 
-  renderMenu(selectedTitle, selectedKeyboard) {
+  renderMenu(selectedTitle: string | null, selectedKeyboard: Device | null) {
     if (selectedTitle === Title.KEYS) {
       return (
         <KeycodeMenu updateSelectedKey={this.updateSelectedKey.bind(this)} />
@@ -374,7 +371,7 @@ export default class Home extends React.Component<Props, State> {
     }
   }
 
-  async offsetKeyboard(offset) {
+  async offsetKeyboard(offset: number) {
     const keyboards = this.state.keyboards;
     const selectedPath =
       this.state.selectedKeyboard && this.state.selectedKeyboard.path;
@@ -404,8 +401,11 @@ export default class Home extends React.Component<Props, State> {
     }
   }
 
-  getLayerMatrix(selectedKeyboard, selectedLayer) {
-    if (selectedKeyboard) {
+  getLayerMatrix(
+    selectedKeyboard: Device | null,
+    selectedLayer: number | null
+  ) {
+    if (selectedKeyboard && selectedLayer !== null) {
       const deviceMatrixKeycodes = this.state.matrixKeycodes[
         selectedKeyboard.path
       ] || [[], [], [], []];
@@ -413,12 +413,15 @@ export default class Home extends React.Component<Props, State> {
     }
   }
 
-  updateLayer(activeLayer) {
+  updateLayer(activeLayer: number) {
     this.setState({activeLayer});
-    this.updateFullMatrix(activeLayer, this.state.selectedKeyboard);
+    const {selectedKeyboard} = this.state;
+    if (selectedKeyboard) {
+      this.updateFullMatrix(activeLayer, selectedKeyboard);
+    }
   }
 
-  updateBrightness(api, brightness) {
+  updateBrightness(api: KeyboardAPI, brightness: number) {
     const {lightingData} = this.state;
     this.setState({
       lightingData: {
@@ -430,7 +433,7 @@ export default class Home extends React.Component<Props, State> {
     this.saveLighting(api);
   }
 
-  updateColor(api, num, hue, sat) {
+  updateColor(api: KeyboardAPI, num: number, hue: number, sat: number) {
     const {lightingData} = this.state;
     if (num === 1) {
       this.setState({
@@ -516,7 +519,6 @@ export default class Home extends React.Component<Props, State> {
             />
             <div className={styles.container} data-tid="container">
               <div className={styles.menuContainer}>
-                {this.renderDebug(false)}
                 {this.renderMenu(selectedTitle, selectedKeyboard)}
               </div>
             </div>

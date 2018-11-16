@@ -45,6 +45,7 @@ type Props = {
 };
 
 export class Keyboard extends Component<Props> {
+  overlay: KeyOverlay;
   chooseKey(
     {c, t, label, size, margin},
     idx,
