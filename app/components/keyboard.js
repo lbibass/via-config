@@ -9,7 +9,7 @@ import {
   getKeyboardFromDevice,
   getLayoutFromDevice
 } from '../utils/hid-keyboards';
-import type {LightingData} from './home';
+import type {LightingData} from './Home';
 import type {Result} from '../utils/kle-parser';
 import type {Device} from '../utils/hid-keyboards';
 import {MatrixLayout} from '../utils/layout-parser';
@@ -55,7 +55,7 @@ export class Keyboard extends Component<Props> {
     idx: number,
     useMatrixKeycodes: boolean,
     colorMap: {[color: string]: string},
-    theme: $Keys<typeof THEMES> = THEMES.PBT_HEAVY_INDUSTRY
+    theme: $Values<typeof THEMES> | void = THEMES.PBT_HEAVY_INDUSTRY
   ) {
     const {matrixKeycodes = [], selectedKey, updateSelectedKey} = this.props;
     const themeColors = theme[colorMap[`${c}:${t}`]];

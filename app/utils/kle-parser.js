@@ -8,7 +8,7 @@ type Formatting = {c: KeyColor, t: LegendColor};
 type Dimensions = {margin: Margin, size: Size};
 export type Result = Formatting & Dimensions & {label: string};
 type ColorCount = {[key: string]: number};
-type KLEDimensions = {x: number, w: number};
+type KLEDimensions = {a: number, x: number, w: number};
 type KLEElem = $Shape<KLEDimensions & Formatting> | string;
 type InnerReduceState = Formatting &
   Dimensions & {colorCount: ColorCount, res: Result[]};
@@ -98,7 +98,7 @@ export function parseKLERaw(kle: string) {
         ) => {
           // Check if object and apply formatting
           if (typeof n !== 'string') {
-            let obj = {colorCount, c, t, res};
+            let obj = {size, margin, colorCount, c, t, res};
             if (n.w > 1) {
               obj = {...obj, size: 100 * n.w};
             }

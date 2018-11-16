@@ -81,7 +81,6 @@ export class LightingMenu extends Component {
                         this.props.updateColor(2, hue, sat)
                       }
                     />
-                    />
                   </React.Fragment>
                 )}
               </div>

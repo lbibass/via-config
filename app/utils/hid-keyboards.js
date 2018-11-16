@@ -4,8 +4,8 @@ export type Device = {
   productId: number,
   vendorId: number,
   interface: number,
-  usage: number,
-  usagePage: number,
+  usage?: number,
+  usagePage?: number,
   path: string
 };
 

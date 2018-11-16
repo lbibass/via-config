@@ -71,12 +71,16 @@ export default class Home extends React.Component<Props, State> {
       matrixKeycodes: {}
     };
     (this: any).saveLighting = debounce(this.saveLighting.bind(this), 500);
+    (this: any).updateDevicesRepeat = timeoutRepeater(
+      () => this.updateDevices(),
+      500,
+      5
+    );
   }
 
   componentDidMount() {
-    const updateDevices = timeoutRepeater(() => this.updateDevices(), 500, 5);
-    usbDetect.on('change', updateDevices);
-    updateDevices();
+    usbDetect.on('change', this.updateDevicesRepeat);
+    this.updateDevicesRepeat();
     const body = document.body;
     if (body) {
       body.addEventListener('keydown', this.handleKeys);
@@ -84,7 +88,7 @@ export default class Home extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    usbDetect.off('change');
+    usbDetect.off('change', this.updateDevicesRepeat);
     const body = document.body;
     if (body) {
       body.removeEventListener('keydown', this.handleKeys);
@@ -407,7 +411,10 @@ export default class Home extends React.Component<Props, State> {
   }
 
   async updateKeyboardLightingAndMatrixData(selectedKeyboard: Device) {
-    await this.getCurrentLightingSettings(selectedKeyboard);
+    const keyboard = getKeyboardFromDevice(selectedKeyboard);
+    if (keyboard.lights) {
+      await this.getCurrentLightingSettings(selectedKeyboard);
+    }
     await this.updateFullMatrix(0, selectedKeyboard);
     await this.updateFullMatrix(1, selectedKeyboard);
     await this.updateFullMatrix(2, selectedKeyboard);
