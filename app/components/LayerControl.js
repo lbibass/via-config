@@ -1,7 +1,15 @@
-import React, {Component} from 'react';
+// @flow
+import * as React from 'react';
 import styles from './LayerControl.css';
 
-export class LayerControl extends Component {
+type Props = {
+  activeLayer: number | null,
+  showLayer: boolean,
+  loaded: boolean,
+  updateLayer: (layer: number) => void
+};
+
+export class LayerControl extends React.Component<Props> {
   get minLayer() {
     return 0;
   }
@@ -10,7 +18,7 @@ export class LayerControl extends Component {
     return 3;
   }
 
-  changeLayer(offset) {
+  changeLayer(offset: number) {
     const newLayer = Math.min(
       this.maxLayer,
       Math.max(this.minLayer, this.props.activeLayer + offset)
