@@ -48,7 +48,7 @@ export class Key extends Component<Props> {
     return res;
   }
 
-  renderLegend(labels: string[], t: string): React$Element<'span'>[] {
+  renderLegend(labels: (string | void)[], t: string): React$Element<'span'>[] {
     return labels.map(label => (
       <span key={label} className={styles.legend} style={{color: t}}>
         {label}
