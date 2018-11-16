@@ -33,21 +33,19 @@ type Props = {
   activeLayer: number | null,
   detected: boolean,
   connected: boolean,
-  label: string,
   loaded: boolean,
   lightingData: LightingData | null,
   selectedKey: number | null,
   selectedKeyboard: Device | null,
   selectedTitle: string | null,
-  useMatrixKeycodes: boolean,
   matrixKeycodes?: number[],
   showCarouselButtons: boolean,
-  clearSelectedKey: () => void,
+  clearSelectedKey: (arg: any) => void,
   updateSelectedKey: (val: number) => void,
   updateBrightness: (val: number) => void,
   updateLayer: (val: number) => void,
-  prevKeyboard: () => void,
-  nextKeyboard: () => void
+  prevKeyboard: () => Promise<void>,
+  nextKeyboard: () => Promise<void>
 };
 
 export class Keyboard extends Component<Props> {

@@ -51,7 +51,7 @@ const timeoutRepeater = (fn, timeout, numToRepeat = 0) => () =>
   }, timeout);
 
 export default class Home extends React.Component<Props, State> {
-  keyboard: Keyboard;
+  keyboard: Keyboard | null;
 
   constructor() {
     super();
@@ -478,6 +478,7 @@ export default class Home extends React.Component<Props, State> {
       selectedKeyboard,
       selectedTitle
     } = this.state;
+    const api = this.getAPI(selectedKeyboard);
     return (
       <div className={styles.home}>
         <LoadingScreen ready={this.state.ready} />
@@ -509,10 +510,9 @@ export default class Home extends React.Component<Props, State> {
               setReady={this.setReady.bind(this)}
               updateFullMatrix={this.updateFullMatrix.bind(this)}
               updateLayer={this.updateLayer.bind(this)}
-              updateBrightness={this.updateBrightness.bind(
-                this,
-                this.getAPI(selectedKeyboard)
-              )}
+              updateBrightness={brightness =>
+                api && this.updateBrightness(api, brightness)
+              }
               showCarouselButtons={this.state.keyboards.length > 1}
               prevKeyboard={() => this.offsetKeyboard(-1)}
               nextKeyboard={() => this.offsetKeyboard(1)}
