@@ -63,12 +63,10 @@ let isFlushing = false;
 
 export class KeyboardAPI {
   kbAddr: HIDAddress;
-  _i: number;
 
   constructor(kb: KB) {
     const {path} = kb;
     this.kbAddr = path;
-    this._i = 0;
     if (!cache[path]) {
       cache[path] = new HID.HID(path);
     }

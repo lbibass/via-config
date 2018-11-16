@@ -96,15 +96,17 @@ export default class Home extends React.Component<Props, State> {
     if (api) return api.saveLighting();
   }
 
-  async checkIfDetected(selectedKeyboard: Device): Promise<void> {
+  async isCorrectProtocol(selectedKeyboard: Device): Promise<boolean> {
     this.setState({connected: false});
     const api = this.getAPI(selectedKeyboard);
     if (api) {
       const res = await api.getProtocolVersion();
       if ([1, 7].includes(res)) {
         this.setState({connected: true});
+        return true;
       }
     }
+    return false;
   }
 
   async getCurrentLightingSettings(selectedKeyboard: Device) {
@@ -157,7 +159,7 @@ export default class Home extends React.Component<Props, State> {
       if (selectedKeyboardPath !== undefined) {
         this.setState({
           keyboards,
-          selectedKeyboard: null,
+          selectedKeyboard,
           selectedKey: null,
           connected: false,
           loaded: false,
@@ -169,14 +171,12 @@ export default class Home extends React.Component<Props, State> {
           },
           selectedTitle: Title.KEYS
         });
-        await this.checkIfDetected(selectedKeyboard);
-        await this.updateFullMatrix(0, selectedKeyboard);
-        await this.updateFullMatrix(1, selectedKeyboard);
-        await this.updateFullMatrix(2, selectedKeyboard);
-        await this.updateFullMatrix(3, selectedKeyboard);
-        await this.getCurrentLightingSettings(selectedKeyboard);
-        this.setReady();
-        this.setLoaded();
+        const protocolCorrect = await this.isCorrectProtocol(selectedKeyboard);
+        if (protocolCorrect) {
+          await this.updateKeyboardLightingAndMatrixData(selectedKeyboard);
+          this.setReady();
+          this.setLoaded();
+        }
       } else {
         this.setState({
           keyboards,
@@ -397,15 +397,21 @@ export default class Home extends React.Component<Props, State> {
         loaded: false,
         activeLayer: 0
       });
-      await this.checkIfDetected(selectedKeyboard);
-      await this.toggleLights(selectedKeyboard);
-      await this.getCurrentLightingSettings(selectedKeyboard);
-      await this.updateFullMatrix(0, selectedKeyboard);
-      await this.updateFullMatrix(1, selectedKeyboard);
-      await this.updateFullMatrix(2, selectedKeyboard);
-      await this.updateFullMatrix(3, selectedKeyboard);
-      this.setLoaded();
+      const protocolCorrect = await this.isCorrectProtocol(selectedKeyboard);
+      if (protocolCorrect) {
+        await this.toggleLights(selectedKeyboard);
+        await this.updateKeyboardLightingAndMatrixData(selectedKeyboard);
+        this.setLoaded();
+      }
     }
+  }
+
+  async updateKeyboardLightingAndMatrixData(selectedKeyboard: Device) {
+    await this.getCurrentLightingSettings(selectedKeyboard);
+    await this.updateFullMatrix(0, selectedKeyboard);
+    await this.updateFullMatrix(1, selectedKeyboard);
+    await this.updateFullMatrix(2, selectedKeyboard);
+    await this.updateFullMatrix(3, selectedKeyboard);
   }
 
   getLayerMatrix(
@@ -506,7 +512,6 @@ export default class Home extends React.Component<Props, State> {
               selectedKey={selectedKey}
               selectedKeyboard={selectedKeyboard}
               selectedTitle={selectedTitle}
-              checkIfDetected={this.checkIfDetected.bind(this)}
               matrixKeycodes={this.getLayerMatrix(
                 selectedKeyboard,
                 activeLayer
