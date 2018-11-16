@@ -1,5 +1,5 @@
 // @flow
-import React, {Component} from 'react';
+import * as React from 'react';
 import {Link} from 'react-router-dom';
 import styles from './Home.css';
 import {Key} from './Key';
@@ -7,6 +7,7 @@ import {Keyboard} from './keyboard';
 import {DebugMenu, KeycodeMenu, LightingMenu} from './menus';
 import {mapEvtToKeycode, getByteForCode, getKeycodes} from '../utils/key';
 import {getKeyboardFromDevice, getKeyboards} from '../utils/hid-keyboards';
+import type {Device} from '../utils/hid-keyboards';
 import {MatrixLayout} from '../utils/layout-parser';
 import {KeyboardAPI} from '../utils/keyboard-api';
 import {TitleBar, Title} from './title-bar';
@@ -14,7 +15,30 @@ import {LoadingScreen} from './loading-screen';
 const usbDetect = require('usb-detection');
 const debounce = require('lodash.debounce');
 usbDetect.startMonitoring();
+type HIDColor = {
+  hue: number,
+  sat: number
+};
+type LightingData = {
+  rgbMode: number,
+  brightness: number,
+  color1: HIDColor,
+  color2: HIDColor
+};
 type Props = {};
+type State = {
+  keyboards: Device[],
+  connected: boolean,
+  loaded: boolean,
+  detected: boolean,
+  ready: boolean,
+  selectedKeyboard: Device | null,
+  selectedKey: number | null,
+  selectedTitle: string | null,
+  activeLayer: number | null,
+  matrixKeycodes: {[path: string]: number[][]},
+  lightingData: LightingData
+};
 
 const timeoutPromise = ms => new Promise(res => setTimeout(res, ms));
 const timeoutRepeater = (fn, timeout, numToRepeat = 0) => () =>
@@ -25,7 +49,7 @@ const timeoutRepeater = (fn, timeout, numToRepeat = 0) => () =>
     }
   }, timeout);
 
-export default class Home extends Component<Props, {}> {
+export default class Home extends React.Component<Props, State> {
   props: Props;
 
   constructor() {
@@ -64,17 +88,18 @@ export default class Home extends Component<Props, {}> {
     if (api) return api.saveLighting();
   }
 
-  async checkIfDetected(selectedKeyboard) {
+  async checkIfDetected(selectedKeyboard: Device): void {
     this.setState({connected: false});
-    if (selectedKeyboard && selectedKeyboard.path) {
-      const res = await this.getAPI(selectedKeyboard).getProtocolVersion();
+    const api = this.getAPI(selectedKeyboard);
+    if (api) {
+      const res = await api.getProtocolVersion();
       if ([1, 7].includes(res)) {
         this.setState({connected: true});
       }
     }
   }
 
-  async getCurrentLightingSettings(selectedKeyboard) {
+  async getCurrentLightingSettings(selectedKeyboard: Device) {
     const api = this.getAPI(selectedKeyboard);
     if (api) {
       const promises = [
@@ -94,13 +119,13 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
-  handleKeys(evt) {
+  handleKeys(evt: KeyboardEvent): void {
     if (this.state.selectedKey !== null) {
       this.updateSelectedKey(getByteForCode(mapEvtToKeycode(evt)));
     }
   }
 
-  clearSelectedKey(evt) {
+  clearSelectedKey(evt: SyntheticEvent<HTMLDivElement>) {
     this.setState({selectedKey: null});
   }
 
@@ -160,50 +185,7 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
-  setDeviceFromPath(path) {
-    if (path) {
-      const keyboards = getKeyboards();
-      this.setState({selectedKeyboard: keyboards.find(kb => path === kb.path)});
-    }
-  }
-
-  renderDevicesDropdown(devices) {
-    const selectedPath =
-      this.state.selectedKeyboard && this.state.selectedKeyboard.path;
-    return (
-      <select
-        value={selectedPath}
-        onChange={evt => this.setDeviceFromPath(evt.target.value)}
-      >
-        {devices.map(({manufacturer, product, path}) => (
-          <option value={path} key={path}>
-            {path} {product} ({manufacturer})
-          </option>
-        ))}
-      </select>
-    );
-  }
-
-  renderDebug(shouldRender) {
-    if (shouldRender) {
-      return (
-        <div>
-          <h2>Devices:</h2>
-          <button onClick={() => this.updateDevices()}>Refresh Devices</button>
-          {this.renderDevicesDropdown(this.state.keyboards)}
-
-          {this.state.selectedKeyboard && (
-            <Wilba
-              activeLayer={this.state.activeLayer}
-              keyboard={this.state.selectedKeyboard}
-            />
-          )}
-        </div>
-      );
-    }
-  }
-
-  getAPI(selectedKeyboard) {
+  getAPI(selectedKeyboard: Device | null) {
     if (selectedKeyboard) {
       const keyboard = getKeyboardFromDevice(selectedKeyboard);
       return new KeyboardAPI(selectedKeyboard);
@@ -217,7 +199,7 @@ export default class Home extends Component<Props, {}> {
     }
   }
 
-  getMatrix(selectedKeyboard) {
+  getMatrix(selectedKeyboard: Device | null) {
     if (selectedKeyboard) {
       const keyboard = getKeyboardFromDevice(selectedKeyboard);
       const matrixLayout = MatrixLayout[keyboard.name];
@@ -251,7 +233,7 @@ export default class Home extends Component<Props, {}> {
     });
   }
 
-  async updateSelectedKey(value) {
+  async updateSelectedKey(value: number) {
     const {
       activeLayer,
       selectedKeyboard,
@@ -262,8 +244,14 @@ export default class Home extends Component<Props, {}> {
     const matrixLayout = this.getMatrix(selectedKeyboard);
     const numSelectedKey = selectedKey;
 
-    if (api && selectedKey != null && selectedKeyboard) {
-      const {row, col} = matrixLayout[numSelectedKey];
+    if (
+      api &&
+      activeLayer !== null &&
+      selectedKey !== null &&
+      matrixLayout &&
+      selectedKeyboard
+    ) {
+      const {row, col} = matrixLayout[selectedKey];
       //Optimistically set
       this.setKeyInMatrix(
         value,
@@ -463,7 +451,7 @@ export default class Home extends Component<Props, {}> {
     this.saveLighting(api);
   }
 
-  updateRGBMode(api, rgbMode) {
+  updateRGBMode(api: KeyboardAPI, rgbMode: number) {
     const {lightingData} = this.state;
     this.setState({
       lightingData: {
@@ -514,7 +502,7 @@ export default class Home extends Component<Props, {}> {
               )}
               lightingData={lightingData}
               clearSelectedKey={this.clearSelectedKey.bind(this)}
-              setSelectedKey={this.setSelectedKey.bind(this)}
+              updateSelectedKey={this.setSelectedKey.bind(this)}
               setReady={this.setReady.bind(this)}
               updateFullMatrix={this.updateFullMatrix.bind(this)}
               updateLayer={this.updateLayer.bind(this)}

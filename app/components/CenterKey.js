@@ -1,10 +1,11 @@
 // @flow
 import React, {Component} from 'react';
 import {Key} from './Key';
+import type {Props} from './Key';
 import styles from './Key.css';
 
 export class CenterKey extends Key {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
   }
 

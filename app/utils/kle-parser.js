@@ -1,3 +1,25 @@
+// @flow
+type KeyColor = string;
+type LegendColor = string;
+type Margin = number;
+type Label = number;
+type Size = number;
+type Formatting = {c: KeyColor, t: LegendColor};
+type Dimensions = {margin: Margin, size: Size};
+type Result = Formatting & Dimensions & {label: string};
+type ColorCount = {[key: string]: number};
+type KLEDimensions = {x: number, w: number};
+type KLEElem = $Shape<KLEDimensions & Formatting> | string;
+type InnerReduceState = Formatting &
+  Dimensions & {colorCount: ColorCount, res: Result[]};
+type OuterReduceState = {
+  colorCount: ColorCount,
+  prevFormatting: Formatting,
+  res: Result[][]
+};
+
+//{c, t, label: n, size, margin}
+
 export const LAYOUT_M60_A = `[{c:"#4d525a",t:"#e2e2e2"},"Esc",{c:"#e2e2e2",t:"#363636"},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=","|\n\\",{c:"#4d525a",t:"#e2e2e2"},"n"],
 [{w:1.5},"Tab",{c:"#e2e2e2",t:"#363636"},"Q","W","E","R","T","Y","U","I","O","P","{\n[","}\n]",{c:"#4d525a",t:"#e2e2e2",w:1.5},"Backspace"],
 [{c:"#f5cb01",t:"#4d525a",w:1.75},"Control",{c:"#e2e2e2",t:"#363636"},"A","S","D","F","G","H","J","K","L",":\n;","\"\n'",{c:"#4d525a",t:"#e2e2e2",w:2.25},"Enter"],
@@ -62,15 +84,18 @@ export const LAYOUT_WT80_A = `[{c:"#afb0ae",t:"#505557"},"Esc",{x:1,c:"#505557",
 
 export function parseKLERaw(kle: string) {
   const kleArr = kle.split(',\n');
-  const parsedKLE = kleArr.reduce(
-    (prev, kle) => {
+  const parsedKLE: OuterReduceState = kleArr.reduce(
+    (prev: OuterReduceState, kle: string) => {
       const row = kle
         .replace(/\n/g, '\\n')
         .replace(/\\/g, '\\\\')
         .replace(/\"\"(?!,)/g, '"\\"')
         .replace(/([{,])([A-Za-z])(:)/g, '$1"$2"$3');
-      const parsedRow = JSON.parse(row).reduce(
-        ({size, margin, res, c, t, colorCount}, n) => {
+      const parsedRow: InnerReduceState = JSON.parse(row).reduce(
+        (
+          {size, margin, res, c, t, colorCount}: InnerReduceState,
+          n: KLEElem
+        ) => {
           // Check if object and apply formatting
           if (typeof n !== 'string') {
             let obj = {colorCount, c, t, res};

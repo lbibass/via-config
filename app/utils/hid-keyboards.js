@@ -1,3 +1,22 @@
+// @flow
+
+export type Device = {
+  productId: number,
+  vendorId: number,
+  interface: number,
+  usage: number,
+  usagePage: number,
+  path: string
+};
+
+export type DeviceMeta = {
+  name: string,
+  layout: string,
+  lights: boolean
+};
+
+export type DeviceMetaMap = {[key: number]: DeviceMeta};
+
 import {
   parseKLERaw,
   LAYOUT_M6_A,
@@ -16,21 +35,21 @@ import {
 const HID = require('node-hid');
 const IS_OSX = require('os').platform() === 'darwin';
 
-function scanDevices() {
+function scanDevices(): Device[] {
   const devices = HID.devices();
   return devices;
 }
 
-function isValidInterface(device) {
+function isValidInterface(device: Device) {
   return IS_OSX ? isValidInterfaceOSX(device) : isValidInterfaceNonOSX(device);
 }
 
-function isValidInterfaceNonOSX(device) {
+function isValidInterfaceNonOSX(device: Device) {
   const VALID_INTERFACE_IDS = [0x0001];
   return VALID_INTERFACE_IDS.includes(device.interface);
 }
 
-function isValidInterfaceOSX({usage, usagePage}) {
+function isValidInterfaceOSX({usage, usagePage}: Device) {
   const VALID_USAGE_IDS = [0x0061];
   const VALID_USAGE_PAGE_IDS = [0xff60];
   return (
@@ -38,7 +57,7 @@ function isValidInterfaceOSX({usage, usagePage}) {
   );
 }
 
-function isValidVendorProduct({productId, vendorId}) {
+function isValidVendorProduct({productId, vendorId}: Device) {
   const VALID_VENDOR_PRODUCT_IDS = [
     0x5241006a, // RAMA WORKS M6-A
     0x5241006b, // RAMA WORKS M6-B
@@ -55,7 +74,7 @@ function isValidVendorProduct({productId, vendorId}) {
   return VALID_VENDOR_PRODUCT_IDS.includes(vendorProductId);
 }
 
-const hid_device = {
+const hid_device: DeviceMetaMap = {
   [0x5241006a]: {
     name: 'RAMA WORKS M6-A',
     layout: LAYOUT_M6_A,
@@ -103,21 +122,24 @@ const hid_device = {
   }
 };
 
-export function getKeyboardFromDevice({productId, vendorId}) {
+export function getKeyboardFromDevice({
+  productId,
+  vendorId
+}: Device): DeviceMeta {
   const vendorProductId = vendorId * 65536 + productId;
   return hid_device[vendorProductId];
 }
 
-export function getLayoutFromDevice({productId, vendorId}) {
-  const device = getKeyboardFromDevice({productId, vendorId});
-  if (device) {
-    return parseKLERaw(device.layout);
+export function getLayoutFromDevice(device: Device) {
+  const kb = getKeyboardFromDevice(device);
+  if (kb) {
+    return parseKLERaw(kb.layout);
   }
 }
 
-export function getKeyboards() {
+export function getKeyboards(): Device[] {
   const usbDevices = scanDevices();
-  return usbDevices.filter(device => {
+  return usbDevices.filter((device: Device) => {
     const validVendorProduct = isValidVendorProduct(device);
     const validInterface = isValidInterface(device);
     return validVendorProduct && validInterface;

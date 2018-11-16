@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Component} from 'react';
 import styles from './Key.css';
 
-type Props = {
+export type Props = {
   label?: string,
   centerLabel?: string,
   topLabel?: string,

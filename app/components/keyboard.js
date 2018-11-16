@@ -9,8 +9,8 @@ import {
   getKeyboardFromDevice,
   getLayoutFromDevice
 } from '../utils/hid-keyboards';
+import type {Device} from '../utils/hid-keyboards';
 import {MatrixLayout} from '../utils/layout-parser';
-import {M6B, ZEAL65, HHKB, parseKLERaw} from '../utils/kle-parser';
 import {BrightnessControl} from './brightness-control';
 import {LayerControl} from './LayerControl';
 import {
@@ -22,7 +22,29 @@ import {
 import {THEMES} from '../utils/themes';
 import {OVERRIDE_DETECT} from '../utils/override';
 
-export class Keyboard extends Component {
+type Color = {
+  c: string,
+  t: string
+};
+
+type Props = {
+  activeLayer: number,
+  detected: boolean,
+  connected: boolean,
+  label: string,
+  loaded: boolean,
+  selectedKey: number,
+  selectedKeyboard: Device,
+  selectedTitle: string,
+  useMatrixKeycodes: boolean,
+  matrixKeycodes?: number[],
+  clearSelectedKey: () => void,
+  updateSelectedKey: (val: number) => void,
+  updateBrightness: (val: number) => void,
+  updateLayer: (val: number) => void
+};
+
+export class Keyboard extends Component<Props> {
   chooseKey(
     {c, t, label, size, margin},
     idx,
@@ -30,12 +52,12 @@ export class Keyboard extends Component {
     colorMap,
     theme = THEMES.PBT_HEAVY_INDUSTRY
   ) {
-    const {matrixKeycodes = [], selectedKey, setSelectedKey} = this.props;
+    const {matrixKeycodes = [], selectedKey, updateSelectedKey} = this.props;
     const themeColors = theme[colorMap[`${c}:${t}`]];
     const key = `${idx}`;
     const onClick = evt => {
       evt.stopPropagation();
-      setSelectedKey(idx);
+      updateSelectedKey(idx);
     };
     ({c, t} = themeColors);
 

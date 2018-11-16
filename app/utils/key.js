@@ -17,7 +17,7 @@ export function isNumericSymbol(label) {
 
 // Maps the byte value to the keycode
 export function getByteForCode(code) {
-  const byte = basicKeyToByte[code];
+  const byte: number | undefined = basicKeyToByte[code];
   if (byte) {
     return byte;
   } else if (isLayerCode(code)) {
@@ -37,7 +37,7 @@ function isLayerCode(code) {
   return /([A-Za-z]+)\((\d+)\)/.test(code);
 }
 
-function getByteForLayerCode(keycode) {
+function getByteForLayerCode(keycode): number {
   const [, code, layer] = keycode.match(/([A-Za-z]+)\((\d+)\)/);
   const numLayer = parseInt(layer);
   switch (code) {
