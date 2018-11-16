@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import styles from './pattern.css';
 
-const ColorsNeeded = [0, 1, 2, 2, 2, 0, 0, 0, 0, 1, 0];
+// TODO: this is where we want this info, near the effect names
+// Ideally, in the same data struture!
+// const ColorsNeeded = [0, 1, 2, 2, 2, 0, 0, 0, 0, 0, 1];
 
 const Pattern = [
   'All Off',
@@ -14,7 +16,7 @@ const Pattern = [
   'Cycle Vertical',
   'Jellybean Raindrops',
   'Radial All Hues',
-  'Radial Color 1'
+  'Radial Color 1xxx'
 ];
 
 export class PatternCategory extends Component {

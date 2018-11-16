@@ -48,7 +48,8 @@ export class LightingMenu extends Component {
 
     if (api && lightingData) {
       const {color1, color2, brightness, rgbMode} = lightingData;
-      const colorsNeededArr = [0, 1, 2, 2, 2, 0, 0, 0, 0, 1, 0];
+      // TODO: move this info to pattern.js
+      const colorsNeededArr = [0, 1, 2, 2, 2, 0, 0, 0, 0, 0, 1];
       const colorsNeeded = colorsNeededArr[rgbMode];
       switch (category) {
         case Category.Pattern:
