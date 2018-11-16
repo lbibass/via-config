@@ -157,7 +157,7 @@ export default class Home extends React.Component<Props, State> {
       if (selectedKeyboardPath !== undefined) {
         this.setState({
           keyboards,
-          selectedKeyboard,
+          selectedKeyboard: null,
           selectedKey: null,
           connected: false,
           loaded: false,
@@ -180,7 +180,7 @@ export default class Home extends React.Component<Props, State> {
       } else {
         this.setState({
           keyboards,
-          selectedKeyboard: undefined,
+          selectedKeyboard: null,
           detected: false,
           loaded: false,
           selectedKey: null,
