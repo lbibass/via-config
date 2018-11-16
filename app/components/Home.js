@@ -19,13 +19,13 @@ type HIDColor = {
   hue: number,
   sat: number
 };
-type LightingData = {
+export type LightingData = {
   rgbMode: number,
   brightness: number,
   color1: HIDColor,
   color2: HIDColor
 };
-type MatrixKeycodes = {[path: string]: number[][]};
+export type MatrixKeycodes = {[path: string]: number[][]};
 type Props = {};
 type State = {
   keyboards: Device[],

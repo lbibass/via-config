@@ -132,9 +132,7 @@ export function getKeyboardFromDevice({
 
 export function getLayoutFromDevice(device: Device) {
   const kb = getKeyboardFromDevice(device);
-  if (kb) {
-    return parseKLERaw(kb.layout);
-  }
+  return parseKLERaw(kb.layout);
 }
 
 export function getKeyboards(): Device[] {

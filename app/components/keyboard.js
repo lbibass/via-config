@@ -9,6 +9,8 @@ import {
   getKeyboardFromDevice,
   getLayoutFromDevice
 } from '../utils/hid-keyboards';
+import type {LightingData} from './home';
+import type {Result} from '../utils/kle-parser';
 import type {Device} from '../utils/hid-keyboards';
 import {MatrixLayout} from '../utils/layout-parser';
 import {BrightnessControl} from './brightness-control';
@@ -28,30 +30,34 @@ type Color = {
 };
 
 type Props = {
-  activeLayer: number,
+  activeLayer: number | null,
   detected: boolean,
   connected: boolean,
   label: string,
   loaded: boolean,
-  selectedKey: number,
-  selectedKeyboard: Device,
-  selectedTitle: string,
+  lightingData: LightingData | null,
+  selectedKey: number | null,
+  selectedKeyboard: Device | null,
+  selectedTitle: string | null,
   useMatrixKeycodes: boolean,
   matrixKeycodes?: number[],
+  showCarouselButtons: boolean,
   clearSelectedKey: () => void,
   updateSelectedKey: (val: number) => void,
   updateBrightness: (val: number) => void,
-  updateLayer: (val: number) => void
+  updateLayer: (val: number) => void,
+  prevKeyboard: () => void,
+  nextKeyboard: () => void
 };
 
 export class Keyboard extends Component<Props> {
   overlay: KeyOverlay;
   chooseKey(
-    {c, t, label, size, margin},
-    idx,
-    useMatrixKeycodes,
-    colorMap,
-    theme = THEMES.PBT_HEAVY_INDUSTRY
+    {c, t, label, size, margin}: Result,
+    idx: number,
+    useMatrixKeycodes: boolean,
+    colorMap: {[color: string]: string},
+    theme: $Keys<typeof THEMES> = THEMES.PBT_HEAVY_INDUSTRY
   ) {
     const {matrixKeycodes = [], selectedKey, updateSelectedKey} = this.props;
     const themeColors = theme[colorMap[`${c}:${t}`]];
@@ -136,15 +142,12 @@ export class Keyboard extends Component<Props> {
   // we can't read the matrix for some reason i.e
   // overriding displaying unconnected devices
   useMatrixKeycodes() {
-    return !!this.getDevice() && !!this.getDevice().path;
+    const device = this.getDevice();
+    return !!(device && device.path);
   }
 
-  getDevice() {
+  getDevice(): Device | null {
     const {selectedKeyboard} = this.props;
-    const fakeDevice = {vendorId: 0xfeed, productId: 0x6060}; //ZEAL60
-    if (OVERRIDE_DETECT) {
-      return selectedKeyboard || fakeDevice;
-    }
     return selectedKeyboard;
   }
 
@@ -164,13 +167,13 @@ export class Keyboard extends Component<Props> {
       matrixKeycodes = []
     } = this.props;
     const device = this.getDevice();
-    if (device) {
+    if (device && lightingData) {
       const keyboard = getKeyboardFromDevice(device);
       const {res: selectedLayout, colorMap} = getLayoutFromDevice(device);
       const matrixLayout = MatrixLayout[keyboard.name];
       const showLayer = selectedTitle === Title.KEYS;
       const showBrightness = selectedTitle === Title.LIGHTING;
-      const useMatrixKeycodes = this.useMatrixKeycodes() && matrixKeycodes;
+      const useMatrixKeycodes = this.useMatrixKeycodes();
       const clickable = loaded && showLayer;
       let keyCounter = 0;
       return (
