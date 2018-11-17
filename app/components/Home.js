@@ -290,7 +290,6 @@ export default class Home extends React.Component<Props, State> {
           matrixKeycodes
         );
       }
-      //this.setState({selectedKey: null});
     }
   }
 
