@@ -16,7 +16,7 @@ const Pattern = [
   'Cycle Vertical',
   'Jellybean Raindrops',
   'Radial All Hues',
-  'Radial Color 1xxx'
+  'Radial Color 1'
 ];
 
 export class PatternCategory extends Component {
