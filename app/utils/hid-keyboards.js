@@ -59,7 +59,7 @@ function isValidInterfaceOSX({usage, usagePage}: Device) {
 
 function isValidVendorProduct({productId, vendorId}: Device) {
   const VALID_VENDOR_PRODUCT_IDS = [
-    //0x5241006a, // RAMA WORKS M6-A
+    0x5241006a, // RAMA WORKS M6-A
     0x5241006b, // RAMA WORKS M6-B
     0x5241060a, // RAMA WORKS M60-A
     0x5241080a, // RAMA WORKS U80-A
@@ -135,11 +135,23 @@ export function getLayoutFromDevice(device: Device) {
   return parseKLERaw(kb.layout);
 }
 
+export const canConnect = (device: Device) => {
+  try {
+    const test = new HID.HID(device.path);
+    test.close();
+    return true;
+  } catch (e) {
+    console.error('Skipped ', device);
+    return false;
+  }
+};
+
 export function getKeyboards(): Device[] {
   const usbDevices = scanDevices();
   return usbDevices.filter((device: Device) => {
     const validVendorProduct = isValidVendorProduct(device);
     const validInterface = isValidInterface(device);
-    return validVendorProduct && validInterface;
+    // attempt connection
+    return validVendorProduct && validInterface && canConnect(device);
   });
 }

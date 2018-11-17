@@ -19,6 +19,7 @@ type HIDColor = {
   hue: number,
   sat: number
 };
+
 export type LightingData = {
   rgbMode: number,
   brightness: number,
