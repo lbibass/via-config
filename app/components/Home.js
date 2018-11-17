@@ -56,10 +56,8 @@ export default class Home extends React.Component<Props, State> {
 
   constructor() {
     super();
-    const keyboards = getKeyboards();
-    const firstKeyboard = keyboards[0] || null;
     this.state = {
-      keyboards,
+      keyboards: [],
       connected: false,
       loaded: false,
       detected: false,
