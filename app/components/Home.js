@@ -273,9 +273,15 @@ export default class Home extends React.Component<Props, State> {
         matrixKeycodes
       );
       const key = await api.setKey(activeLayer, row, col, value);
-      this.keyboard &&
+      const animation =
+        this.keyboard &&
         this.keyboard.overlay &&
         this.keyboard.overlay.animateSuccess();
+      if (animation) {
+        animation.onfinish = () =>
+          selectedKey === this.state.selectedKey &&
+          this.setState({selectedKey: null});
+      }
       if (key !== value) {
         this.setKeyInMatrix(
           key,
@@ -285,6 +291,7 @@ export default class Home extends React.Component<Props, State> {
           matrixKeycodes
         );
       }
+      //this.setState({selectedKey: null});
     }
   }
 

@@ -5,13 +5,13 @@ import {getKeycodeForByte} from '../utils/key';
 
 export class KeyOverlay extends Component {
   animateSuccess() {
-    this.el.animate(
+    return this.el.animate(
       [
         {background: 'black', easing: 'ease-out'},
         {background: '#98b79a', easing: 'ease-out'},
         {background: 'black', easing: 'ease-out'}
       ],
-      {duration: 600}
+      {duration: 300}
     );
   }
 
