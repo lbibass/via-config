@@ -238,7 +238,9 @@ export class KeyboardAPI {
   ): Promise<any> {
     const commandBytes = [...[COMMAND_START, command], ...bytes];
     try {
-      this.getHID(kbAddr).write(commandBytes);
+      const paddedArray = new Array(32).fill(0);
+      commandBytes.forEach((val, idx) => (paddedArray[idx] = val));
+      console.log(commandBytes, this.getHID(kbAddr).write(commandBytes));
     } catch (ex) {
       console.log('Retrying...');
       this.refresh(kbAddr);
