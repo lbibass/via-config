@@ -240,7 +240,7 @@ export class KeyboardAPI {
     try {
       const paddedArray = new Array(32).fill(0);
       commandBytes.forEach((val, idx) => (paddedArray[idx] = val));
-      console.log(commandBytes, this.getHID(kbAddr).write(commandBytes));
+      console.log(commandBytes, this.getHID(kbAddr).write(paddedArray));
     } catch (ex) {
       console.log('Retrying...');
       this.refresh(kbAddr);
