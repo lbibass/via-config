@@ -1,3 +1,4 @@
+import {KeyboardAPI} from './keyboard-api';
 // @flow
 
 export type Device = {
@@ -137,11 +138,10 @@ export function getLayoutFromDevice(device: Device) {
 
 export const canConnect = (device: Device) => {
   try {
-    const test = new HID.HID(device.path);
-    test.close();
+    new KeyboardAPI(device);
     return true;
   } catch (e) {
-    console.error('Skipped ', device);
+    console.error('Skipped ', device, e);
     return false;
   }
 };
