@@ -237,14 +237,14 @@ export class KeyboardAPI {
     bytes: Array<number> = []
   ): Promise<any> {
     const commandBytes = [...[COMMAND_START, command], ...bytes];
+    const paddedArray = new Array(32).fill(0);
+    commandBytes.forEach((val, idx) => (paddedArray[idx] = val));
     try {
-      const paddedArray = new Array(32).fill(0);
-      commandBytes.forEach((val, idx) => (paddedArray[idx] = val));
-      console.log(commandBytes, this.getHID(kbAddr).write(paddedArray));
+      this.getHID(kbAddr).write(paddedArray);
     } catch (ex) {
       console.log('Retrying...');
       this.refresh(kbAddr);
-      this.getHID(kbAddr).write(commandBytes);
+      this.getHID(kbAddr).write(paddedArray);
     }
     const buffer = await this.getByteBuffer(kbAddr);
     const bufferCommandBytes = buffer.slice(0, commandBytes.length - 1);
