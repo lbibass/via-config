@@ -55,7 +55,7 @@ export class Keyboard extends Component<Props> {
     idx: number,
     useMatrixKeycodes: boolean,
     colorMap: {[color: string]: string},
-    theme: $Values<typeof THEMES> | void = THEMES.PBT_HEAVY_INDUSTRY
+    theme?: $Values<typeof THEMES> = THEMES.PBT_HEAVY_INDUSTRY
   ) {
     const {matrixKeycodes = [], selectedKey, updateSelectedKey} = this.props;
     const themeKey = colorMap[`${c}:${t}`] || 'alphas';

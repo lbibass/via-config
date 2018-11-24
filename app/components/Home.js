@@ -53,6 +53,7 @@ const timeoutRepeater = (fn, timeout, numToRepeat = 0) => () =>
 
 export default class Home extends React.Component<Props, State> {
   keyboard: Keyboard | null;
+  updateDevicesRepeat: Function;
 
   constructor() {
     super();
