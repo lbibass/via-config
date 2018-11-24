@@ -1,21 +1,32 @@
+// @flow
 import React, {Component} from 'react';
 import styles from './loading-screen.css';
 import xoAnimation from './xo_slidingpuzzle.json';
 const lottie = require('lottie-web');
 
-export class LoadingScreen extends Component {
+type Props = {
+  progress: number,
+  ready: boolean
+};
+
+export class LoadingScreen extends Component<Props> {
+  containerRef: HTMLDivElement | null;
+  animationRef: HTMLDivElement | null;
   componentDidMount() {
-    lottie.loadAnimation({
-      container: this.ref,
-      animType: 'svg',
-      loop: true,
-      animationData: xoAnimation
-    });
+    if (this.animationRef) {
+      lottie.loadAnimation({
+        container: this.animationRef,
+        animType: 'svg',
+        loop: true,
+        animationData: xoAnimation
+      });
+    }
   }
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.ready && this.props.ready) {
-      const animation = this.ref.animate(
+  componentDidUpdate(prevProps: Props) {
+    const ref = this.containerRef;
+    if (!prevProps.ready && this.props.ready && ref !== null) {
+      const animation = ref.animate(
         [
           {opacity: '1', easing: 'ease-out'},
           {opacity: '0', easing: 'ease-out'}
@@ -25,13 +36,27 @@ export class LoadingScreen extends Component {
           iterations: 1
         }
       );
-      animation.onfinish = () => (this.ref.style.zIndex = 'initial');
+      animation.onfinish = () => (ref.style.zIndex = 'initial');
     }
   }
 
   render() {
     return (
-      <div ref={ref => (this.ref = ref)} className={styles.loadingScreen} />
+      <div
+        className={styles.loadingScreen}
+        ref={ref => (this.containerRef = ref)}
+      >
+        <div
+          className={styles.loadingScreenAnimation}
+          ref={ref => (this.animationRef = ref)}
+        />
+        <div className={styles.progressBar}>
+          <div
+            style={{width: `${this.props.progress * 100}%`}}
+            className={styles.progress}
+          />
+        </div>
+      </div>
     );
   }
 }

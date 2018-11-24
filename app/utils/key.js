@@ -426,7 +426,7 @@ export const basicKeyToByte = {
   MACRO14: 0x5f20,
   MACRO15: 0x5f21,
   FN_TT13: 0x2f31,
-  FN_TT23: 0x2f32,
+  FN_TT23: 0x2f32
 
   // These are bitmasks not keycodes
   //MOD_LCTL: 0x0001,
@@ -682,6 +682,12 @@ export function mapEvtToKeycode(evt) {
     }
     case 'ControlRight': {
       return 'KC_RCTL';
+    }
+    case 'MetaLeft': {
+      return 'KC_LGUI';
+    }
+    case 'MetaRight': {
+      return 'KC_RGUI';
     }
     case 'OSLeft': {
       return 'KC_LGUI';

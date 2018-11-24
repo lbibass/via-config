@@ -7,9 +7,34 @@
   z-index: 1;
   background: #eaeaea;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.loadingScreen svg {
+.loadingScreenAnimation {
+  height: 75%;
+  overflow: hidden;
+}
+
+.loadingScreenAnimation svg {
   background: #eaeaea;
-  transform: scale(2, 2) translate3d(0px, 0px, 0px) !important;
+  transform: scale(3.5, 3.5) translate3d(0px, 0px, 0px) !important;
+}
+
+.progressBar {
+  background: rgba(75, 78, 85, 0.2);
+  width: 66%;
+  height: 35px;
+  border-radius: 25px;
+  overflow: hidden;
+  margin: 50px 0;
+}
+
+.progress {
+  height: 100%;
+  width: 0%;
+  transition: width 0.2s ease-in-out;
+  background: rgba(75, 78, 85, 1);
 }

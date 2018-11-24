@@ -39,7 +39,8 @@ type State = {
   selectedTitle: string | null,
   activeLayer: number | null,
   matrixKeycodes: MatrixKeycodes,
-  lightingData: LightingData | null
+  lightingData: LightingData | null,
+  progress: number
 };
 
 const timeoutPromise = ms => new Promise(res => setTimeout(res, ms));
@@ -68,7 +69,8 @@ export default class Home extends React.Component<Props, State> {
       selectedKey: null,
       selectedTitle: null,
       activeLayer: null,
-      matrixKeycodes: {}
+      matrixKeycodes: {},
+      progress: 0
     };
     (this: any).saveLighting = debounce(this.saveLighting.bind(this), 500);
     (this: any).updateDevicesRepeat = timeoutRepeater(
@@ -149,6 +151,10 @@ export default class Home extends React.Component<Props, State> {
 
   setSelectedTitle(selectedTitle: string | null) {
     this.setState({selectedKey: null, selectedTitle});
+  }
+
+  setProgress(progress: number) {
+    this.setState({progress});
   }
 
   async updateDevices() {
@@ -319,7 +325,7 @@ export default class Home extends React.Component<Props, State> {
   }
 
   setReady() {
-    this.setState({ready: true});
+    this.setState({progress: 1, ready: true});
   }
 
   async toggleLights(selectedKeyboard: Device) {
@@ -418,13 +424,21 @@ export default class Home extends React.Component<Props, State> {
 
   async updateKeyboardLightingAndMatrixData(selectedKeyboard: Device) {
     const keyboard = getKeyboardFromDevice(selectedKeyboard);
+    this.setProgress(0);
     if (keyboard.lights) {
       await this.getCurrentLightingSettings(selectedKeyboard);
     }
+    this.setProgress(0.05);
     await this.updateFullMatrix(0, selectedKeyboard);
+    this.setProgress(0.2);
     await this.updateFullMatrix(1, selectedKeyboard);
+    this.setProgress(0.4);
+    await this.updateFullMatrix(1, selectedKeyboard);
+    this.setProgress(0.6);
     await this.updateFullMatrix(2, selectedKeyboard);
+    this.setProgress(0.8);
     await this.updateFullMatrix(3, selectedKeyboard);
+    this.setProgress(1);
   }
 
   getLayerMatrix(
@@ -507,7 +521,10 @@ export default class Home extends React.Component<Props, State> {
     const api = this.getAPI(selectedKeyboard);
     return (
       <div className={styles.home}>
-        <LoadingScreen ready={this.state.ready} />
+        <LoadingScreen
+          ready={this.state.ready}
+          progress={this.state.progress}
+        />
         {this.state.ready && (
           <React.Fragment>
             <TitleBar
