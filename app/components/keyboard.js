@@ -58,7 +58,8 @@ export class Keyboard extends Component<Props> {
     theme: $Values<typeof THEMES> | void = THEMES.PBT_HEAVY_INDUSTRY
   ) {
     const {matrixKeycodes = [], selectedKey, updateSelectedKey} = this.props;
-    const themeColors = theme[colorMap[`${c}:${t}`]];
+    const themeKey = colorMap[`${c}:${t}`] || 'alphas';
+    const themeColors = theme[themeKey];
     const key = `${idx}`;
     const onClick = evt => {
       evt.stopPropagation();

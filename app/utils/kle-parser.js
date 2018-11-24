@@ -9,7 +9,8 @@ type Dimensions = {margin: Margin, size: Size};
 export type Result = Formatting & Dimensions & {label: string};
 type ColorCount = {[key: string]: number};
 type KLEDimensions = {a: number, x: number, w: number};
-type KLEElem = $Shape<KLEDimensions & Formatting> | string;
+type OtherKLEProps = {[key: string]: any};
+type KLEElem = $Shape<KLEDimensions & Formatting> | OtherKLEProps | string;
 type InnerReduceState = Formatting &
   Dimensions & {colorCount: ColorCount, res: Result[]};
 type OuterReduceState = {
@@ -81,6 +82,8 @@ export const LAYOUT_WT80_A = `[{c:"#afb0ae",t:"#505557"},"Esc",{x:1,c:"#505557",
 [{w:1.75},"Caps Lock",{c:"#505557"},"A","S","D","F","G","H","J","K","L",":\n;","\"\n'",{c:"#afb0ae",t:"#505557",w:2.25},"Enter"],
 [{c:"#6b7173",t:"#aeb0b0",w:2.25},"Shift",{c:"#505557"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#6b7173",w:2.75},"Shift",{x:1.25},"↑"],
 [{w:1.25},"Ctrl",{w:1.25},"Win",{w:1.25},"Alt",{c:"#505557",a:7,w:6.25},"",{c:"#6b7173",a:4,w:1.25},"Alt",{w:1.25},"Win",{w:1.25},"Menu",{w:1.25},"Ctrl",{x:0.25},"←","↓","→"]`;
+
+parseKLERaw(LAYOUT_KOYU);
 
 export function parseKLERaw(kle: string) {
   const kleArr = kle.split(',\n');
