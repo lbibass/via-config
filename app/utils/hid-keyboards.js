@@ -63,6 +63,7 @@ function isValidVendorProduct({productId, vendorId}: Device) {
     0x5241006a, // RAMA WORKS M6-A
     0x5241006b, // RAMA WORKS M6-B
     0x5241060a, // RAMA WORKS M60-A
+    0x52414b59, // RAMA WORKS KOYU
     0x5241080a, // RAMA WORKS U80-A
     0xfeed6060, // Zeal60
     0xfeed6065, // Zeal65
@@ -89,6 +90,11 @@ const hid_device: DeviceMetaMap = {
   [0x5241060a]: {
     name: 'RAMA WORKS M60-A',
     layout: LAYOUT_M60_A,
+    lights: true
+  },
+  [0x52414b59]: {
+    name: 'RAMA WORKS KOYU',
+    layout: LAYOUT_KOYU,
     lights: true
   },
   [0x6582080a]: {

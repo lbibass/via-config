@@ -30,6 +30,22 @@ export const MATRIX_M60_A = `
 }
 `;
 
+export const MATRIX_KOYU = `
+#define LAYOUT_all( \
+    K000, K001, K002, K003, K004, K005, K006, K007, K008, K009, K010, K011, K012, K013, K213, K014, \
+    K100, K101, K102, K103, K104, K105, K106, K107, K108, K109, K110, K111, K112, K113,       K114, \
+    K200, K201, K202, K203, K204, K205, K206, K207, K208, K209, K210, K211, K212,             K214, \
+    K300, K302, K303, K304, K305, K306, K307, K308, K309, K310, K311, K312,             K313, K314, \
+    K400, K401, K402,                   K407,                         K411,       K412, K413, K414  \
+) { \
+    { K000, K001, K002, K003, K004, K005, K006, K007, K008, K009, K010, K011, K012, K013, K014 }, \
+    { K100, K101, K102, K103, K104, K105, K106, K107, K108, K109, K110, K111, K112, K113, K114 }, \
+    { K200, K201, K202, K203, K204, K205, K206, K207, K208, K209, K210, K211, K212, K213, K214 }, \
+    { K300, ____, K302, K303, K304, K305, K306, K307, K308, K309, K310, K311, K312, K313, K314 }, \
+    { K400, K401, K402, ____, ____, ____, K407, ____, ____, ____, ____, K411, K412, K413, K414 }  \
+}
+`;
+
 export const MATRIX_ZEAL60 = `
 #define LAYOUT_60_all( \
     K00, K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, K0B, K0C, K0D, K2D, \
@@ -149,6 +165,7 @@ export const MatrixLayout = {
   'RAMA WORKS M6-A': parseLayout(MATRIX_M6_A),
   'RAMA WORKS M6-B': parseLayout(MATRIX_M6_B),
   'RAMA WORKS M60-A': parseLayout(MATRIX_M60_A),
+  'RAMA WORKS KOYU': parseLayout(MATRIX_KOYU),
   'RAMA WORKS U80-A': parseLayout(MATRIX_WT80_A_no_splits),
   ZEAL60: parseLayout(MATRIX_ZEAL60),
   ZEAL65: parseLayout(MATRIX_ZEAL65),
