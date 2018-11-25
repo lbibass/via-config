@@ -166,7 +166,7 @@ export class Keyboard extends Component<Props> {
       matrixKeycodes = []
     } = this.props;
     const device = this.getDevice();
-    if (device && lightingData) {
+    if (device) {
       const keyboard = getKeyboardFromDevice(device);
       const {res: selectedLayout, colorMap} = getLayoutFromDevice(device);
       const matrixLayout = MatrixLayout[keyboard.name];
@@ -222,11 +222,13 @@ export class Keyboard extends Component<Props> {
             useMatrixKeycodes={this.useMatrixKeycodes()}
             selectedKey={selectedKey}
           />
-          <BrightnessControl
-            brightness={lightingData.brightness}
-            updateBrightness={updateBrightness}
-            showControl={showBrightness}
-          />
+          {lightingData && (
+            <BrightnessControl
+              brightness={lightingData.brightness}
+              updateBrightness={updateBrightness}
+              showControl={showBrightness}
+            />
+          )}
         </div>
       );
     }
