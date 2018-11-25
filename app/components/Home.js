@@ -103,11 +103,12 @@ export default class Home extends React.Component<Props, State> {
   }
 
   async isCorrectProtocol(selectedKeyboard: Device): Promise<boolean> {
+    const validProtocolVersions = [1, 7, 8];
     this.setState({connected: false});
     const api = this.getAPI(selectedKeyboard);
     if (api) {
       const res = await api.getProtocolVersion();
-      if ([1, 7].includes(res)) {
+      if (validProtocolVersions.includes(res)) {
         this.setState({connected: true});
         return true;
       }

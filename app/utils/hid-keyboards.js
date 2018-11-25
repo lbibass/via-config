@@ -1,5 +1,5 @@
-import {KeyboardAPI} from './keyboard-api';
 // @flow
+import {KeyboardAPI} from './keyboard-api';
 
 export type Device = {
   productId: number,
