@@ -1,7 +1,9 @@
 // @flow
 const HID = require('node-hid');
 const debounce = require('lodash.debounce');
-const COMMAND_START = 0x00;
+
+// Zeal60 API Command IDs
+const COMMAND_START = 0x00; // This is really a HID Report ID
 const GET_PROTOCOL_VERSION = 0x01;
 const GET_KEYBOARD_VALUE = 0x02;
 const SET_KEYBOARD_VALUE = 0x03;
@@ -13,6 +15,15 @@ const BACKLIGHT_CONFIG_GET_VALUE = 0x08;
 const BACKLIGHT_CONFIG_SAVE = 0x09;
 const EEPROM_RESET = 0x0a;
 const BOOTLOADER_JUMP = 0x0b;
+const DYNAMIC_KEYMAP_MACRO_GET_COUNT = 0x0c;
+const DYNAMIC_KEYMAP_MACRO_GET_BUFFER_SIZE = 0x0d;
+const DYNAMIC_KEYMAP_MACRO_GET_BUFFER = 0x0e;
+const DYNAMIC_KEYMAP_MACRO_SET_BUFFER = 0x0f;
+const DYNAMIC_KEYMAP_MACRO_RESET = 0x10;
+const DYNAMIC_KEYMAP_GET_BUFFER = 0x11;
+const DYNAMIC_KEYMAP_SET_BUFFER = 0x12;
+
+// RGB Backlight Value IDs
 const BACKLIGHT_USE_SPLIT_BACKSPACE = 0x01;
 const BACKLIGHT_USE_SPLIT_LEFT_SHIFT = 0x02;
 const BACKLIGHT_USE_SPLIT_RIGHT_SHIFT = 0x03;
@@ -35,6 +46,7 @@ const BACKLIGHT_LAYER_2_INDICATOR_ROW_COL = 0x13;
 const BACKLIGHT_LAYER_3_INDICATOR_COLOR = 0x14;
 const BACKLIGHT_LAYER_3_INDICATOR_ROW_COL = 0x15;
 const BACKLIGHT_ALPHAS_MODS = 0x16;
+const BACKLIGHT_CUSTOM_COLOR = 0x17;
 
 const cache = {};
 
@@ -148,8 +160,26 @@ export class KeyboardAPI {
     const bytes = [
       colorNumber === 1 ? BACKLIGHT_COLOR_1 : BACKLIGHT_COLOR_2,
       hue,
-      sat,
-      255
+      sat
+    ];
+    await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
+  }
+
+  async getCustomColor(colorNumber: number) {
+    const bytes = [BACKLIGHT_CUSTOM_COLOR, colorNumber];
+    const [, , , hue, sat] = await this.hidCommand(
+      BACKLIGHT_CONFIG_GET_VALUE,
+      bytes
+    );
+    return {hue, sat};
+  }
+
+  async setCustomColor(colorNumber: number, hue: number, sat: number) {
+    const bytes = [
+      BACKLIGHT_CUSTOM_COLOR,
+      colorNumber,
+      hue,
+      sat
     ];
     await this.hidCommand(BACKLIGHT_CONFIG_SET_VALUE, bytes);
   }
