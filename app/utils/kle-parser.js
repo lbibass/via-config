@@ -64,6 +64,9 @@ export const LAYOUT_KOYU = `[{c:"#DEBFB3",t:"#363636"},"Esc",{c:"#ebebeb"},"!\n1
 [{w:2.25},"Shift",{c:"#ebebeb",t:"#363636"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#363636",t:"#DEBFB3",w:1.75},"Shift",{c:"#DEBFB3",t:"#363636"},"↑",{c:"#363636",t:"#DEBFB3"},"/"],
 [{w:1.5},"Ctrl","Win",{w:1.5},"Alt",{c:"#DEBFB3",t:"#363636",a:7,w:7},"",{c:"#363636",t:"#DEBFB3",a:4,w:1.5},"Ctrl",{x:0.5,c:"#DEBFB3",t:"#363636"},"←","↓","→"]`;
 
+export const LAYOUT_WT8_A = `[{c:"#505557",t:"#d9d7d7",a:7},"x","x","x","x"],
+["x","x","x","x"]`;
+
 export const LAYOUT_WT60_A = `[{c:"#ba8080",t:"#ffe6d4"},"x",{c:"#f7f2ea",t:"#ba8080"},"x","x","x","x","x","x","x","x","x","x","x","x","x",{c:"#ffe6d4"},"x"],
 [{w:1.5},"x",{c:"#f7f2ea"},"x","x","x","x","x","x","x","x","x","x","x","x",{c:"#ffe6d4",w:1.5},"x"],
 [{w:1.75},"x",{c:"#f7f2ea"},"x","x","x","x","x","x","x","x","x","x","x",{c:"#ba8080",t:"#ffe6d4",w:2.25},"x"],

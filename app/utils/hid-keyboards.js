@@ -28,6 +28,7 @@ import {
   LAYOUT_zeal65_split_bs,
   LAYOUT_zeal65_split_bs_olivia,
   LAYOUT_KOYU,
+  LAYOUT_WT8_A,
   LAYOUT_WT60_A,
   LAYOUT_WT65_A,
   LAYOUT_WT80_A
@@ -67,6 +68,7 @@ function isValidVendorProduct({productId, vendorId}: Device) {
     0x5241080a, // RAMA WORKS U80-A
     0xfeed6060, // Zeal60
     0xfeed6065, // Zeal65
+    0x6582008a, // WT8-A
     0x6582060a, // WT60-A
     0x6582065a, // WT65-A
     0x6582080a // WT80-A
@@ -111,6 +113,11 @@ const hid_device: DeviceMetaMap = {
     name: 'ZEAL65',
     layout: LAYOUT_zeal65_split_bs_olivia,
     lights: true
+  },
+  [0x6582008a]: {
+    name: 'WT8-A',
+    layout: LAYOUT_WT8_A,
+    lights: false
   },
   [0x6582060a]: {
     name: 'WT60-A',

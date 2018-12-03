@@ -78,6 +78,14 @@ export const MATRIX_ZEAL65 = `
 }
 `;
 
+export const MATRIX_WT8_A = `
+#define LAYOUT(                                   \
+  K00, K01, K02, K03, K04, K05, K06, K07 )       \
+  {                                              \
+      {K00, K01, K02, K03, K04, K05, K06, K07 }, \
+  }
+`;
+
 export const MATRIX_WT60_A = `
 #define LAYOUT_60_ansi_split_bs_rshift( \
   K000, K001, K002, K003, K004, K005, K006, K007, K008, K009, K010, K011, K012, K013, K213, \
@@ -169,6 +177,7 @@ export const MatrixLayout = {
   'RAMA WORKS U80-A': parseLayout(MATRIX_WT80_A_no_splits),
   ZEAL60: parseLayout(MATRIX_ZEAL60),
   ZEAL65: parseLayout(MATRIX_ZEAL65),
+  'WT8-A': parseLayout(MATRIX_WT8_A),
   'WT60-A': parseLayout(MATRIX_WT60_A),
   'WT65-A': parseLayout(MATRIX_WT65_A),
   'WT80-A': parseLayout(MATRIX_WT80_A_no_splits)
