@@ -66,8 +66,8 @@ function isValidVendorProduct({productId, vendorId}: Device) {
     0x5241060a, // RAMA WORKS M60-A
     0x52414b59, // RAMA WORKS KOYU
     0x5241080a, // RAMA WORKS U80-A
-    0xfeed6060, // Zeal60
-    0xfeed6065, // Zeal65
+    0x5a450060, // Zeal60
+    0x5a450065, // Zeal65
     0x6582008a, // WT8-A
     0x6582060a, // WT60-A
     0x6582065a, // WT65-A
@@ -104,12 +104,12 @@ const hid_device: DeviceMetaMap = {
     layout: LAYOUT_U80_A,
     lights: true
   },
-  [0xfeed6060]: {
+  [0x5a450060]: {
     name: 'ZEAL60',
     layout: LAYOUT_zeal60_all,
     lights: true
   },
-  [0xfeed6065]: {
+  [0x5a450065]: {
     name: 'ZEAL65',
     layout: LAYOUT_zeal65_split_bs_olivia,
     lights: true
