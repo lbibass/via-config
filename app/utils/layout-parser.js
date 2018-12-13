@@ -14,6 +14,14 @@ export const MATRIX_M6_B = `
     }
 `;
 
+export const MATRIX_M10_B = `
+#define LAYOUT(                         \
+  K00, K01, K02, K03, K04, K05, K06, K07, K08, K09 )       \
+  {                                   \
+      {K00, K01, K02, K03, K04, K05, K06, K07, K08, K09}, \
+  }
+`;
+
 export const MATRIX_M60_A = `
 #define LAYOUT_60_hhkb( \
     K00, K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, K0B, K0C, K0D, K2D, \
@@ -172,6 +180,7 @@ const LS = {
 export const MatrixLayout = {
   'RAMA WORKS M6-A': parseLayout(MATRIX_M6_A),
   'RAMA WORKS M6-B': parseLayout(MATRIX_M6_B),
+  'RAMA WORKS M10-B': parseLayout(MATRIX_M10_B),
   'RAMA WORKS M60-A': parseLayout(MATRIX_M60_A),
   'RAMA WORKS KOYU': parseLayout(MATRIX_KOYU),
   'RAMA WORKS U80-A': parseLayout(MATRIX_WT80_A_no_splits),

@@ -40,6 +40,11 @@ export const LAYOUT_M6_A = `[{c:"#505557",t:"#d9d7d7",a:7},"x","x","x"],
 export const LAYOUT_M6_B = `[{c:"#505557",t:"#d9d7d7",a:7},"x","x","x"],
 ["x","x","x"]`;
 
+export const LAYOUT_M10_B = `[{c:"#505557",t:"#d9d7d7",a:7},"x","x","x"],
+["x","x","x"],
+["x","x","x"],
+[{x:1,w:2},"x"]`;
+
 export const LAYOUT_zeal60_all = `[{c:"#ba8080",t:"#ffe6d4"},"x",{c:"#f7f2ea",t:"#ba8080"},"x","x","x","x","x","x","x","x","x","x","x","x","x",{c:"#ffe6d4"},"x"],
 [{w:1.5},"x",{c:"#f7f2ea"},"x","x","x","x","x","x","x","x","x","x","x","x",{c:"#ffe6d4",w:1.5},"x"],
 [{w:1.75},"x",{c:"#f7f2ea"},"x","x","x","x","x","x","x","x","x","x","x",{c:"#ba8080",t:"#ffe6d4",w:2.25},"x"],

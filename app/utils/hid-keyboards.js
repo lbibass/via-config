@@ -22,6 +22,7 @@ import {
   parseKLERaw,
   LAYOUT_M6_A,
   LAYOUT_M6_B,
+  LAYOUT_M10_B,
   LAYOUT_M60_A,
   LAYOUT_U80_A,
   LAYOUT_zeal60_all,
@@ -63,6 +64,7 @@ function isValidVendorProduct({productId, vendorId}: Device) {
   const VALID_VENDOR_PRODUCT_IDS = [
     0x5241006a, // RAMA WORKS M6-A
     0x5241006b, // RAMA WORKS M6-B
+    0x524100ab, // RAMA WORKS M10-B
     0x5241060a, // RAMA WORKS M60-A
     0x52414b59, // RAMA WORKS KOYU
     0x5241080a, // RAMA WORKS U80-A
@@ -88,6 +90,11 @@ const hid_device: DeviceMetaMap = {
     name: 'RAMA WORKS M6-B',
     layout: LAYOUT_M6_B,
     lights: true
+  },
+  [0x524100ab]: {
+    name: 'RAMA WORKS M10-B',
+    layout: LAYOUT_M10_B,
+    lights: false
   },
   [0x5241060a]: {
     name: 'RAMA WORKS M60-A',
