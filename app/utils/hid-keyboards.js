@@ -32,7 +32,8 @@ import {
   LAYOUT_WT8_A,
   LAYOUT_WT60_A,
   LAYOUT_WT65_A,
-  LAYOUT_WT80_A
+  LAYOUT_WT80_A,
+  LAYOUT_AEGIS
 } from './kle-parser';
 
 const HID = require('node-hid');
@@ -73,7 +74,8 @@ function isValidVendorProduct({productId, vendorId}: Device) {
     0x6582008a, // WT8-A
     0x6582060a, // WT60-A
     0x6582065a, // WT65-A
-    0x6582080a // WT80-A
+    0x6582080a, // WT80-A
+    0x41450807 // AEGIS
   ];
   // JS bitwise operations is only 32-bit so we lose numbers if we shift too high
   const vendorProductId = vendorId * 65536 + productId;
@@ -139,6 +141,11 @@ const hid_device: DeviceMetaMap = {
   [0x6582080a]: {
     name: 'WT80-A',
     layout: LAYOUT_WT80_A,
+    lights: false
+  },
+  [0x41450807]: {
+    name: 'AEGIS',
+    layout: LAYOUT_AEGIS,
     lights: false
   }
 };
