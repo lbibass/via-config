@@ -2,7 +2,7 @@
   "name": "via-config",
   "productName": "via-config",
   "description": "Yet another keyboard configurator",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "main": "./main.prod.js",
   "author": {
     "name": "Olivia B",
