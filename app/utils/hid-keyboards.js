@@ -77,7 +77,7 @@ function isValidVendorProduct({productId, vendorId}: Device) {
     0x6582065a, // WT65-A
     0x6582080a, // WT80-A
     0x41450807, // AEGIS
-    0xFEED0CA40, // MechKeys MechMini 2
+    0xFEEDCA40 // MechKeys MechMini 2
   ];
   // JS bitwise operations is only 32-bit so we lose numbers if we shift too high
   const vendorProductId = vendorId * 65536 + productId;
@@ -150,11 +150,11 @@ const hid_device: DeviceMetaMap = {
     layout: LAYOUT_AEGIS,
     lights: false
   },
-  [0xFEED0CA40]: {
+  [0xFEEDCA40]: {
      name: 'MechMini2',
     layout: LAYOUT_MM2_625,
     lights: false
-   },
+   }
 };
 
 export function getKeyboardFromDevice({
