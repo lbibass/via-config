@@ -185,6 +185,19 @@ export const MATRIX_AEGIS = `
   { K1100, K1101, K1102, K1103, _____, K1105, _____, K1107, K1108 } \
 }
 `;
+export const MATRIX_MM2_625 = `
+  #define LAYOUT_MM2_625_space( \
+      K000, K001, K002, K003, K004, K005, K006, K007, K008, K009, K010, K011, \
+      K100, K101, K102, K103, K104, K105, K106, K107, K108, K109,       K111, \
+      K200,       K202, K203, K204, K205, K206, K207, K208, K209, K210, K211, \
+      K300, K301, K302,                   K306,                   K310, K311  \
+  ) { \
+     { K000,  K001,  K002,  K003,  K004,  K005,  K006,  K007,  K008,  K009,  K010,  K011 }, \
+     { K100,  K101,  K102,  K103,  K104,  K105,  K106,  K107,  K108,  K109,  KC_NO, K111 }, \
+     { K200,  KC_NO, K202,  K203,  K204,  K205,  K206,  K207,  K208,  K209,  K210,  K211 }, \
+     { K300,  K301,  K302,  KC_NO, KC_NO, KC_NO, K306,  KC_NO, KC_NO, KC_NO, K310,  K311 }  \
+}
+`;
 
 
 const LS = {
@@ -214,7 +227,8 @@ export const MatrixLayout = {
   'WT60-A': parseLayout(MATRIX_WT60_A),
   'WT65-A': parseLayout(MATRIX_WT65_A),
   'WT80-A': parseLayout(MATRIX_WT80_A_no_splits),
-  'AEGIS': parseLayout(MATRIX_AEGIS)
+  'AEGIS': parseLayout(MATRIX_AEGIS),
+  'MechMini2': parseLayout(MATRIX_MM2_625),
 };
 
 function error(state, nextToken) {

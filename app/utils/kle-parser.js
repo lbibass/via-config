@@ -98,6 +98,11 @@ export const LAYOUT_AEGIS = `[{a:7},"","","","",{x:0.5,a:4},"Esc",{x:1},"F1","F2
 ["1\nEnd","2\n↓","3\nPgDn",{a:7},"",{x:0.25,a:4},"↑",{x:0.25,w:1.25},"Shift","Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{w:1.75},"Shift","Fn"],
 ["0\nIns",{a:7},"",{a:4},".\nDel",{x:0.25},"←","↓","→",{x:0.25,w:1.25},"Win",{w:1.25},"Alt",{a:7,w:6.25},"",{a:4,w:1.5},"Alt",{w:1.25},"Win",{w:1.5},"Layout"]`;
 
+export const LAYOUT_MM2_625 = `["Esc","Q","W","E","R","T","Y","U","I","O","P","BackSpace"],
+[{w:1.25},"Tab","A","S","D","F","G","H","J","K","L",{w:1.75},"Enter"],
+[{w:1.75},"Shift","Z","X","C","V","B","N","M","<\n.",{w:1.25},"Shift","Fn"],
+[{w:1.25},"Hyper","Super","Meta",{a:7,w:6.25},"",{a:4,w:1.25},"Meta",{w:1.25},"Super"]`;
+
 parseKLERaw(LAYOUT_KOYU);
 
 export function parseKLERaw(kle: string) {
