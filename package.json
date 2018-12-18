@@ -1,7 +1,7 @@
 {
   "name": "via-config",
   "productName": "VIA Configurator",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Yet another keyboard configurator",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
