@@ -1,6 +1,5 @@
 // @flow
 const HID = require('node-hid');
-const debounce = require('lodash.debounce');
 
 // Zeal60 API Command IDs
 const COMMAND_START = 0x00; // This is really a HID Report ID
