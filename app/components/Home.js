@@ -77,7 +77,7 @@ export default class Home extends React.Component<Props, State> {
     (this: any).updateDevicesRepeat = timeoutRepeater(
       () => this.updateDevices(),
       500,
-      5
+      1
     );
   }
 
@@ -195,6 +195,8 @@ export default class Home extends React.Component<Props, State> {
           selectedKeyboard: null,
           detected: false,
           loaded: false,
+          ready: false,
+          progress: 0,
           selectedKey: null,
           activeLayer: 0,
           selectedTitle: null
@@ -430,13 +432,9 @@ export default class Home extends React.Component<Props, State> {
     }
     this.setProgress(0.05);
     await this.updateFullMatrix(0, selectedKeyboard);
-    this.setProgress(0.2);
-    await this.updateFullMatrix(1, selectedKeyboard);
-    this.setProgress(0.4);
     await this.updateFullMatrix(1, selectedKeyboard);
     this.setProgress(0.6);
     await this.updateFullMatrix(2, selectedKeyboard);
-    this.setProgress(0.8);
     await this.updateFullMatrix(3, selectedKeyboard);
     this.setProgress(1);
   }
@@ -513,6 +511,8 @@ export default class Home extends React.Component<Props, State> {
       detected,
       loaded,
       lightingData,
+      ready,
+      progress,
       selectedKey,
       matrixKeycodes,
       selectedKeyboard,
@@ -521,11 +521,8 @@ export default class Home extends React.Component<Props, State> {
     const api = this.getAPI(selectedKeyboard);
     return (
       <div className={styles.home}>
-        <LoadingScreen
-          ready={this.state.ready}
-          progress={this.state.progress}
-        />
-        {this.state.ready && (
+        <LoadingScreen detected={detected} ready={ready} progress={progress} />
+        {detected && ready && (
           <React.Fragment>
             <TitleBar
               key="title-bar"

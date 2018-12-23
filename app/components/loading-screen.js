@@ -5,6 +5,7 @@ import xoAnimation from './xo_slidingpuzzle.json';
 const lottie = require('lottie-web');
 
 type Props = {
+  detected: boolean,
   progress: number,
   ready: boolean
 };
@@ -41,6 +42,7 @@ export class LoadingScreen extends Component<Props> {
   }
 
   render() {
+    const {detected} = this.props;
     return (
       <div
         className={styles.loadingScreen}
@@ -50,12 +52,18 @@ export class LoadingScreen extends Component<Props> {
           className={styles.loadingScreenAnimation}
           ref={ref => (this.animationRef = ref)}
         />
-        <div className={styles.progressBar}>
-          <div
-            style={{width: `${this.props.progress * 100}%`}}
-            className={styles.progress}
-          />
-        </div>
+        {!detected ? (
+          <div className={styles.startMessage}>
+            Connect a compatible keyboard to begin...
+          </div>
+        ) : (
+          <div className={styles.progressBar}>
+            <div
+              style={{width: `${this.props.progress * 100}%`}}
+              className={styles.progress}
+            />
+          </div>
+        )}
       </div>
     );
   }
