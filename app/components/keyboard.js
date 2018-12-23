@@ -5,13 +5,10 @@ import {Key} from './Key';
 import {KeyOverlay} from './key-overlay';
 import {Title} from './title-bar';
 import styles from './keyboard.css';
-import {
-  getKeyboardFromDevice,
-  getLayoutFromDevice
-} from '../utils/hid-keyboards';
+import {getKeyboardFromDevice, getLayoutFromDevice} from '../utils/device-meta';
 import type {LightingData} from './Home';
 import type {Result} from '../utils/kle-parser';
-import type {Device} from '../utils/hid-keyboards';
+import type {Device} from '../utils/device-meta';
 import {MatrixLayout} from '../utils/layout-parser';
 import {BrightnessControl} from './brightness-control';
 import {LayerControl} from './LayerControl';
@@ -169,7 +166,7 @@ export class Keyboard extends Component<Props> {
     if (device) {
       const keyboard = getKeyboardFromDevice(device);
       const {res: selectedLayout, colorMap} = getLayoutFromDevice(device);
-      const matrixLayout = MatrixLayout[keyboard.name];
+      const matrixLayout = MatrixLayout[keyboard.name].layout;
       const showLayer = selectedTitle === Title.KEYS;
       const showBrightness = selectedTitle === Title.LIGHTING;
       const useMatrixKeycodes = this.useMatrixKeycodes();

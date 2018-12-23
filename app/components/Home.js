@@ -6,8 +6,9 @@ import {Key} from './Key';
 import {Keyboard} from './keyboard';
 import {DebugMenu, KeycodeMenu, LightingMenu} from './menus';
 import {mapEvtToKeycode, getByteForCode, getKeycodes} from '../utils/key';
-import {getKeyboardFromDevice, getKeyboards} from '../utils/hid-keyboards';
-import type {Device} from '../utils/hid-keyboards';
+import {getKeyboards} from '../utils/hid-keyboards';
+import {getKeyboardFromDevice} from '../utils/device-meta';
+import type {Device} from '../utils/device-meta';
 import {MatrixLayout} from '../utils/layout-parser';
 import {KeyboardAPI} from '../utils/keyboard-api';
 import {TitleBar, Title} from './title-bar';
@@ -222,7 +223,7 @@ export default class Home extends React.Component<Props, State> {
     if (selectedKeyboard) {
       const keyboard = getKeyboardFromDevice(selectedKeyboard);
       const matrixLayout = MatrixLayout[keyboard.name];
-      return matrixLayout;
+      return matrixLayout.layout;
     }
   }
 
@@ -349,10 +350,8 @@ export default class Home extends React.Component<Props, State> {
     const api = this.getAPI(selectedKeyboard);
     const matrixLayout = this.getMatrix(selectedKeyboard);
     if (api && matrixLayout) {
-      const layerMatrixKeycodes = await api.readMatrix(
-        matrixLayout,
-        activeLayer
-      );
+      const layerCount = await api.getLayerCount();
+      const layerMatrixKeycodes = await api.readMatrix(activeLayer);
       const matrixKeycodes = this.state.matrixKeycodes;
       const deviceMatrixKeycodes = matrixKeycodes[selectedKeyboard.path] || [
         [],

@@ -186,7 +186,6 @@ export const MATRIX_AEGIS = `
 }
 `;
 
-
 const LS = {
   START: 1,
   DEFINE: 2,
@@ -214,7 +213,7 @@ export const MatrixLayout = {
   'WT60-A': parseLayout(MATRIX_WT60_A),
   'WT65-A': parseLayout(MATRIX_WT65_A),
   'WT80-A': parseLayout(MATRIX_WT80_A_no_splits),
-  'AEGIS': parseLayout(MATRIX_AEGIS)
+  AEGIS: parseLayout(MATRIX_AEGIS)
 };
 
 function error(state, nextToken) {
@@ -396,6 +395,7 @@ export function parseLayout(layout) {
   const tokens = layout.split(/\s+/g);
   const {res} = tokens.reduce(tokenizer, {prev: LS.START, res: {}});
   const {layout1D, layout2D} = res;
+  const [rows, cols] = [layout2D.length, layout2D[0].length];
   const indexMap = Object.assign(
     {},
     ...layout2D.map((arr, i) =>
@@ -407,5 +407,5 @@ export function parseLayout(layout) {
       )
     )
   );
-  return layout1D.map(val => indexMap[val]);
+  return {rows, cols, layout: layout1D.map(val => indexMap[val])};
 }
