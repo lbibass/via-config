@@ -18,7 +18,7 @@ export function isNumericSymbol(label) {
 // Maps the byte value to the keycode
 export function getByteForCode(code) {
   const byte: number | undefined = basicKeyToByte[code];
-  if (byte) {
+  if (byte !== undefined) {
     return byte;
   } else if (isLayerCode(code)) {
     return getByteForLayerCode(code);

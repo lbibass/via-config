@@ -63,8 +63,8 @@ export const LAYOUT_zeal65_split_bs_olivia = `[{c:"#DEBFB3",t:"#363636"},"Esc",{
 [{w:2.25},"Shift",{c:"#ebebeb",t:"#363636"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#363636",t:"#DEBFB3",w:1.75},"Shift",{c:"#DEBFB3",t:"#363636"},"↑",{c:"#363636",t:"#DEBFB3"},"/"],
 [{w:1.5},"Ctrl",{w:1.5},"Alt",{c:"#DEBFB3",t:"#363636",a:7,w:7},"",{c:"#363636",t:"#DEBFB3",a:4,w:1.5},"Alt",{w:1.5},"Ctrl",{c:"#DEBFB3",t:"#363636"},"←","↓","→"]`;
 
-export const LAYOUT_KOYU = `[{c:"#DEBFB3",t:"#363636"},"Esc",{c:"#ebebeb"},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=",{c:"#363636",t:"#DEBFB3"},"PrtSc","Pause\nBreak","Num Lock"],
-[{w:1.5},"Tab",{c:"#ebebeb",t:"#363636"},"Q","W","E","R","T","Y","U","I","O","P","{\n[","}\n]",{c:"#363636",t:"#DEBFB3",w:1.5},"|\n\\","Insert"],
+export const LAYOUT_KOYU = `[{c:"#DEBFB3",t:"#363636"},"",{c:"#ebebeb"},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=",{c:"#363636",t:"#DEBFB3"},"PrtSc","Pause\nBreak","Num Lock"],
+[{w:1.5},"Tab",{c:"#ebebeb",t:"#363636"},"","W","E","R","T","Y","U","I","O","P","{\n[","}\n]",{c:"#363636",t:"#DEBFB3",w:1.5},"|\n\\","Insert"],
 [{w:1.75},"Caps Lock",{c:"#ebebeb",t:"#363636"},"A","S","D","F","G","H","J","K","L",":\n;","\"\n'",{c:"#363636",t:"#DEBFB3",w:2.25},"Enter","Home"],
 [{w:2.25},"Shift",{c:"#ebebeb",t:"#363636"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#363636",t:"#DEBFB3",w:1.75},"Shift",{c:"#DEBFB3",t:"#363636"},"↑",{c:"#363636",t:"#DEBFB3"},"/"],
 [{w:1.5},"Ctrl","Win",{w:1.5},"Alt",{c:"#DEBFB3",t:"#363636",a:7,w:7},"",{c:"#363636",t:"#DEBFB3",a:4,w:1.5},"Ctrl",{x:0.5,c:"#DEBFB3",t:"#363636"},"←","↓","→"]`;
@@ -98,8 +98,6 @@ export const LAYOUT_AEGIS = `[{a:7},"","","","",{x:0.5,a:4},"Esc",{x:1},"F1","F2
 ["1\nEnd","2\n↓","3\nPgDn",{a:7},"",{x:0.25,a:4},"↑",{x:0.25,w:1.25},"Shift","Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{w:1.75},"Shift","Fn"],
 ["0\nIns",{a:7},"",{a:4},".\nDel",{x:0.25},"←","↓","→",{x:0.25,w:1.25},"Win",{w:1.25},"Alt",{a:7,w:6.25},"",{a:4,w:1.5},"Alt",{w:1.25},"Win",{w:1.5},"Layout"]`;
 
-parseKLERaw(LAYOUT_KOYU);
-
 export function parseKLERaw(kle: string) {
   const kleArr = kle.split(',\n');
   const parsedKLE: OuterReduceState = kleArr.reduce(
@@ -107,8 +105,8 @@ export function parseKLERaw(kle: string) {
       const row = kle
         .replace(/\n/g, '\\n')
         .replace(/\\/g, '\\\\')
-        .replace(/\"\"(?!,)/g, '"\\"')
-        .replace(/([{,])([A-Za-z])(:)/g, '$1"$2"$3');
+        .replace(/\"\\(?!,)/g, '\\\\')
+        .replace(/([{,])([A-Za-z][0-9A-Za-z]?)(:)/g, '$1"$2"$3');
       const parsedRow: InnerReduceState = JSON.parse(row).reduce(
         (
           {size, margin, res, c, t, colorCount}: InnerReduceState,
