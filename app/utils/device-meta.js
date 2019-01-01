@@ -125,7 +125,7 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
 };
 
 const COMPILED_DEVICE_META_MAP = Object.entries(DEVICE_META_MAP).reduce(
-  (p, [k, v]: [string, DeviceMeta]) => ({
+  (p, [k, v]: [string, any]) => ({
     ...p,
     [k]: {
       ...v,
