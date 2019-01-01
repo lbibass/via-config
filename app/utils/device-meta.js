@@ -1,4 +1,5 @@
 // @flow
+import type {ParsedKLE} from './kle-parser';
 import {
   parseKLERaw,
   LAYOUT_M6_A,
@@ -14,7 +15,10 @@ import {
   LAYOUT_WT60_A,
   LAYOUT_WT65_A,
   LAYOUT_WT80_A,
-  LAYOUT_AEGIS
+  LAYOUT_AEGIS,
+  LAYOUT_STANDARD_60_ANSI,
+  LAYOUT_STANDARD_60_ISO,
+  LAYOUT_STANDARD_60_HHKB
 } from './kle-parser';
 
 export type Device = {
@@ -32,7 +36,10 @@ export type DeviceMeta = {
   lights: boolean
 };
 
+export type CompiledDeviceMeta = DeviceMeta & {compiledLayout: ParsedKLE};
+
 export type DeviceMetaMap = {[key: number]: DeviceMeta};
+export type CompiledDeviceMetaMap = {[key: number]: CompiledDeviceMeta};
 
 export const DEVICE_META_MAP: DeviceMetaMap = {
   [0x5241006a]: {
@@ -99,18 +106,44 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
     name: 'AEGIS',
     layout: LAYOUT_AEGIS,
     lights: false
+  },
+  [0x89684853]: {
+    name: 'HS60 V2 ISO',
+    layout: LAYOUT_STANDARD_60_ISO,
+    lights: true
+  },
+  [0x89684854]: {
+    name: 'HS60 V2 ANSI',
+    layout: LAYOUT_STANDARD_60_ANSI,
+    lights: true
+  },
+  [0x89684855]: {
+    name: 'HS60 V2 HHKB',
+    layout: LAYOUT_STANDARD_60_HHKB,
+    lights: true
   }
 };
+
+const COMPILED_DEVICE_META_MAP = Object.entries(DEVICE_META_MAP).reduce(
+  (p, [k, v]: [string, DeviceMeta]) => ({
+    ...p,
+    [k]: {
+      ...v,
+      compiledLayout: parseKLERaw((v: DeviceMeta).layout)
+    }
+  }),
+  {}
+);
 
 export function getKeyboardFromDevice({
   productId,
   vendorId
-}: Device): DeviceMeta {
+}: Device): CompiledDeviceMeta {
   const vendorProductId = vendorId * 65536 + productId;
-  return DEVICE_META_MAP[vendorProductId];
+  return COMPILED_DEVICE_META_MAP[vendorProductId];
 }
 
 export function getLayoutFromDevice(device: Device) {
   const kb = getKeyboardFromDevice(device);
-  return parseKLERaw(kb.layout);
+  return kb.compiledLayout;
 }

@@ -18,6 +18,10 @@ type OuterReduceState = {
   prevFormatting: Formatting,
   res: Result[][]
 };
+export type ParsedKLE = {
+  res: Result[][],
+  colorMap: {[k: string]: string}
+};
 
 //{c, t, label: n, size, margin}
 
@@ -98,7 +102,25 @@ export const LAYOUT_AEGIS = `[{a:7},"","","","",{x:0.5,a:4},"Esc",{x:1},"F1","F2
 ["1\nEnd","2\n↓","3\nPgDn",{a:7},"",{x:0.25,a:4},"↑",{x:0.25,w:1.25},"Shift","Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{w:1.75},"Shift","Fn"],
 ["0\nIns",{a:7},"",{a:4},".\nDel",{x:0.25},"←","↓","→",{x:0.25,w:1.25},"Win",{w:1.25},"Alt",{a:7,w:6.25},"",{a:4,w:1.5},"Alt",{w:1.25},"Win",{w:1.5},"Layout"]`;
 
-export function parseKLERaw(kle: string) {
+export const LAYOUT_STANDARD_60_ANSI = `[{c:"#4d525a",t:"#e2e2e2"},"Esc",{c:"#e2e2e2",t:"#363636"},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=",{c:"#4d525a",t:"#e2e2e2",w:2},"Backspace"],
+[{w:1.5},"Tab",{c:"#e2e2e2",t:"#363636"},"Q","W","E","R","T","Y","U","I","O","P","{\n[","}\n]",{c:"#4d525a",t:"#e2e2e2",w:1.5},"|\n\\"],
+[{w:1.75},"Caps Lock",{c:"#e2e2e2",t:"#363636"},"A","S","D","F","G","H","J","K","L",":\n;","\"\n'",{c:"#4d525a",t:"#e2e2e2",w:2.25},"Enter"],
+[{w:2.25},"Shift",{c:"#e2e2e2",t:"#363636"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#4d525a",t:"#e2e2e2",w:2.75},"Shift"],
+[{w:1.25},"Ctrl",{w:1.25},"Win",{w:1.25},"Alt",{c:"#e2e2e2",t:"#363636",a:7,w:6.25},"x",{c:"#4d525a",t:"#e2e2e2",a:4,w:1.25},"Alt",{w:1.25},"Fn",{w:1.25},"Win",{w:1.25},"Ctrl"]`;
+
+export const LAYOUT_STANDARD_60_ISO = `[{c:"#4d525a",t:"#e2e2e2"},"Esc",{c:"#e2e2e2",t:"#363636"},"!\n1","\"\n2","£\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=",{c:"#4d525a",t:"#e2e2e2",w:2},"Backspace"],
+[{w:1.5},"Tab",{c:"#e2e2e2",t:"#363636"},"Q","W","E","R","T","Y","U","I","O","P","{\n[","}\n]"],
+[{c:"#4d525a",t:"#e2e2e2",w:1.75},"Caps Lock",{c:"#e2e2e2",t:"#363636"},"A","S","D","F","G","H","J","K","L",":\n;","@\n'","~\n#",{c:"#4d525a",t:"#e2e2e2",w:1.25},"Enter"],
+[{w:1.25},"Shift",{c:"#e2e2e2",t:"#363636"},"|\n\\","Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#4d525a",t:"#e2e2e2",w:2.75},"Shift"],
+[{w:1.25},"Ctrl",{w:1.25},"Win",{w:1.25},"Alt",{c:"#e2e2e2",t:"#363636",a:7,w:6.25},"x",{c:"#4d525a",t:"#e2e2e2",a:4,w:1.25},"Alt",{w:1.25},"Fn",{w:1.25},"Win",{w:1.25},"Ctrl"]`;
+
+export const LAYOUT_STANDARD_60_HHKB = `[{c:"#4d525a",t:"#e2e2e2"},"Esc",{c:"#e2e2e2",t:"#363636"},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=","n",{c:"#4d525a",t:"#e2e2e2"},"n"],
+[{w:1.5},"Tab",{c:"#e2e2e2",t:"#363636"},"Q","W","E","R","T","Y","U","I","O","P","{\n[","}\n]",{c:"#4d525a",t:"#e2e2e2",w:1.5},"|\n\\"],
+[{w:1.75},"Caps Lock",{c:"#e2e2e2",t:"#363636"},"A","S","D","F","G","H","J","K","L",":\n;","\"\n'",{c:"#4d525a",t:"#e2e2e2",w:2.25},"Enter"],
+[{w:2.25},"Shift",{c:"#e2e2e2",t:"#363636"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#4d525a",t:"#e2e2e2",w:1.75},"Shift","Fn"],
+[{w:1.5},"Ctrl","Win",{w:1.5},"Alt",{c:"#e2e2e2",t:"#363636",a:7,w:7},"x",{c:"#4d525a",t:"#e2e2e2",a:4,w:1.5},"Alt","Win",{w:1.5},"Ctrl"]`;
+
+export function parseKLERaw(kle: string): ParsedKLE {
   const kleArr = kle.split(',\n');
   const parsedKLE: OuterReduceState = kleArr.reduce(
     (prev: OuterReduceState, kle: string) => {
