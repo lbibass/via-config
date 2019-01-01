@@ -24,6 +24,7 @@ const DYNAMIC_KEYMAP_MACRO_RESET = 0x10;
 const DYNAMIC_KEYMAP_GET_LAYER_COUNT = 0x11;
 const DYNAMIC_KEYMAP_GET_BUFFER = 0x12;
 const DYNAMIC_KEYMAP_SET_BUFFER = 0x13;
+const GET_BACKLIGHT_PROTOCOL_VERSION = 0x14;
 
 // RGB Backlight Value IDs
 const BACKLIGHT_USE_SPLIT_BACKSPACE = 0x01;
@@ -124,6 +125,11 @@ export class KeyboardAPI {
     });
   }
 
+  async getBacklightProtocolVersion() {
+    const [_, hi, lo] = await this.hidCommand(GET_BACKLIGHT_PROTOCOL_VERSION);
+    return (hi << 8) | lo;
+  }
+
   async getProtocolVersion() {
     const [_, hi, lo] = await this.hidCommand(GET_PROTOCOL_VERSION);
     return (hi << 8) | lo;
@@ -151,9 +157,9 @@ export class KeyboardAPI {
   async readMatrix(layer: number) {
     const matrix = this.getMatrix();
     const version = await this.getProtocolVersion();
-    if (true && version === PROTOCOL_BETA) {
+    if (version >= PROTOCOL_BETA) {
       return this.fastReadMatrix(matrix, layer);
-    } else if (true || version === PROTOCOL_ALPHA) {
+    } else if (version === PROTOCOL_ALPHA) {
       return this.slowReadMatrix(matrix.layout, layer);
     }
   }

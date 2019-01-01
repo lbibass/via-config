@@ -109,6 +109,8 @@ export default class Home extends React.Component<Props, State> {
     const api = this.getAPI(selectedKeyboard);
     if (api) {
       const res = await api.getProtocolVersion();
+      const backlight = await api.getBacklightProtocolVersion();
+      console.log('Backlight Version:', backlight);
       if (validProtocolVersions.includes(res)) {
         this.setState({connected: true});
         return true;
