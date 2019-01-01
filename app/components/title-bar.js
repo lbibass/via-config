@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
 import styles from './title-bar.css';
+import {
+  BACKLIGHT_PROTOCOL_WILBA,
+  BACKLIGHT_PROTOCOL_QMK
+} from '../utils/keyboard-api';
 
 export const Title = {
   KEYS: 'Keys',
@@ -18,8 +22,13 @@ export class TitleBar extends Component {
   }
 
   getTitlesForKeyboard(keyboard) {
+    const {backlightVersion} = this.props;
     let titles = [Title.KEYS];
-    if (keyboard.lights) {
+    if (
+      [BACKLIGHT_PROTOCOL_WILBA, BACKLIGHT_PROTOCOL_QMK].includes(
+        backlightVersion
+      )
+    ) {
       titles = [...titles, Title.LIGHTING];
     }
     if (

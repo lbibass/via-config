@@ -10,7 +10,12 @@ import {getKeyboards} from '../utils/hid-keyboards';
 import {getKeyboardFromDevice} from '../utils/device-meta';
 import type {Device} from '../utils/device-meta';
 import {MatrixLayout} from '../utils/layout-parser';
-import {KeyboardAPI} from '../utils/keyboard-api';
+import {
+  BACKLIGHT_PROTOCOL_NONE,
+  BACKLIGHT_PROTOCOL_WILBA,
+  BACKLIGHT_PROTOCOL_QMK,
+  KeyboardAPI
+} from '../utils/keyboard-api';
 import {TitleBar, Title} from './title-bar';
 import {LoadingScreen} from './loading-screen';
 const usbDetect = require('usb-detection');
@@ -40,6 +45,7 @@ type State = {
   selectedTitle: string | null,
   activeLayer: number | null,
   matrixKeycodes: MatrixKeycodes,
+  backlightVersion?: number,
   lightingData: LightingData | null,
   progress: number
 };
@@ -109,10 +115,6 @@ export default class Home extends React.Component<Props, State> {
     const api = this.getAPI(selectedKeyboard);
     if (api) {
       const res = await api.getProtocolVersion();
-      if (res === 9) {
-        const backlight = await api.getBacklightProtocolVersion();
-        console.log('Backlight Version:', backlight);
-      }
       if (validProtocolVersions.includes(res)) {
         this.setState({connected: true});
         return true;
@@ -380,11 +382,16 @@ export default class Home extends React.Component<Props, State> {
 
   renderMenu(selectedTitle: string | null, selectedKeyboard: Device | null) {
     const api = this.getAPI(selectedKeyboard);
+    const {backlightVersion} = this.state;
     if (selectedTitle === Title.KEYS) {
       return (
         <KeycodeMenu updateSelectedKey={this.updateSelectedKey.bind(this)} />
       );
-    } else if (selectedTitle === Title.LIGHTING && api) {
+    } else if (
+      selectedTitle === Title.LIGHTING &&
+      api &&
+      backlightVersion === BACKLIGHT_PROTOCOL_WILBA
+    ) {
       return (
         <LightingMenu
           api={api}
@@ -395,6 +402,12 @@ export default class Home extends React.Component<Props, State> {
           setRGBMode={this.setRGBMode.bind(this)}
         />
       );
+    } else if (
+      selectedTitle === Title.LIGHTING &&
+      api &&
+      backlightVersion === BACKLIGHT_PROTOCOL_QMK
+    ) {
+      return <div />;
     } else if (selectedTitle === Title.DEBUG) {
       return <DebugMenu api={this.getAPI(selectedKeyboard)} />;
     }
@@ -430,17 +443,22 @@ export default class Home extends React.Component<Props, State> {
 
   async updateKeyboardLightingAndMatrixData(selectedKeyboard: Device) {
     const keyboard = getKeyboardFromDevice(selectedKeyboard);
-    this.setProgress(0);
-    if (keyboard.lights) {
-      await this.getCurrentLightingSettings(selectedKeyboard);
+    const api = this.getAPI(selectedKeyboard);
+    if (api) {
+      this.setProgress(0);
+      const backlightVersion = await api.getBacklightProtocolVersion();
+      this.setState({backlightVersion});
+      if (backlightVersion !== BACKLIGHT_PROTOCOL_NONE) {
+        await this.getCurrentLightingSettings(selectedKeyboard);
+      }
+      this.setProgress(0.05);
+      await this.updateFullMatrix(0, selectedKeyboard);
+      await this.updateFullMatrix(1, selectedKeyboard);
+      this.setProgress(0.6);
+      await this.updateFullMatrix(2, selectedKeyboard);
+      await this.updateFullMatrix(3, selectedKeyboard);
+      this.setProgress(1);
     }
-    this.setProgress(0.05);
-    await this.updateFullMatrix(0, selectedKeyboard);
-    await this.updateFullMatrix(1, selectedKeyboard);
-    this.setProgress(0.6);
-    await this.updateFullMatrix(2, selectedKeyboard);
-    await this.updateFullMatrix(3, selectedKeyboard);
-    this.setProgress(1);
   }
 
   getLayerMatrix(
@@ -514,6 +532,7 @@ export default class Home extends React.Component<Props, State> {
       connected,
       detected,
       loaded,
+      backlightVersion,
       lightingData,
       ready,
       progress,
@@ -531,6 +550,7 @@ export default class Home extends React.Component<Props, State> {
             <TitleBar
               key="title-bar"
               selectedTitle={selectedTitle}
+              backlightVersion={backlightVersion}
               getKeyboard={this.getKeyboard.bind(this)}
               setSelectedTitle={this.setSelectedTitle.bind(this)}
             />
