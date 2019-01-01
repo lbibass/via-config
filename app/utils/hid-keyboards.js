@@ -1,5 +1,5 @@
 // @flow
-import {KeyboardAPI} from './keyboard-api';
+import {canConnect} from './keyboard-api';
 import type {Device} from './device-meta';
 
 const HID = require('node-hid');
@@ -50,16 +50,6 @@ function isValidVendorProduct({productId, vendorId}: Device) {
   const vendorProductId = vendorId * 65536 + productId;
   return VALID_VENDOR_PRODUCT_IDS.includes(vendorProductId);
 }
-
-export const canConnect = (device: Device) => {
-  try {
-    new KeyboardAPI(device);
-    return true;
-  } catch (e) {
-    console.error('Skipped ', device, e);
-    return false;
-  }
-};
 
 export function getKeyboards(): Device[] {
   const usbDevices = scanDevices();

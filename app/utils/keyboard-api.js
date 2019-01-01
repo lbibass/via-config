@@ -53,6 +53,11 @@ const BACKLIGHT_CUSTOM_COLOR = 0x17;
 
 const PROTOCOL_ALPHA = 7;
 const PROTOCOL_BETA = 8;
+const PROTOCOL_GAMMA = 9;
+
+export const BACKLIGHT_PROTOCOL_NONE = 0;
+export const BACKLIGHT_PROTOCOL_WILBA = 1;
+export const BACKLIGHT_PROTOCOL_QMK = 2;
 
 const cache: {[addr: string]: {device: Device, hid: HID}} = {};
 
@@ -87,6 +92,16 @@ type CommandQueue = Array<CommandQueueEntry>;
 
 let commandQueue: CommandQueue = [];
 let isFlushing = false;
+
+export const canConnect = (device: Device) => {
+  try {
+    new KeyboardAPI(device);
+    return true;
+  } catch (e) {
+    console.error('Skipped ', device, e);
+    return false;
+  }
+};
 
 export class KeyboardAPI {
   kbAddr: HIDAddress;
@@ -126,8 +141,15 @@ export class KeyboardAPI {
   }
 
   async getBacklightProtocolVersion() {
-    const [_, hi, lo] = await this.hidCommand(GET_BACKLIGHT_PROTOCOL_VERSION);
-    return (hi << 8) | lo;
+    const protocol = await this.getProtocolVersion();
+    if (protocol >= PROTOCOL_GAMMA) {
+      const [_, hi, lo] = await this.hidCommand(GET_BACKLIGHT_PROTOCOL_VERSION);
+      return (hi << 8) | lo;
+    } else {
+      return getKeyboardFromDevice(this.getDevice()).lights
+        ? BACKLIGHT_PROTOCOL_WILBA
+        : BACKLIGHT_PROTOCOL_NONE;
+    }
   }
 
   async getProtocolVersion() {
