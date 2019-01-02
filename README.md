@@ -1,5 +1,14 @@
 # VIA Config
 
+## VIA Config Information
+
+VIA is an offline configurator which uses QMK as the backend. It is the open source alternative to BootMapperClient. 
+
+## VIA Config Features
+
+The main advantages of VIA over other configurators avalible are the ease of use and the fact that it is an entirely offline application, and keymap changes are instant. There is no need to reflash a keymap to the keyboard, which simplfies the process of programming significantly compared to the more traditional way of editing the keymap on the keyboard. 
+
+
 [![React](/internals/img/react-padded-90.png)](https://facebook.github.io/react/)
 [![Webpack](/internals/img/webpack-padded-90.png)](https://webpack.github.io/)
 [![Redux](/internals/img/redux-padded-90.png)](http://redux.js.org/)
