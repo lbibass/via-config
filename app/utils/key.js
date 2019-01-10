@@ -985,15 +985,15 @@ export function buildLayerMenu() {
         type: 'layer',
         layer: 0,
         title: 'Switch to layer for one keypress'
-      }
-      /* Users are not ready for this ;-)
+      },      
       {
         name: 'TO',
         code: 'TO(layer)',
         type: 'layer',
         layer: 0,
         title: 'Turn on layer when pressed'
-      },
+      }
+      /* Users are not ready for this ;-)
       {
         name: 'DF',
         code: 'DF(layer)',
