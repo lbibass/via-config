@@ -426,7 +426,12 @@ export const basicKeyToByte = {
   MACRO14: 0x5f20,
   MACRO15: 0x5f21,
   FN_TT13: 0x2f31,
-  FN_TT23: 0x2f32
+  FN_TT23: 0x2f32,
+
+  // Hard-coded aliases for LT(layer,KC_SPC)
+  SPC_FN1: 0x412c,
+  SPC_FN2: 0x422c,
+  SPC_FN3: 0x432c,
 
   // These are bitmasks not keycodes
   //MOD_LCTL: 0x0001,
@@ -950,6 +955,24 @@ export function buildLayerMenu() {
       code: 'FN_MO23',
       title: 'Hold = Layer 2, Hold with Fn1 = Layer 3',
       shortName: 'Fn2(3)'
+    },
+    {
+      name: 'Space Fn1',
+      code: 'SPC_FN1',
+      title: 'Hold = Layer 1, Tap = Space',
+      shortName: 'Spc Fn1'
+    },
+    {
+      name: 'Space Fn2',
+      code: 'SPC_FN2',
+      title: 'Hold = Layer 2, Tap = Space',
+      shortName: 'Spc Fn2'
+    },
+    {
+      name: 'Space Fn3',
+      code: 'SPC_FN3',
+      title: 'Hold = Layer 3, Tap = Space',
+      shortName: 'Spc Fn3'
     }
   ];
 
