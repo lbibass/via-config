@@ -120,6 +120,12 @@ export const LAYOUT_STANDARD_60_HHKB = `[{c:"#4d525a",t:"#e2e2e2"},"Esc",{c:"#e2
 [{w:2.25},"Shift",{c:"#e2e2e2",t:"#363636"},"Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{c:"#4d525a",t:"#e2e2e2",w:1.75},"Shift","Fn"],
 [{w:1.5},"Ctrl","Win",{w:1.5},"Alt",{c:"#e2e2e2",t:"#363636",a:7,w:7},"x",{c:"#4d525a",t:"#e2e2e2",a:4,w:1.5},"Alt","Win",{w:1.5},"Ctrl"]`;
 
+export const LAYOUT_IRIS = `[{c:"#bd760f"},"Esc",{c:"#c4c8c5"},"!\n1","@\n2","#\n3","$\n4","%\n5",{x:2.75},"^\n6","&\n7","*\n8","(\n9",")\n0",{c:"#006d59"},"Back"],
+["Tab",{c:"#c4c8c5"},"Q","W","E","R","T",{x:2.75},"Y","U","I","O","P",{c:"#006d59"},"Del"],
+["Ctrl",{c:"#c4c8c5"},"A","S","D","F","G",{x:2.75},"H","J","K","L",":\n;",{c:"#006d59"},"\"\n'"],
+["Shift",{c:"#c4c8c5"},"Z","X","C","V","B",{c:"#006d59"},"Space",{x:0.75},"Enter",{c:"#c4c8c5"},"N","M","<\n,",">\n.","?\n/",{c:"#006d59"},"Right"],
+[{x:3.5},"Ctrl","Alt","Space",{x:1.75},"Enter","Win","Alt"]`;
+
 export function parseKLERaw(kle: string): ParsedKLE {
   const kleArr = kle.split(',\n');
   const parsedKLE: OuterReduceState = kleArr.reduce(
