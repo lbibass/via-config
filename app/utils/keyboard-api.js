@@ -24,7 +24,6 @@ const DYNAMIC_KEYMAP_MACRO_RESET = 0x10;
 const DYNAMIC_KEYMAP_GET_LAYER_COUNT = 0x11;
 const DYNAMIC_KEYMAP_GET_BUFFER = 0x12;
 const DYNAMIC_KEYMAP_SET_BUFFER = 0x13;
-const GET_BACKLIGHT_PROTOCOL_VERSION = 0x14;
 
 // RGB Backlight Value IDs
 const BACKLIGHT_USE_SPLIT_BACKSPACE = 0x01;
@@ -57,7 +56,6 @@ const PROTOCOL_GAMMA = 9;
 
 export const BACKLIGHT_PROTOCOL_NONE = 0;
 export const BACKLIGHT_PROTOCOL_WILBA = 1;
-export const BACKLIGHT_PROTOCOL_QMK = 2;
 
 const cache: {[addr: string]: {device: Device, hid: HID}} = {};
 
@@ -142,14 +140,9 @@ export class KeyboardAPI {
 
   async getBacklightProtocolVersion() {
     const protocol = await this.getProtocolVersion();
-    if (protocol >= PROTOCOL_GAMMA) {
-      const [_, hi, lo] = await this.hidCommand(GET_BACKLIGHT_PROTOCOL_VERSION);
-      return (hi << 8) | lo;
-    } else {
-      return getKeyboardFromDevice(this.getDevice()).lights
-        ? BACKLIGHT_PROTOCOL_WILBA
-        : BACKLIGHT_PROTOCOL_NONE;
-    }
+    return getKeyboardFromDevice(this.getDevice()).lights
+      ? BACKLIGHT_PROTOCOL_WILBA
+      : BACKLIGHT_PROTOCOL_NONE;
   }
 
   async getProtocolVersion() {
