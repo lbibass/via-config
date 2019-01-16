@@ -18,7 +18,8 @@ import {
   LAYOUT_AEGIS,
   LAYOUT_STANDARD_60_ANSI,
   LAYOUT_STANDARD_60_ISO,
-  LAYOUT_STANDARD_60_HHKB
+  LAYOUT_STANDARD_60_HHKB,
+  LAYOUT_IRIS
 } from './kle-parser';
 
 export type Device = {
@@ -121,6 +122,11 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
     name: 'HS60 V2 HHKB',
     layout: LAYOUT_STANDARD_60_HHKB,
     lights: true
+  },
+  [0xCB101256]: {
+    name: 'IRIS',
+    layout: LAYOUT_IRIS,
+    lights: false
   }
 };
 
