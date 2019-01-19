@@ -126,6 +126,12 @@ export const LAYOUT_IRIS = `[{c:"#bd760f"},"Esc",{c:"#c4c8c5"},"!\n1","@\n2","#\
 ["Shift",{c:"#c4c8c5"},"Z","X","C","V","B",{c:"#006d59"},"Space",{x:0.75},"Enter",{c:"#c4c8c5"},"N","M","<\n,",">\n.","?\n/",{c:"#006d59"},"Right"],
 [{x:3.5},"Ctrl","Alt","Space",{x:1.75},"Enter","Win","Alt"]`;
 
+export const LAYOUT_PLAIN60 = `["Esc","!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=","|\n\\","Back space"],
+[{w:1.5},"Tab","Q","W","E","R","T","Y","U","I","O","P","{\n[","}\n]",{w:1.5},"|\n\\"],
+[{w:1.75},"Caps Lock","A","S","D","F","G","H","J","K","L",":\n;","\"\n'","ISO",{w:1.25},"Enter"],
+[{w:1.25},"Shift","ISO","Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{w:1.75},"Shift","Fn"],
+[{w:1.25},"Ctrl",{w:1.25},"Win",{w:1.25},"Alt",{a:7,w:6.25},"",{a:4,w:1.25},"Alt",{w:1.25},"Win",{w:1.25},"Menu",{w:1.25},"Ctrl"]`;
+
 export function parseKLERaw(kle: string): ParsedKLE {
   const kleArr = kle.split(',\n');
   const parsedKLE: OuterReduceState = kleArr.reduce(

@@ -19,7 +19,8 @@ import {
   LAYOUT_STANDARD_60_ANSI,
   LAYOUT_STANDARD_60_ISO,
   LAYOUT_STANDARD_60_HHKB,
-  LAYOUT_IRIS
+  LAYOUT_IRIS,
+  LAYOUT_PLAIN60
 } from './kle-parser';
 
 export type Device = {
@@ -126,6 +127,11 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
   [0xCB101256]: {
     name: 'IRIS',
     layout: LAYOUT_IRIS,
+    lights: false
+  },
+  [0x47050160]: {
+    name: 'PLAIN60',
+    layout: LAYOUT_PLAIN60,
     lights: false
   }
 };
