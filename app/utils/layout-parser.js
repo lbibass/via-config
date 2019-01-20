@@ -337,7 +337,6 @@ export const MatrixLayout = {
   IRIS: parseLayout(MATRIX_IRIS),
   PLAIN60: parseLayout(MATRIX_PLAIN60),
   'Noxary 268.2': parseLayout(MATRIX_268_2),
-  IRIS: parseLayout(MATRIX_IRIS),
   'Snagpad': parseLayout(MATRIX_SNAGPAD)
 };
 
