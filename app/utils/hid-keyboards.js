@@ -45,7 +45,8 @@ function isValidVendorProduct({productId, vendorId}: Device) {
     0x89684853, // HS60 ISO
     0x89684854, // HS60 ANSI
     0x89684855, // HS60 HHKB
-    0xCB101256 // Iris
+    0x4e580044, // 268.2
+    0xcb101256 // Iris
   ];
   // JS bitwise operations is only 32-bit so we lose numbers if we shift too high
   const vendorProductId = vendorId * 65536 + productId;

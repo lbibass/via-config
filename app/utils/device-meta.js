@@ -19,6 +19,7 @@ import {
   LAYOUT_STANDARD_60_ANSI,
   LAYOUT_STANDARD_60_ISO,
   LAYOUT_STANDARD_60_HHKB,
+  LAYOUT_268_2,
   LAYOUT_IRIS
 } from './kle-parser';
 
@@ -123,7 +124,12 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
     layout: LAYOUT_STANDARD_60_HHKB,
     lights: true
   },
-  [0xCB101256]: {
+  [0x4e580044]: {
+    name: 'Noxary 268.2',
+    layout: LAYOUT_268_2,
+    lights: false
+  },
+  [0xcb101256]: {
     name: 'IRIS',
     layout: LAYOUT_IRIS,
     lights: false
