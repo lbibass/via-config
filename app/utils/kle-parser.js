@@ -132,6 +132,12 @@ export const LAYOUT_IRIS = `[{c:"#bd760f"},"Esc",{c:"#c4c8c5"},"!\n1","@\n2","#\
 ["Shift",{c:"#c4c8c5"},"Z","X","C","V","B",{c:"#006d59"},"Space",{x:0.75},"Enter",{c:"#c4c8c5"},"N","M","<\n,",">\n.","?\n/",{c:"#006d59"},"Right"],
 [{x:3.5},"Ctrl","Alt","Space",{x:1.75},"Enter","Win","Alt"]`;
 
+export const LAYOUT_SNAGPAD = `[{c:"#505557",t:"#d9d7d7",a:7},"x","x","x","x"],
+["x","x","x","x"],
+["x","x","x","x"],
+["x","x","x","x"],
+["x","x","x","x"]`;
+
 export function parseKLERaw(kle: string): ParsedKLE {
   const kleArr = kle.split(',\n');
   const parsedKLE: OuterReduceState = kleArr.reduce(

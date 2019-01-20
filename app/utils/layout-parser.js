@@ -271,6 +271,21 @@ export const MATRIX_IRIS = `
       { KC_NO, KC_NO, RT4, RT1, RT2, RT3 } \
   }
 `;
+export const MATRIX_SNAGPAD = `
+#define LAYOUT_ortho_5x4( \
+	K00, K01, K02, K03, \
+	K10, K11, K12, K13, \
+	K20, K21, K22, K23, \
+	K30, K31, K32, K33, \
+	K40, K41, K42, K43  \
+) { \
+	{ K00,   K01,   K02,   K03 }, \
+	{ K10,   K11,   K12,   K13 }, \
+	{ K20,   K21,   K22,   K23 }, \
+	{ K30,   K31,   K32,   K33 }, \
+	{ K40,   K41,   K42,   K43 }  \
+}
+`;
 
 const LS = {
   START: 1,
@@ -304,7 +319,8 @@ export const MatrixLayout = {
   'HS60 V2 ANSI': parseLayout(MATRIX_STANDARD_60_ANSI),
   'HS60 V2 HHKB': parseLayout(MATRIX_STANDARD_60_HHKB),
   'Noxary 268.2': parseLayout(MATRIX_268_2),
-  IRIS: parseLayout(MATRIX_IRIS)
+  IRIS: parseLayout(MATRIX_IRIS),
+  'Snagpad': parseLayout(MATRIX_SNAGPAD)
 };
 
 function error(state, nextToken) {

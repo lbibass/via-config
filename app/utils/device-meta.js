@@ -20,7 +20,8 @@ import {
   LAYOUT_STANDARD_60_ISO,
   LAYOUT_STANDARD_60_HHKB,
   LAYOUT_268_2,
-  LAYOUT_IRIS
+  LAYOUT_IRIS,
+  LAYOUT_SNAGPAD
 } from './kle-parser';
 
 export type Device = {
@@ -132,6 +133,11 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
   [0xcb101256]: {
     name: 'IRIS',
     layout: LAYOUT_IRIS,
+    lights: false
+  },
+  [0x44435350]: {
+    name: 'Snagpad',
+    layout: LAYOUT_SNAGPAD,
     lights: false
   }
 };
