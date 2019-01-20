@@ -20,7 +20,10 @@ import {
   LAYOUT_STANDARD_60_ISO,
   LAYOUT_STANDARD_60_HHKB,
   LAYOUT_IRIS,
-  LAYOUT_PLAIN60
+  LAYOUT_PLAIN60,
+  LAYOUT_268_2,
+  LAYOUT_IRIS,
+  LAYOUT_SNAGPAD
 } from './kle-parser';
 
 export type Device = {
@@ -124,7 +127,12 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
     layout: LAYOUT_STANDARD_60_HHKB,
     lights: true
   },
-  [0xCB101256]: {
+  [0x4e580044]: {
+    name: 'Noxary 268.2',
+    layout: LAYOUT_268_2,
+    lights: false
+  },
+  [0xcb101256]: {
     name: 'IRIS',
     layout: LAYOUT_IRIS,
     lights: false
@@ -132,6 +140,11 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
   [0x47050160]: {
     name: 'PLAIN60',
     layout: LAYOUT_PLAIN60,
+    lights: false
+  },
+  [0x44435350]: {
+    name: 'Snagpad',
+    layout: LAYOUT_SNAGPAD,
     lights: false
   }
 };

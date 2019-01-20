@@ -1,3 +1,19 @@
+export const MATRIX_268_2 = `
+#define LAYOUT( \
+	K000, K001, K002, K003, K004, K005, K006, K007, K008, K009, K010, K011, K012, K013, K014, K015, \
+	K100, K101, K102, K103, K104, K105, K106, K107, K108, K109, K110, K111, K112,       K114, K115, \
+	K200, K201, K202, K203, K204, K205, K206, K207, K208, K209, K210, K211,             K214, K215, \
+	K300,       K302, K303, K304, K305, K306, K307, K308, K309, K310, K311, K312,       K314, K315, \
+	K400, K401, K402,                   K406,             K409, K410,       K412,       K414, K415  \
+) { \
+	{ K000,  K001,  K002,  K003,  K004,  K005,  K006,  K007,  K008,  K009,  K010,  K011,  K012,  K013,  K014,  K015, }, \
+	{ K100,  K101,  K102,  K103,  K104,  K105,  K106,  K107,  K108,  K109,  K110,  K111,  K112,  KC_NO, K114,  K115, }, \
+	{ K200,  K201,  K202,  K203,  K204,  K205,  K206,  K207,  K208,  K209,  K210,  K211,  KC_NO, KC_NO, K214,  K215, }, \
+	{ K300,  KC_NO, K302,  K303,  K304,  K305,  K306,  K307,  K308,  K309,  K310,  K311,  K312,  KC_NO, K314,  K315, }, \
+	{ K400,  K401,  K402,  KC_NO, KC_NO, KC_NO, K406,  KC_NO, KC_NO, K409,  K410,  KC_NO, K412,  KC_NO, K414,  K415, }  \
+}
+`;
+
 export const MATRIX_M6_A = `
 #define LAYOUT(                         \
     K00, K01, K02, K03, K04, K05)       \
@@ -255,6 +271,21 @@ export const MATRIX_IRIS = `
       { KC_NO, KC_NO, RT4, RT1, RT2, RT3 } \
   }
 `;
+export const MATRIX_SNAGPAD = `
+#define LAYOUT_ortho_5x4( \
+	K00, K01, K02, K03, \
+	K10, K11, K12, K13, \
+	K20, K21, K22, K23, \
+	K30, K31, K32, K33, \
+	K40, K41, K42, K43  \
+) { \
+	{ K00,   K01,   K02,   K03 }, \
+	{ K10,   K11,   K12,   K13 }, \
+	{ K20,   K21,   K22,   K23 }, \
+	{ K30,   K31,   K32,   K33 }, \
+	{ K40,   K41,   K42,   K43 }  \
+}
+`;
 
 export const MATRIX_PLAIN60 = `
 #define LAYOUT( \
@@ -304,7 +335,10 @@ export const MatrixLayout = {
   'HS60 V2 ANSI': parseLayout(MATRIX_STANDARD_60_ANSI),
   'HS60 V2 HHKB': parseLayout(MATRIX_STANDARD_60_HHKB),
   IRIS: parseLayout(MATRIX_IRIS),
-  PLAIN60: parseLayout(MATRIX_PLAIN60)
+  PLAIN60: parseLayout(MATRIX_PLAIN60),
+  'Noxary 268.2': parseLayout(MATRIX_268_2),
+  IRIS: parseLayout(MATRIX_IRIS),
+  'Snagpad': parseLayout(MATRIX_SNAGPAD)
 };
 
 function error(state, nextToken) {
