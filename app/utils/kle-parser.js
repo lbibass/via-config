@@ -144,6 +144,12 @@ export const LAYOUT_SNAGPAD = `[{c:"#505557",t:"#d9d7d7",a:7},"x","x","x","x"],
 ["x","x","x","x"],
 ["x","x","x","x"]`;
 
+export const LAYOUT_AANZEE = `[{c:"",t:"",p:"GMK",a:6},"Esc",{a:4,f:5},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=",{a:7,f:3},"","",{a:6},"Home"],
+[{a:4,w:1.5},"⇤\n⇥\n\n\n\n\nTab",{f:7},"Q","W","E","R","T","Y","U","I","O","P",{f:5},"{\n[","}\n]",{f:3,w:1.5},"|\n\\",{a:6},"PgUp"],
+[{w:1.75},"Caps Lock",{a:4,f:7},"A","S","D","F","G","H","J","K","L",{f:5},":\n;","\"\n'",{a:6,f:3,w:2.25},"↵ Enter","PgDn"],
+[{w:2.25},"⇧ Shift",{a:4,f:7},"Z","X","C","V","B","N","M",{f:5},"<\n,",">\n.","?\n/",{a:6,f:3,w:1.75},"⇧ Shift",{a:4,f:9},"↑",{a:6,f:3},"Fn"],
+[{w:1.25},"Ctrl",{w:1.25},"Win",{w:1.25},"Alt",{a:7,w:6.25},"",{a:6,w:1.25},"Alt",{w:1.25},"Win",{x:0.5,a:4,f:9},"←","↓","→"]`;
+
 export function parseKLERaw(kle: string): ParsedKLE {
   const kleArr = kle.split(',\n');
   const parsedKLE: OuterReduceState = kleArr.reduce(
