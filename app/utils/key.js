@@ -33,6 +33,10 @@ const QK_TG = 0x5300;
 const QK_TT = 0x5800;
 const QK_DF = 0x5200;
 
+// Some magic for TO(layer)
+const ON_PRESS = 1;
+const ON_RELEASE = 2;
+
 function isLayerCode(code) {
   return /([A-Za-z]+)\((\d+)\)/.test(code);
 }
@@ -48,7 +52,7 @@ function getByteForLayerCode(keycode): number {
       return QK_TG | numLayer;
     }
     case 'TO': {
-      return QK_TO | numLayer;
+      return QK_TO | (ON_PRESS<<4) | (numLayer&0x0F);
     }
     case 'TT': {
       return QK_TT | numLayer;
@@ -70,7 +74,8 @@ function getCodeForLayerByte(byte) {
   if (QK_MO <= byte && (QK_MO | 0xff) >= byte) {
     return `MO(${layer})`;
   } else if (QK_TO <= byte && (QK_TO | 0xff) >= byte) {
-    return `TO(${layer})`;
+    const layer2 = byte & 0x0f;
+    return `TO(${layer2})`;
   } else if (QK_OSL <= byte && (QK_OSL | 0xff) >= byte) {
     return `OSL(${layer})`;
   } else if (QK_TG <= byte && (QK_TG | 0xff) >= byte) {
