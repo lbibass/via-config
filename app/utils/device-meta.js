@@ -19,9 +19,11 @@ import {
   LAYOUT_STANDARD_60_ANSI,
   LAYOUT_STANDARD_60_ISO,
   LAYOUT_STANDARD_60_HHKB,
+  LAYOUT_PLAIN60,
   LAYOUT_268_2,
   LAYOUT_IRIS,
-  LAYOUT_SNAGPAD
+  LAYOUT_SNAGPAD,
+  LAYOUT_AANZEE
 } from './kle-parser';
 
 export type Device = {
@@ -135,9 +137,19 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
     layout: LAYOUT_IRIS,
     lights: false
   },
+  [0x47050160]: {
+    name: 'PLAIN60',
+    layout: LAYOUT_PLAIN60,
+    lights: false
+  },
   [0x44435350]: {
     name: 'Snagpad',
     layout: LAYOUT_SNAGPAD,
+    lights: false
+  },
+  [0x21FFAA01]: {
+    name: 'aanzee',
+    layout: LAYOUT_AANZEE,
     lights: false
   }
 };
