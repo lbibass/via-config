@@ -154,7 +154,7 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
     lights: false
   },
   [0xA1030001]: {
-    name: 'Switchplate Peripherals Lunar',
+    name: 'Lunar',
     layout: LAYOUT_LUNAR,
     lights: false
   }

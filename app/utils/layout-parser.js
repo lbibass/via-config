@@ -371,7 +371,7 @@ export const MatrixLayout = {
   'Noxary 268.2': parseLayout(MATRIX_268_2),
   'Snagpad': parseLayout(MATRIX_SNAGPAD),
   'aanzee': parseLayout(MATRIX_AANZEE),
-  'Switchplate Peripherals Lunar': parseLayout(MATRIX_LUNAR),
+  'Lunar': parseLayout(MATRIX_LUNAR),
 };
 
 function error(state, nextToken) {
