@@ -319,6 +319,22 @@ export const MATRIX_AANZEE = `
   {K40, K41, K42, ___, ___, ___, K46, ___, ___, K49, K4A, K4B, K4C, K4D, K4E, ___}  \
 }`;
 
+export const MATRIX_LUNAR = `
+#define LAYOUT( \
+	K000, K001, K002, K003, K004, K005, K006, K007, K008, K009, K010, K011, K012, K013, K212, K014, \
+	K100,       K101, K102, K103, K104, K105, K106, K107, K108, K109, K110, K111, K112, K113, K114, \
+	K200,       K201, K202, K203, K204, K205, K206, K207, K208, K209, K210, K211,       K213, K214, \
+	K300,       K301, K302, K303, K304, K305, K306, K307, K308, K309, K310, K311,       K313, K314, \
+	K400, K401, K402,       K403,       K405,       K407,             K409, K410, K411, K413, K414  \
+) \
+{ \
+	{ K000,  K001,  K002,  K003,  K004,  K005,  K006,  K007,  K008,  K009,  K010,  K011,  K012,  K013,  K014 }, \
+	{ K100,  K101,  K102,  K103,  K104,  K105,  K106,  K107,  K108,  K109,  K110,  K111,  K112,  K113,  K114 }, \
+	{ K200,  K201,  K202,  K203,  K204,  K205,  K206,  K207,  K208,  K209,  K210,  K211,  K212,  K213,  K214 }, \
+	{ K300,  K301,  K302,  K303,  K304,  K305,  K306,  K307,  K308,  K309,  K310,  K311,  KC_NO, K313,  K314 }, \
+	{ K400,  K401,  K402,  K403,  KC_NO, K405,  KC_NO, K407,  KC_NO, K409,  K410,  K411,  KC_NO, K413,  K414 }  \
+}`;
+
 const LS = {
   START: 1,
   DEFINE: 2,
@@ -354,7 +370,8 @@ export const MatrixLayout = {
   PLAIN60: parseLayout(MATRIX_PLAIN60),
   'Noxary 268.2': parseLayout(MATRIX_268_2),
   'Snagpad': parseLayout(MATRIX_SNAGPAD),
-  'aanzee': parseLayout(MATRIX_AANZEE)
+  'aanzee': parseLayout(MATRIX_AANZEE),
+  'Lunar': parseLayout(MATRIX_LUNAR),
 };
 
 function error(state, nextToken) {
