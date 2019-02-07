@@ -24,7 +24,8 @@ import {
   LAYOUT_IRIS,
   LAYOUT_SNAGPAD,
   LAYOUT_AANZEE,
-  LAYOUT_LUNAR
+  LAYOUT_LUNAR,
+  LAYOUT_SATISFACTION75,
 } from './kle-parser';
 
 export type Device = {
@@ -157,7 +158,12 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
     name: 'Lunar',
     layout: LAYOUT_LUNAR,
     lights: false
-  }
+  },
+  [0xCA0457F5]: {
+    name: 'Satisfaction75',
+    layout: LAYOUT_SATISFACTION75,
+    lights: false
+  },
 };
 
 const COMPILED_DEVICE_META_MAP = Object.entries(DEVICE_META_MAP).reduce(
