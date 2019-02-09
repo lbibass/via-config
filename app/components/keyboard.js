@@ -48,8 +48,8 @@ type Props = {
 export class Keyboard extends Component<Props> {
   overlay: KeyOverlay | null;
   chooseKey(
-    {c, t, label, size, margin}: Result,
-    inIdx: number,
+    {c, t, label: inputLabel, size, margin}: Result,
+    idx: number,
     useMatrixKeycodes: boolean,
     colorMap: {[color: string]: string},
     theme?: $Values<typeof THEMES> = THEMES.PBT_HEAVY_INDUSTRY
@@ -57,8 +57,6 @@ export class Keyboard extends Component<Props> {
     const {matrixKeycodes = [], selectedKey, updateSelectedKey} = this.props;
     const themeKey = colorMap[`${c}:${t}`] || 'alphas';
     const themeColors = theme[themeKey];
-    const forcedIndex = Number.parseInt(label);
-    const idx = isNaN(forcedIndex) ? inIdx : forcedIndex;
     const key = `${idx}`;
     const onClick = evt => {
       evt.stopPropagation();
@@ -66,6 +64,7 @@ export class Keyboard extends Component<Props> {
     };
     ({c, t} = themeColors);
 
+    let label = inputLabel;
     if (useMatrixKeycodes) {
       const byte = matrixKeycodes[idx];
       label = byte ? getLabelForByte(byte, size) : '';
@@ -188,8 +187,12 @@ export class Keyboard extends Component<Props> {
           >
             {selectedLayout.map((arr, row) => (
               <div key={row} className={styles.row} style={{marginTop: `${rowPositions[rowCounter++] * 56}px`}}>
-                {arr.map((key, column) =>
-                  this.chooseKey(key, keyCounter++, useMatrixKeycodes, colorMap)
+                {arr.map((key, column) => {
+                  const forcedIndex = Number.parseInt(key.label);
+                  const idx = isNaN(forcedIndex) ? keyCounter : forcedIndex;
+                  keyCounter++;
+                  return this.chooseKey(key, idx, useMatrixKeycodes, colorMap);
+                }
                 )}
               </div>
             ))}
