@@ -83,6 +83,14 @@
   margin-left: calc(var(--base-width) * 4);
 }
 
+.indent1325U {
+  margin-left: calc(var(--base-width) * 13.25);
+}
+
+.indent1425U {
+  margin-left: calc(var(--base-width) * 14.25);
+}
+
 .size100U {
   width: calc(var(--base-width) * 1);
 }

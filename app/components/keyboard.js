@@ -49,7 +49,7 @@ export class Keyboard extends Component<Props> {
   overlay: KeyOverlay | null;
   chooseKey(
     {c, t, label, size, margin}: Result,
-    idx: number,
+    inIdx: number,
     useMatrixKeycodes: boolean,
     colorMap: {[color: string]: string},
     theme?: $Values<typeof THEMES> = THEMES.PBT_HEAVY_INDUSTRY
@@ -57,6 +57,8 @@ export class Keyboard extends Component<Props> {
     const {matrixKeycodes = [], selectedKey, updateSelectedKey} = this.props;
     const themeKey = colorMap[`${c}:${t}`] || 'alphas';
     const themeColors = theme[themeKey];
+    const forcedIndex = Number.parseInt(label);
+    const idx = isNaN(forcedIndex) ? inIdx : forcedIndex;
     const key = `${idx}`;
     const onClick = evt => {
       evt.stopPropagation();
@@ -165,13 +167,14 @@ export class Keyboard extends Component<Props> {
     const device = this.getDevice();
     if (device) {
       const keyboard = getKeyboardFromDevice(device);
-      const {res: selectedLayout, colorMap} = getLayoutFromDevice(device);
+      const {res: selectedLayout, rowPositions, colorMap} = getLayoutFromDevice(device);
       const matrixLayout = MatrixLayout[keyboard.name].layout;
       const showLayer = selectedTitle === Title.KEYS;
       const showBrightness = selectedTitle === Title.LIGHTING;
       const useMatrixKeycodes = this.useMatrixKeycodes();
       const clickable = loaded && showLayer;
       let keyCounter = 0;
+      let rowCounter = 0;
       return (
         <div onClick={clearSelectedKey} className={styles.keyboardContainer}>
           <div
@@ -184,7 +187,7 @@ export class Keyboard extends Component<Props> {
             ].join(' ')}
           >
             {selectedLayout.map((arr, row) => (
-              <div key={row} className={styles.row}>
+              <div key={row} className={styles.row} style={{marginTop: `${rowPositions[rowCounter++] * 56}px`}}>
                 {arr.map((key, column) =>
                   this.chooseKey(key, keyCounter++, useMatrixKeycodes, colorMap)
                 )}

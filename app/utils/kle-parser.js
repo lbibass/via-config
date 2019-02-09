@@ -6,6 +6,7 @@ type Label = number;
 type Size = number;
 type Formatting = {c: KeyColor, t: LegendColor};
 type Dimensions = {margin: Margin, size: Size};
+type RowPosition = number;
 export type Result = Formatting & Dimensions & {label: string};
 type ColorCount = {[key: string]: number};
 type KLEDimensions = {a: number, x: number, w: number};
@@ -16,11 +17,13 @@ type InnerReduceState = Formatting &
 type OuterReduceState = {
   colorCount: ColorCount,
   prevFormatting: Formatting,
-  res: Result[][]
+  res: Result[][],
+  rowPositions: RowPosition[]
 };
 export type ParsedKLE = {
   res: Result[][],
-  colorMap: {[k: string]: string}
+  colorMap: {[k: string]: string},
+  rowPositions: RowPosition[]
 };
 
 //{c, t, label: n, size, margin}
@@ -157,11 +160,13 @@ export const LAYOUT_LUNAR = `[{a:7},"","","","","","","","","","","","","","",""
 [{w:1.5},"",{w:1.25},"",{w:1.5},"",{w:2.25},"",{w:1.5},"",{w:2.75},"",{w:1.25},"","","","",""]`;
 
 export const LAYOUT_SATISFACTION75 = `[{c:"#09b084",a:7},"",{x:0.5,c:"#cccccc"},"","","","",{x:0.25,c:"#09b084"},"","","","",{x:0.25,c:"#cccccc"},"","","",""],
-[{y:0.25,c:"#09b084"},"",{c:"#cccccc"},"","","","","","","","","","","","",{c:"#09b084",w:2},"",""],
-[{w:1.5},"",{c:"#cccccc"},"","","","","","","","","","","","",{c:"#09b084",w:1.5},"",""],
-[{w:1.75},"",{c:"#cccccc"},"","","","","","","","","","","",{c:"#09b084",w:2.25},"",""],
-[{w:2.25},"",{c:"#cccccc"},"","","","","","","","","","",{c:"#09b084",w:1.75},"","",""],
-[{w:1.25},"",{w:1.25},"",{w:1.25},"",{c:"#cccccc",w:6.25},"",{c:"#09b084"},"","","","","",""]`;
+[{y:0.25,c:"#09b084"},"",{c:"#cccccc"},"","","","","","","","","","","","",{c:"#09b084",w:2},"",{x:0.5},""],
+[{w:1.5},"",{c:"#cccccc"},"","","","","","","","","","","","",{c:"#09b084",w:1.5},"",{x:0.5},""],
+[{w:1.75},"",{c:"#cccccc"},"","","","","","","","","","","",{c:"#09b084",w:2.25},"",{x:0.5},""],
+[{a:4,w:2.25},"",{c:"#cccccc",a:7},"","","","","","","","","","",{c:"#09b084",a:4,w:1.75},"",{x:1.5},"70"],
+[{y:-0.75,x:14.25},"69"],
+[{y:-0.25,w:1.25},"",{a:7,w:1.25},"",{w:1.25},"",{c:"#cccccc",w:6.25},"",{c:"#09b084"},"","",{a:4},""],
+[{y:-0.75,x:13.25},"","",""]`;
 
 
 export function parseKLERaw(kle: string): ParsedKLE {
@@ -173,6 +178,9 @@ export function parseKLERaw(kle: string): ParsedKLE {
         .replace(/\\/g, '\\\\')
         .replace(/\"\\(?!,)/g, '\\\\')
         .replace(/([{,])([A-Za-z][0-9A-Za-z]?)(:)/g, '$1"$2"$3');
+      const rowPosRegex = /"y":(-?\d+\.\d+)/mi;
+      const rowPosResult = rowPosRegex.exec(row);
+      const rowPosition = rowPosResult !== null ? Number.parseFloat(rowPosResult[1]) : 0;
       const parsedRow: InnerReduceState = JSON.parse(row).reduce(
         (
           {size, margin, res, c, t, colorCount}: InnerReduceState,
@@ -225,13 +233,14 @@ export function parseKLERaw(kle: string): ParsedKLE {
       return {
         colorCount: parsedRow.colorCount,
         prevFormatting: {c: parsedRow.c, t: parsedRow.t},
-        res: [...prev.res, parsedRow.res]
+        res: [...prev.res, parsedRow.res],
+        rowPositions: [...prev.rowPositions, rowPosition]
       };
     },
-    {prevFormatting: {c: '#f5f5f5', t: '#444444'}, res: [], colorCount: {}}
+    {prevFormatting: {c: '#f5f5f5', t: '#444444'}, res: [], rowPositions: [], colorCount: {}}
   );
 
-  const {colorCount, res} = parsedKLE;
+  const {colorCount, res, rowPositions} = parsedKLE;
   const colorCountKeys = Object.keys(colorCount);
   colorCountKeys.sort((a, b) => colorCount[b] - colorCount[a]);
   if (colorCountKeys.length > 3) {
@@ -239,6 +248,7 @@ export function parseKLERaw(kle: string): ParsedKLE {
   }
   return {
     res,
+    rowPositions,
     colorMap: {
       [colorCountKeys[0]]: 'alphas',
       [colorCountKeys[1]]: 'mods',
