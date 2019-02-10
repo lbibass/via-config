@@ -69,73 +69,33 @@ export class Keyboard extends Component<Props> {
       label = byte ? getLabelForByte(byte, size) : '';
     }
 
-    if (isAlpha(label)) {
-      return (
-        label && (
-          <Key
-            key={key}
-            label={label.toUpperCase()}
-            size={size}
-            c={c}
-            t={t}
-            indent={marginX}
-            marginTop={marginY}
-            selected={selectedKey === idx}
-            onClick={onClick}
-          />
-        )
-      );
-    } else if (isNumericOrShiftedSymbol(label)) {
-      return (
-        label && (
-          <Key
-            key={key}
-            label={label.toUpperCase()}
-            size={size}
-            c={c}
-            t={t}
-            indent={marginX}
-            marginTop={marginY}
-            selected={selectedKey === idx}
-            onClick={onClick}
-          />
-        )
-      );
+    const partialProps = {
+      key,
+      size,
+      c,
+      t,
+      indent: marginX,
+      marginTop: marginY,
+      selected: selectedKey === idx,
+      onClick
+    };
+
+    if (isAlpha(label) || isNumericOrShiftedSymbol(label)) {
+      return label && <Key {...partialProps} label={label.toUpperCase()} />;
     } else if (isNumericSymbol(label)) {
       const topLabel = label[0];
       const bottomLabel = label[label.length - 1];
       return (
-        topLabel &&
         bottomLabel && (
           <Key
-            key={key}
+            {...partialProps}
             topLabel={topLabel}
             bottomLabel={bottomLabel}
-            c={c}
-            t={t}
-            indent={marginX}          
-            marginTop={marginY}
-            size={size}
-            selected={selectedKey === idx}
-            onClick={onClick}
           />
         )
       );
     } else {
-      return (
-        <Key
-          key={key}
-          label={label}
-          indent={marginX}
-          marginTop={marginY}
-          c={c}
-          t={t}
-          size={size}
-          selected={selectedKey === idx}
-          onClick={onClick}
-          centerLabel
-        />
-      );
+      return <Key {...partialProps} label={label} centerLabel />;
     }
   }
 
@@ -192,10 +152,12 @@ export class Keyboard extends Component<Props> {
               <div key={row} className={styles.row}>
                 {arr.map((key, column) => {
                   const parsedLabelIndex = Number.parseInt(key.label);
-                  const idx = (keyboard.overrideMatrixIndexing && !isNaN(parsedLabelIndex)) ? parsedLabelIndex : keyCounter++;
+                  const idx =
+                    keyboard.overrideMatrixIndexing && !isNaN(parsedLabelIndex)
+                      ? parsedLabelIndex
+                      : keyCounter++;
                   return this.chooseKey(key, idx, useMatrixKeycodes, colorMap);
-                }
-                )}
+                })}
               </div>
             ))}
           </div>

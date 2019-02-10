@@ -25,7 +25,7 @@ import {
   LAYOUT_SNAGPAD,
   LAYOUT_AANZEE,
   LAYOUT_LUNAR,
-  LAYOUT_SATISFACTION75,
+  LAYOUT_SATISFACTION75
 } from './kle-parser';
 
 export type Device = {
@@ -40,7 +40,8 @@ export type Device = {
 export type DeviceMeta = {
   name: string,
   layout: string,
-  lights: boolean
+  lights: boolean,
+  overrideMatrixIndexing?: boolean
 };
 
 export type CompiledDeviceMeta = DeviceMeta & {compiledLayout: ParsedKLE};
@@ -149,22 +150,22 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
     layout: LAYOUT_SNAGPAD,
     lights: false
   },
-  [0x21FFAA01]: {
+  [0x21ffaa01]: {
     name: 'aanzee',
     layout: LAYOUT_AANZEE,
     lights: false
   },
-  [0xA1030001]: {
+  [0xa1030001]: {
     name: 'Lunar',
     layout: LAYOUT_LUNAR,
     lights: false
   },
-  [0xCA0457F5]: {
+  [0xca0457f5]: {
     name: 'Satisfaction75',
     layout: LAYOUT_SATISFACTION75,
     lights: false,
     overrideMatrixIndexing: true
-  },
+  }
 };
 
 const COMPILED_DEVICE_META_MAP = Object.entries(DEVICE_META_MAP).reduce(
