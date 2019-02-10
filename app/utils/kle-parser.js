@@ -5,7 +5,7 @@ type Margin = number;
 type Label = number;
 type Size = number;
 type Formatting = {c: KeyColor, t: LegendColor};
-type Dimensions = {margin: Margin, size: Size};
+type Dimensions = {marginX: Margin, marginY: Margin, size: Size};
 type RowPosition = number;
 export type Result = Formatting & Dimensions & {label: string};
 type ColorCount = {[key: string]: number};
@@ -18,12 +18,10 @@ type OuterReduceState = {
   colorCount: ColorCount,
   prevFormatting: Formatting,
   res: Result[][],
-  rowPositions: RowPosition[]
 };
 export type ParsedKLE = {
   res: Result[][],
   colorMap: {[k: string]: string},
-  rowPositions: RowPosition[]
 };
 
 //{c, t, label: n, size, margin}
@@ -178,23 +176,25 @@ export function parseKLERaw(kle: string): ParsedKLE {
         .replace(/\\/g, '\\\\')
         .replace(/\"\\(?!,)/g, '\\\\')
         .replace(/([{,])([A-Za-z][0-9A-Za-z]?)(:)/g, '$1"$2"$3');
-      const rowPosRegex = /"y":(-?\d+\.\d+)/mi;
-      const rowPosResult = rowPosRegex.exec(row);
-      const rowPosition = rowPosResult !== null ? Number.parseFloat(rowPosResult[1]) : 0;
+      let rowPosition = 0;
       const parsedRow: InnerReduceState = JSON.parse(row).reduce(
         (
-          {size, margin, res, c, t, colorCount}: InnerReduceState,
+          {size, marginX, marginY, res, c, t, colorCount}: InnerReduceState,
           n: KLEElem
         ) => {
           // Check if object and apply formatting
           if (typeof n !== 'string') {
-            let obj = {size, margin, colorCount, c, t, res};
+            let obj = {size, marginX, marginY, colorCount, c, t, res};
             if (n.w > 1) {
               obj = {...obj, size: 100 * n.w};
             }
-            if (n.x > 0) {
-              obj = {...obj, margin: 100 * n.x};
+            if (typeof n.y === 'number') {
+              rowPosition = 100 * n.y;
+              obj = {...obj, marginY: rowPosition};	 
             }
+            if (typeof n.x === 'number') {	          
+              obj = {...obj, marginX: 100 * n.x};	 
+            }            
             if (typeof n.c === 'string') {
               obj = {...obj, c: n.c};
             }
@@ -212,20 +212,22 @@ export function parseKLERaw(kle: string): ParsedKLE {
                   : colorCount[colorCountKey] + 1
             };
             return {
-              margin: 0,
+              marginX: 0,
+              marginY: rowPosition,
               size: 100,
               c,
               colorCount: newColorCount,
               t,
-              res: [...res, {c, t, label: n, size, margin}]
+              res: [...res, {c, t, label: n, size, marginX, marginY}]
             };
           }
-          return {margin, size, c, t, res, colorCount};
+          return {marginX, marginY, size, c, t, res, colorCount};
         },
         {
           ...prev.prevFormatting,
           colorCount: prev.colorCount,
-          margin: 0,
+          marginX: 0,
+          marginY: 0,
           size: 100,
           res: []
         }
@@ -234,13 +236,12 @@ export function parseKLERaw(kle: string): ParsedKLE {
         colorCount: parsedRow.colorCount,
         prevFormatting: {c: parsedRow.c, t: parsedRow.t},
         res: [...prev.res, parsedRow.res],
-        rowPositions: [...prev.rowPositions, rowPosition]
       };
     },
-    {prevFormatting: {c: '#f5f5f5', t: '#444444'}, res: [], rowPositions: [], colorCount: {}}
+    {prevFormatting: {c: '#f5f5f5', t: '#444444'}, res: [], colorCount: {}}
   );
 
-  const {colorCount, res, rowPositions} = parsedKLE;
+  const {colorCount, res} = parsedKLE;
   const colorCountKeys = Object.keys(colorCount);
   colorCountKeys.sort((a, b) => colorCount[b] - colorCount[a]);
   if (colorCountKeys.length > 3) {
@@ -248,7 +249,6 @@ export function parseKLERaw(kle: string): ParsedKLE {
   }
   return {
     res,
-    rowPositions,
     colorMap: {
       [colorCountKeys[0]]: 'alphas',
       [colorCountKeys[1]]: 'mods',

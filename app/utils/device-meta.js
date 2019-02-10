@@ -162,7 +162,8 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
   [0xCA0457F5]: {
     name: 'Satisfaction75',
     layout: LAYOUT_SATISFACTION75,
-    lights: false
+    lights: false,
+    overrideMatrixIndexing: true
   },
 };
 

@@ -91,6 +91,22 @@
   margin-left: calc(var(--base-width) * 14.25);
 }
 
+.vIndent25U {
+  margin-top: calc(var(--base-width) * 0.25);
+}
+
+.vIndent-25U {
+  margin-top: calc(var(--base-width) * -0.25);
+}
+
+.vIndent-50U {
+  margin-top: calc(var(--base-width) * -0.5);
+}
+
+.vIndent-75U {
+  margin-top: calc(var(--base-width) * -0.75);
+}
+
 .size100U {
   width: calc(var(--base-width) * 1);
 }

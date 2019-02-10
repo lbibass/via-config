@@ -28,7 +28,6 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAG0lEQVQYV2
   opacity: 0;
   pointer-events: none;
   filter: blur(2px);
-  position: relative;
 }
 
 .detected {

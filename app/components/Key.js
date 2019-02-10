@@ -13,6 +13,7 @@ export type Props = {
   size: number,
   indent?: number,
   selected: boolean,
+  marginTop?: number,
   onClick: (evt: any) => void
 };
 
@@ -27,6 +28,11 @@ export class Key extends Component<Props> {
   getIndentClass() {
     const {indent = 0} = this.props;
     return styles[`indent${indent}U`];
+  }
+
+  getMarginTopClass(){
+    const {marginTop = 0} = this.props;
+    return styles[`vIndent${marginTop}U`];
   }
 
   getDarkenedColor(color: string) {
@@ -65,7 +71,8 @@ export class Key extends Component<Props> {
         className={[
           styles.keyContainer,
           this.getIndentClass(),
-          this.getSizeClass()
+          this.getSizeClass(),
+          this.getMarginTopClass(),
         ].join(' ')}
       >
         <div
@@ -79,9 +86,9 @@ export class Key extends Component<Props> {
             className={isSmall ? styles.smallInnerKey : styles.innerKey}
             style={{backgroundColor: c}}
           >
-            <div className={styles.innerKeyContainer}>
+            <div className={isSmall && centerLabel? styles.smallInnerCenterKeyContainer : styles.innerKeyContainer}>
               {this.renderLegend(
-                isSmall ? [topLabel, bottomLabel] : [label],
+                isSmall && !centerLabel ? [topLabel, bottomLabel] : [label],
                 t
               )}
             </div>

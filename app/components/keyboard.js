@@ -1,6 +1,5 @@
 // @flow
 import React, {Component} from 'react';
-import {CenterKey} from './CenterKey';
 import {Key} from './Key';
 import {KeyOverlay} from './key-overlay';
 import {Title} from './title-bar';
@@ -48,7 +47,7 @@ type Props = {
 export class Keyboard extends Component<Props> {
   overlay: KeyOverlay | null;
   chooseKey(
-    {c, t, label: inputLabel, size, margin}: Result,
+    {c, t, label: inputLabel, size, marginX, marginY}: Result,
     idx: number,
     useMatrixKeycodes: boolean,
     colorMap: {[color: string]: string},
@@ -79,7 +78,8 @@ export class Keyboard extends Component<Props> {
             size={size}
             c={c}
             t={t}
-            indent={margin}
+            indent={marginX}
+            marginTop={marginY}
             selected={selectedKey === idx}
             onClick={onClick}
           />
@@ -94,7 +94,8 @@ export class Keyboard extends Component<Props> {
             size={size}
             c={c}
             t={t}
-            indent={margin}
+            indent={marginX}
+            marginTop={marginY}
             selected={selectedKey === idx}
             onClick={onClick}
           />
@@ -112,7 +113,8 @@ export class Keyboard extends Component<Props> {
             bottomLabel={bottomLabel}
             c={c}
             t={t}
-            indent={margin}
+            indent={marginX}          
+            marginTop={marginY}
             size={size}
             selected={selectedKey === idx}
             onClick={onClick}
@@ -121,15 +123,17 @@ export class Keyboard extends Component<Props> {
       );
     } else {
       return (
-        <CenterKey
+        <Key
           key={key}
           label={label}
-          indent={margin}
+          indent={marginX}
+          marginTop={marginY}
           c={c}
           t={t}
           size={size}
           selected={selectedKey === idx}
           onClick={onClick}
+          centerLabel
         />
       );
     }
@@ -166,7 +170,7 @@ export class Keyboard extends Component<Props> {
     const device = this.getDevice();
     if (device) {
       const keyboard = getKeyboardFromDevice(device);
-      const {res: selectedLayout, rowPositions, colorMap} = getLayoutFromDevice(device);
+      const {res: selectedLayout, colorMap} = getLayoutFromDevice(device);
       const matrixLayout = MatrixLayout[keyboard.name].layout;
       const showLayer = selectedTitle === Title.KEYS;
       const showBrightness = selectedTitle === Title.LIGHTING;
@@ -186,11 +190,10 @@ export class Keyboard extends Component<Props> {
             ].join(' ')}
           >
             {selectedLayout.map((arr, row) => (
-              <div key={row} className={styles.row} style={{marginTop: `${rowPositions[rowCounter++] * 56}px`}}>
+              <div key={row} className={styles.row}>
                 {arr.map((key, column) => {
-                  const forcedIndex = Number.parseInt(key.label);
-                  const idx = isNaN(forcedIndex) ? keyCounter : forcedIndex;
-                  keyCounter++;
+                  const parsedLabelIndex = Number.parseInt(key.label);
+                  const idx = (keyboard.overrideMatrixIndexing && !isNaN(parsedLabelIndex)) ? parsedLabelIndex : keyCounter++;
                   return this.chooseKey(key, idx, useMatrixKeycodes, colorMap);
                 }
                 )}
