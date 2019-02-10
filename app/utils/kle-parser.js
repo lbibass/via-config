@@ -176,7 +176,6 @@ export function parseKLERaw(kle: string): ParsedKLE {
         .replace(/\\/g, '\\\\')
         .replace(/\"\\(?!,)/g, '\\\\')
         .replace(/([{,])([A-Za-z][0-9A-Za-z]?)(:)/g, '$1"$2"$3');
-      let rowPosition = 0;
       const parsedRow: InnerReduceState = JSON.parse(row).reduce(
         (
           {size, marginX, marginY, res, c, t, colorCount}: InnerReduceState,
@@ -189,8 +188,7 @@ export function parseKLERaw(kle: string): ParsedKLE {
               obj = {...obj, size: 100 * n.w};
             }
             if (typeof n.y === 'number') {
-              rowPosition = 100 * n.y;
-              obj = {...obj, marginY: rowPosition};	 
+              obj = {...obj, marginY: 100 * n.y};	 
             }
             if (typeof n.x === 'number') {	          
               obj = {...obj, marginX: 100 * n.x};	 
@@ -213,7 +211,7 @@ export function parseKLERaw(kle: string): ParsedKLE {
             };
             return {
               marginX: 0,
-              marginY: rowPosition,
+              marginY,
               size: 100,
               c,
               colorCount: newColorCount,

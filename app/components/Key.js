@@ -5,7 +5,7 @@ import styles from './Key.css';
 
 export type Props = {
   label?: string,
-  centerLabel?: string,
+  centerLabel?: boolean,
   topLabel?: string,
   bottomLabel?: string,
   c: string,
@@ -86,7 +86,7 @@ export class Key extends Component<Props> {
             className={isSmall ? styles.smallInnerKey : styles.innerKey}
             style={{backgroundColor: c}}
           >
-            <div className={isSmall && centerLabel? styles.smallInnerCenterKeyContainer : styles.innerKeyContainer}>
+            <div className={isSmall && centerLabel ? styles.smallInnerCenterKeyContainer : styles.innerKeyContainer}>
               {this.renderLegend(
                 isSmall && !centerLabel ? [topLabel, bottomLabel] : [label],
                 t

@@ -47,7 +47,7 @@ type Props = {
 export class Keyboard extends Component<Props> {
   overlay: KeyOverlay | null;
   chooseKey(
-    {c, t, label: inputLabel, size, marginX, marginY}: Result,
+    {c, t, label: kleLabel, size, marginX, marginY}: Result,
     idx: number,
     useMatrixKeycodes: boolean,
     colorMap: {[color: string]: string},
@@ -63,7 +63,7 @@ export class Keyboard extends Component<Props> {
     };
     ({c, t} = themeColors);
 
-    let label = inputLabel;
+    let label = kleLabel;
     if (useMatrixKeycodes) {
       const byte = matrixKeycodes[idx];
       label = byte ? getLabelForByte(byte, size) : '';
@@ -177,7 +177,6 @@ export class Keyboard extends Component<Props> {
       const useMatrixKeycodes = this.useMatrixKeycodes();
       const clickable = loaded && showLayer;
       let keyCounter = 0;
-      let rowCounter = 0;
       return (
         <div onClick={clearSelectedKey} className={styles.keyboardContainer}>
           <div
