@@ -75,12 +75,20 @@
   margin-left: calc(var(--base-width) * 2.75);
 }
 
+.indent325U {
+  margin-left: calc(var(--base-width) * 3.25);
+}
+
 .indent350U {
   margin-left: calc(var(--base-width) * 3.5);
 }
 
 .indent400U {
   margin-left: calc(var(--base-width) * 4);
+}
+
+.indent425U {
+  margin-left: calc(var(--base-width) * 4.25);
 }
 
 .indent1325U {

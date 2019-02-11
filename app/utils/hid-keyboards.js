@@ -40,6 +40,7 @@ function isValidVendorProduct({productId, vendorId}: Device) {
     0x6582008a, // WT8-A
     0x6582060a, // WT60-A
     0x6582065a, // WT65-A
+    0x6582075a, // WT75-A
     0x6582080a, // WT80-A
     0x41450807, // AEGIS
     0x89684853, // HS60 ISO

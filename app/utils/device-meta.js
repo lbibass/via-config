@@ -14,6 +14,7 @@ import {
   LAYOUT_WT8_A,
   LAYOUT_WT60_A,
   LAYOUT_WT65_A,
+  LAYOUT_WT75_A,
   LAYOUT_WT80_A,
   LAYOUT_AEGIS,
   LAYOUT_STANDARD_60_ANSI,
@@ -105,6 +106,11 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
     layout: LAYOUT_WT65_A,
     lights: false
   },
+  [0x6582075a]: {
+    name: 'WT75-A',
+    layout: LAYOUT_WT75_A,
+    lights: false
+  },
   [0x6582080a]: {
     name: 'WT80-A',
     layout: LAYOUT_WT80_A,
@@ -113,7 +119,8 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
   [0x41450807]: {
     name: 'AEGIS',
     layout: LAYOUT_AEGIS,
-    lights: false
+    lights: false,
+    overrideMatrixIndexing: true
   },
   [0x89684853]: {
     name: 'HS60 V2 ISO',
