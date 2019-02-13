@@ -26,7 +26,8 @@ import {
   LAYOUT_SNAGPAD,
   LAYOUT_AANZEE,
   LAYOUT_LUNAR,
-  LAYOUT_SATISFACTION75
+  LAYOUT_SATISFACTION75,
+  LAYOUT_HHKB,
 } from './kle-parser';
 
 export type Device = {
@@ -172,7 +173,12 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
     layout: LAYOUT_SATISFACTION75,
     lights: false,
     overrideMatrixIndexing: true
-  }
+  },
+  [0xFEEDCAFE]: {
+    name: 'HHKB',
+    layout: LAYOUT_HHKB,
+    lights: false,
+  },
 };
 
 const COMPILED_DEVICE_META_MAP = Object.entries(DEVICE_META_MAP).reduce(

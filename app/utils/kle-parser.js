@@ -175,6 +175,12 @@ export const LAYOUT_SATISFACTION75 = `[{c:"#09b084",a:7},"0",{x:0.5,c:"#cccccc"}
 [{y:-0.25,w:1.25},"71",{w:1.25},"72",{w:1.25},"73",{c:"#cccccc",w:6.25},"74",{c:"#09b084"},"75","76","77"],
 [{y:-0.75,x:13.25},"78","79","80"]`;
 
+export const LAYOUT_HHKB = `["Esc","1","2","3","4","5","6","7","8","9","0","-","=","|","~"],
+[{w:1.5},"Tab","Q","W","E","R","T","Y","U","I","O","P","[","]",{w:1.5},"delete"],
+[{w:1.75},"Control","A","S","D","F","G","H","J","K","L",";","'",{w:2.25},"Enter"],
+[{w:2.25},"Shift","Z","X","C","V","B","N","M",",",".","/",{w:1.75},"Shift","Fn"],
+[{x:1.5},"Win",{w:1.5},"Alt",{a:7,w:6},"",{a:4,w:1.5},"Alt","Win"]`;
+
 
 export function parseKLERaw(kle: string): ParsedKLE {
   const kleArr = kle.split(',\n');
@@ -197,11 +203,11 @@ export function parseKLERaw(kle: string): ParsedKLE {
               obj = {...obj, size: 100 * n.w};
             }
             if (typeof n.y === 'number') {
-              obj = {...obj, marginY: 100 * n.y};	 
+              obj = {...obj, marginY: 100 * n.y};
             }
-            if (typeof n.x === 'number') {	          
-              obj = {...obj, marginX: 100 * n.x};	 
-            }            
+            if (typeof n.x === 'number') {
+              obj = {...obj, marginX: 100 * n.x};
+            }
             if (typeof n.c === 'string') {
               obj = {...obj, c: n.c};
             }
