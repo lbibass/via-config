@@ -9,7 +9,7 @@ type Dimensions = {marginX: Margin, marginY: Margin, size: Size};
 type RowPosition = number;
 export type Result = Formatting & Dimensions & {label: string};
 type ColorCount = {[key: string]: number};
-type KLEDimensions = {a: number, x: number, w: number};
+type KLEDimensions = {a: number, x: number, w: number, y: number};
 type OtherKLEProps = {[key: string]: any};
 type KLEElem = $Shape<KLEDimensions & Formatting> | OtherKLEProps | string;
 type InnerReduceState = Formatting &
@@ -17,11 +17,11 @@ type InnerReduceState = Formatting &
 type OuterReduceState = {
   colorCount: ColorCount,
   prevFormatting: Formatting,
-  res: Result[][],
+  res: Result[][]
 };
 export type ParsedKLE = {
   res: Result[][],
-  colorMap: {[k: string]: string},
+  colorMap: {[k: string]: string}
 };
 
 //{c, t, label: n, size, margin}
@@ -175,7 +175,6 @@ export const LAYOUT_SATISFACTION75 = `[{c:"#09b084",a:7},"0",{x:0.5,c:"#cccccc"}
 [{y:-0.25,w:1.25},"71",{w:1.25},"72",{w:1.25},"73",{c:"#cccccc",w:6.25},"74",{c:"#09b084"},"75","76","77"],
 [{y:-0.75,x:13.25},"78","79","80"]`;
 
-
 export function parseKLERaw(kle: string): ParsedKLE {
   const kleArr = kle.split(',\n');
   const parsedKLE: OuterReduceState = kleArr.reduce(
@@ -197,11 +196,11 @@ export function parseKLERaw(kle: string): ParsedKLE {
               obj = {...obj, size: 100 * n.w};
             }
             if (typeof n.y === 'number') {
-              obj = {...obj, marginY: 100 * n.y};	 
+              obj = {...obj, marginY: 100 * n.y};
             }
-            if (typeof n.x === 'number') {	          
-              obj = {...obj, marginX: 100 * n.x};	 
-            }            
+            if (typeof n.x === 'number') {
+              obj = {...obj, marginX: 100 * n.x};
+            }
             if (typeof n.c === 'string') {
               obj = {...obj, c: n.c};
             }
@@ -242,7 +241,7 @@ export function parseKLERaw(kle: string): ParsedKLE {
       return {
         colorCount: parsedRow.colorCount,
         prevFormatting: {c: parsedRow.c, t: parsedRow.t},
-        res: [...prev.res, parsedRow.res],
+        res: [...prev.res, parsedRow.res]
       };
     },
     {prevFormatting: {c: '#f5f5f5', t: '#444444'}, res: [], colorCount: {}}

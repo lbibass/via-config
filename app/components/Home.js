@@ -7,13 +7,15 @@ import {Keyboard} from './keyboard';
 import {DebugMenu, KeycodeMenu, LightingMenu} from './menus';
 import {mapEvtToKeycode, getByteForCode, getKeycodes} from '../utils/key';
 import {getKeyboards} from '../utils/hid-keyboards';
-import {getKeyboardFromDevice} from '../utils/device-meta';
+import {
+  getKeyboardFromDevice,
+  getMatrixLayoutFromDevice
+} from '../utils/device-meta';
 import type {Device} from '../utils/device-meta';
 import {MatrixLayout} from '../utils/layout-parser';
 import {
   BACKLIGHT_PROTOCOL_NONE,
   BACKLIGHT_PROTOCOL_WILBA,
-  BACKLIGHT_PROTOCOL_QMK,
   KeyboardAPI
 } from '../utils/keyboard-api';
 import {TitleBar, Title} from './title-bar';
@@ -227,11 +229,10 @@ export default class Home extends React.Component<Props, State> {
     }
   }
 
-  getMatrix(selectedKeyboard: Device | null) {
+  getMatrix(selectedKeyboard: Device | null): * {
     if (selectedKeyboard) {
       const keyboard = getKeyboardFromDevice(selectedKeyboard);
-      const matrixLayout = MatrixLayout[keyboard.name];
-      return matrixLayout.layout;
+      return getMatrixLayoutFromDevice(selectedKeyboard);
     }
   }
 
@@ -405,7 +406,7 @@ export default class Home extends React.Component<Props, State> {
     } else if (
       selectedTitle === Title.LIGHTING &&
       api &&
-      backlightVersion === BACKLIGHT_PROTOCOL_QMK
+      false
     ) {
       return <div />;
     } else if (selectedTitle === Title.DEBUG) {

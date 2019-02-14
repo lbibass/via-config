@@ -1,3 +1,4 @@
+// @flow
 export const MATRIX_268_2 = `
 #define LAYOUT( \
 	K000, K001, K002, K003, K004, K005, K006, K007, K008, K009, K010, K011, K012, K013, K014, K015, \
@@ -369,7 +370,7 @@ export const MATRIX_SATISFACTION75 = `
 	{ K400,  K401,  K402,  K403,  K404,  K405,  K406,  K407,  K408,  K409,  K410,  K411,  KC_NO, K413,  KC_NO,  K415 }, \
 	{ K500,  K501,  K502,  KC_NO, KC_NO, K505,  KC_NO, KC_NO, KC_NO, K509,  K510,  K511,  K512,  K513,  KC_NO,  K515 } \
 }
-`
+`;
 
 const LS = {
   START: 1,
@@ -383,33 +384,6 @@ const LS = {
   LAYOUT2D_COL_END: 9,
   LAYOUT2D_ROW_END: 10,
   LAYOUT2D_END: 11
-};
-
-export const MatrixLayout = {
-  'RAMA WORKS M6-A': parseLayout(MATRIX_M6_A),
-  'RAMA WORKS M6-B': parseLayout(MATRIX_M6_B),
-  'RAMA WORKS M10-B': parseLayout(MATRIX_M10_B),
-  'RAMA WORKS M60-A': parseLayout(MATRIX_M60_A),
-  'RAMA WORKS KOYU': parseLayout(MATRIX_KOYU),
-  'RAMA WORKS U80-A': parseLayout(MATRIX_WT80_A_no_splits),
-  ZEAL60: parseLayout(MATRIX_ZEAL60),
-  ZEAL65: parseLayout(MATRIX_ZEAL65),
-  'WT8-A': parseLayout(MATRIX_WT8_A),
-  'WT60-A': parseLayout(MATRIX_WT60_A),
-  'WT65-A': parseLayout(MATRIX_WT65_A),
-  'WT75-A': parseLayout(MATRIX_WT75_A),
-  'WT80-A': parseLayout(MATRIX_WT80_A_no_splits),
-  AEGIS: parseLayout(MATRIX_AEGIS),
-  'HS60 V2 ISO': parseLayout(MATRIX_STANDARD_60_ISO),
-  'HS60 V2 ANSI': parseLayout(MATRIX_STANDARD_60_ANSI),
-  'HS60 V2 HHKB': parseLayout(MATRIX_STANDARD_60_HHKB),
-  IRIS: parseLayout(MATRIX_IRIS),
-  PLAIN60: parseLayout(MATRIX_PLAIN60),
-  'Noxary 268.2': parseLayout(MATRIX_268_2),
-  'Snagpad': parseLayout(MATRIX_SNAGPAD),
-  'aanzee': parseLayout(MATRIX_AANZEE),
-  'Lunar': parseLayout(MATRIX_LUNAR),
-  'Satisfaction75': parseLayout(MATRIX_SATISFACTION75),
 };
 
 function error(state, nextToken) {
@@ -587,7 +561,7 @@ function tokenizer(state, next) {
   throw 'Bad Token found';
 }
 
-export function parseLayout(layout) {
+export function parseLayout(layout: string) {
   const tokens = layout.split(/\s+/g);
   const {res} = tokens.reduce(tokenizer, {prev: LS.START, res: {}});
   const {layout1D, layout2D} = res;

@@ -1,5 +1,5 @@
 // @flow
-import {getKeyboardFromDevice} from './device-meta';
+import {getKeyboardFromDevice, getMatrixLayoutFromDevice} from './device-meta';
 import {MatrixLayout} from './layout-parser';
 const HID = require('node-hid');
 
@@ -121,8 +121,7 @@ export class KeyboardAPI {
   getMatrix() {
     const device = this.getDevice();
     const keyboard = getKeyboardFromDevice(device);
-    const matrixLayout = MatrixLayout[keyboard.name];
-    return matrixLayout;
+    return getMatrixLayoutFromDevice(device);
   }
 
   refresh(kbAddr: HIDAddress) {
@@ -240,7 +239,7 @@ void *dynamic_keymap_key_to_eeprom_address(uint8_t layer, uint8_t row, uint8_t c
     const keycodesArr: number[] = [].concat(
       ...yieldedRes.map(this.keymapBufferToKeycodes.bind(this))
     );
-    return layout.map(
+    return layout.map<number>(
       ({row, col}: MatrixEntry) => keycodesArr[row * cols + col]
     );
   }

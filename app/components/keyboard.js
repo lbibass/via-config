@@ -4,7 +4,11 @@ import {Key} from './Key';
 import {KeyOverlay} from './key-overlay';
 import {Title} from './title-bar';
 import styles from './keyboard.css';
-import {getKeyboardFromDevice, getLayoutFromDevice} from '../utils/device-meta';
+import {
+  getKeyboardFromDevice,
+  getLayoutFromDevice,
+  getMatrixLayoutFromDevice
+} from '../utils/device-meta';
 import type {LightingData} from './Home';
 import type {Result} from '../utils/kle-parser';
 import type {Device} from '../utils/device-meta';
@@ -131,7 +135,7 @@ export class Keyboard extends Component<Props> {
     if (device) {
       const keyboard = getKeyboardFromDevice(device);
       const {res: selectedLayout, colorMap} = getLayoutFromDevice(device);
-      const matrixLayout = MatrixLayout[keyboard.name].layout;
+      const matrixLayout = getMatrixLayoutFromDevice(device);
       const showLayer = selectedTitle === Title.KEYS;
       const showBrightness = selectedTitle === Title.LIGHTING;
       const useMatrixKeycodes = this.useMatrixKeycodes();
