@@ -229,10 +229,10 @@ export default class Home extends React.Component<Props, State> {
     }
   }
 
-  getMatrix(selectedKeyboard: Device | null): * {
+  getMatrixLayout(selectedKeyboard: Device | null): * {
     if (selectedKeyboard) {
       const keyboard = getKeyboardFromDevice(selectedKeyboard);
-      return getMatrixLayoutFromDevice(selectedKeyboard);
+      return getMatrixLayoutFromDevice(selectedKeyboard).layout;
     }
   }
 
@@ -270,7 +270,7 @@ export default class Home extends React.Component<Props, State> {
       matrixKeycodes
     } = this.state;
     const api = this.getAPI(selectedKeyboard);
-    const matrixLayout = this.getMatrix(selectedKeyboard);
+    const matrixLayout = this.getMatrixLayout(selectedKeyboard);
     const numSelectedKey = selectedKey;
 
     if (
@@ -280,7 +280,7 @@ export default class Home extends React.Component<Props, State> {
       matrixLayout &&
       selectedKeyboard
     ) {
-      const {row, col} = matrixLayout.layout[selectedKey];
+      const {row, col} = matrixLayout[selectedKey];
       //Optimistically set
       this.setKeyInMatrix(
         value,
@@ -357,7 +357,7 @@ export default class Home extends React.Component<Props, State> {
 
   async updateFullMatrix(activeLayer: number, selectedKeyboard: Device) {
     const api = this.getAPI(selectedKeyboard);
-    const matrixLayout = this.getMatrix(selectedKeyboard);
+    const matrixLayout = this.getMatrixLayout(selectedKeyboard);
     if (api && matrixLayout) {
       const layerCount = await api.getLayerCount();
       const layerMatrixKeycodes = await api.readMatrix(activeLayer);
