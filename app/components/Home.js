@@ -280,7 +280,7 @@ export default class Home extends React.Component<Props, State> {
       matrixLayout &&
       selectedKeyboard
     ) {
-      const {row, col} = matrixLayout[selectedKey];
+      const {row, col} = matrixLayout.layout[selectedKey];
       //Optimistically set
       this.setKeyInMatrix(
         value,
@@ -403,11 +403,7 @@ export default class Home extends React.Component<Props, State> {
           setRGBMode={this.setRGBMode.bind(this)}
         />
       );
-    } else if (
-      selectedTitle === Title.LIGHTING &&
-      api &&
-      false
-    ) {
+    } else if (selectedTitle === Title.LIGHTING && api && false) {
       return <div />;
     } else if (selectedTitle === Title.DEBUG) {
       return <DebugMenu api={this.getAPI(selectedKeyboard)} />;

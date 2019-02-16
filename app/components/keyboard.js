@@ -135,7 +135,7 @@ export class Keyboard extends Component<Props> {
     if (device) {
       const keyboard = getKeyboardFromDevice(device);
       const {res: selectedLayout, colorMap} = getLayoutFromDevice(device);
-      const matrixLayout = getMatrixLayoutFromDevice(device);
+      const matrixLayout = getMatrixLayoutFromDevice(device).layout;
       const showLayer = selectedTitle === Title.KEYS;
       const showBrightness = selectedTitle === Title.LIGHTING;
       const useMatrixKeycodes = this.useMatrixKeycodes();
