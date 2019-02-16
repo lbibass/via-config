@@ -204,7 +204,7 @@ void *dynamic_keymap_key_to_eeprom_address(uint8_t layer, uint8_t row, uint8_t c
     return keycodes;
   }
 
-  async fastReadMatrix({rows, cols, layout}: Matrix, layer: number) {
+  async fastReadMatrix({rows, cols, layout}: Matrix, layer: number): number[] {
     const length = rows * cols;
     const MAX_KEYCODES_PARTIAL = 14;
     const bufferList = new Array(Math.ceil(length / MAX_KEYCODES_PARTIAL)).fill(
@@ -239,7 +239,7 @@ void *dynamic_keymap_key_to_eeprom_address(uint8_t layer, uint8_t row, uint8_t c
     const keycodesArr: number[] = [].concat(
       ...yieldedRes.map(this.keymapBufferToKeycodes.bind(this))
     );
-    return layout.map<number>(
+    return layout.map(
       ({row, col}: MatrixEntry) => keycodesArr[row * cols + col]
     );
   }

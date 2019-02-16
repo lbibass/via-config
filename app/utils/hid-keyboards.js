@@ -29,10 +29,9 @@ function isValidInterfaceOSX({usage, usagePage}: Device) {
 }
 
 function isValidVendorProduct({productId, vendorId}: Device) {
-  const VALID_VENDOR_PRODUCT_IDS = Object.keys(DEVICE_META_MAP);
   // JS bitwise operations is only 32-bit so we lose numbers if we shift too high
-  const vendorProductId = vendorId * 65536 + productId;
-  return VALID_VENDOR_PRODUCT_IDS.includes(vendorProductId);
+  const vendorProductId = (vendorId * 65536) + productId;
+  return DEVICE_META_MAP[vendorProductId] !== undefined;
 }
 
 export function getKeyboards(): Device[] {
