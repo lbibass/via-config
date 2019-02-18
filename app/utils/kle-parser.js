@@ -175,6 +175,12 @@ export const LAYOUT_SATISFACTION75 = `[{c:"#09b084",a:7},"0",{x:0.5,c:"#cccccc"}
 [{y:-0.25,w:1.25},"71",{w:1.25},"72",{w:1.25},"73",{c:"#cccccc",w:6.25},"74",{c:"#09b084"},"75","76","77"],
 [{y:-0.75,x:13.25},"78","79","80"]`;
 
+export const LAYOUT_G60 = `["x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"],
+[{w:1.5},"x","x","x","x","x","x","x","x","x","x","x","x","x",{w:1.5},"x"],
+[{w:1.75},"x","x","x","x","x","x","x","x","x","x","x","x","x",{w:1.25},"x"],
+["x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"],
+[{w:1.25},"x",{w:1.25},"x",{w:1.25},"x",{w:6.25},"x","x","x","x","x","x"]`;
+
 export function parseKLERaw(kle: string): ParsedKLE {
   const kleArr = kle.split(',\n');
   const parsedKLE: OuterReduceState = kleArr.reduce(

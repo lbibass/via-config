@@ -26,7 +26,8 @@ import {
   LAYOUT_SNAGPAD,
   LAYOUT_AANZEE,
   LAYOUT_LUNAR,
-  LAYOUT_SATISFACTION75
+  LAYOUT_SATISFACTION75,
+  LAYOUT_G60
 } from './kle-parser';
 import {
   parseLayout,
@@ -52,7 +53,8 @@ import {
   MATRIX_SNAGPAD,
   MATRIX_AANZEE,
   MATRIX_LUNAR,
-  MATRIX_SATISFACTION75
+  MATRIX_SATISFACTION75,
+  MATRIX_G60
 } from './layout-parser';
 
 export type Device = {
@@ -230,6 +232,12 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
     matrixLayout: MATRIX_SATISFACTION75,
     lights: false,
     overrideMatrixIndexing: true
+  },
+  [0x65826080]: {
+    name: 'BIOI G60',
+    layout: LAYOUT_G60,
+    matrixLayout: MATRIX_G60,
+    lights: false,
   }
 };
 
