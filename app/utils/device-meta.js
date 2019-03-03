@@ -26,7 +26,6 @@ import {
   LAYOUT_SNAGPAD,
   LAYOUT_AANZEE,
   LAYOUT_LUNAR,
-  LAYOUT_SATISFACTION75,
   LAYOUT_G60
 } from './kle-parser';
 import {
@@ -53,9 +52,9 @@ import {
   MATRIX_SNAGPAD,
   MATRIX_AANZEE,
   MATRIX_LUNAR,
-  MATRIX_SATISFACTION75,
   MATRIX_G60
 } from './layout-parser';
+import KEYBOARDS from '../keyboards';
 
 export type Device = {
   productId: number,
@@ -71,7 +70,9 @@ export type DeviceMeta = {
   layout: string,
   matrixLayout: string,
   lights: boolean,
-  overrideMatrixIndexing?: boolean
+  overrideMatrixIndexing?: boolean,
+  customConfig?: any,
+  vendorProductId?: number
 };
 
 type Return_<R, Fn: () => R> = R;
@@ -86,7 +87,7 @@ export type CompiledDeviceMeta = DeviceMeta & {
 export type DeviceMetaMap = {[key: number]: DeviceMeta};
 export type CompiledDeviceMetaMap = {[key: number]: CompiledDeviceMeta};
 
-export const DEVICE_META_MAP: DeviceMetaMap = {
+const LEGACY_DEVICE_META_MAP: DeviceMetaMap = {
   [0x5241006a]: {
     name: 'RAMA WORKS M6-A',
     layout: LAYOUT_M6_A,
@@ -226,20 +227,21 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
     matrixLayout: MATRIX_LUNAR,
     lights: false
   },
-  [0xca0457f5]: {
-    name: 'Satisfaction75',
-    layout: LAYOUT_SATISFACTION75,
-    matrixLayout: MATRIX_SATISFACTION75,
-    lights: false,
-    overrideMatrixIndexing: true,
-    customConfig: true,
-  },
   [0x65826080]: {
     name: 'BIOI G60',
     layout: LAYOUT_G60,
     matrixLayout: MATRIX_G60,
     lights: false,
   }
+};
+
+export const DEVICE_META_MAP: DeviceMetaMap = {
+  ...LEGACY_DEVICE_META_MAP,
+  ...(KEYBOARDS.reduce((accum, deviceMeta) => ({
+    ...accum,
+    [deviceMeta.vendorProductId]: deviceMeta
+  }), {})
+  )
 };
 
 const COMPILED_DEVICE_META_MAP: CompiledDeviceMetaMap = Object.entries(
