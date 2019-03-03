@@ -406,7 +406,9 @@ export default class Home extends React.Component<Props, State> {
     } else if (selectedTitle === Title.LIGHTING && api && false) {
       return <div />;
     } else if (selectedTitle === Title.DEBUG) {
-      return <DebugMenu api={this.getAPI(selectedKeyboard)} />;
+      return <DebugMenu api={api} />;
+    } else if (selectedTitle === Title.CUSTOM) {
+      return <div />;
     }
   }
 

@@ -8,7 +8,8 @@ import {
 export const Title = {
   KEYS: 'Keys',
   LIGHTING: 'Lighting',
-  DEBUG: 'Debug'
+  DEBUG: 'Debug',
+  CUSTOM: 'Custom'
 };
 
 export class TitleBar extends Component {
@@ -30,6 +31,9 @@ export class TitleBar extends Component {
       )
     ) {
       titles = [...titles, Title.LIGHTING];
+    }
+    if (keyboard.customConfig){
+      titles = [...titles, Title.CUSTOM];
     }
     if (
       process.env.NODE_ENV === 'development' ||

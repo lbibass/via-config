@@ -231,7 +231,8 @@ export const DEVICE_META_MAP: DeviceMetaMap = {
     layout: LAYOUT_SATISFACTION75,
     matrixLayout: MATRIX_SATISFACTION75,
     lights: false,
-    overrideMatrixIndexing: true
+    overrideMatrixIndexing: true,
+    customConfig: true,
   },
   [0x65826080]: {
     name: 'BIOI G60',
