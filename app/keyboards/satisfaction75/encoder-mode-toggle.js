@@ -23,13 +23,6 @@ const MODE_LABELS = {
   ENC_MODE_CUSTOM2: 'Custom 2',
 };
 
-
-// type modeDict = {number: boolean};
-
-// function loadModes(enabledModes: number): modeDict {
-//   Object.entries(MODES).map([key, value])
-// }
-
 const CenteredColumnDiv = styled.div`
  display: flex;
  flex-direction: column;
