@@ -32,8 +32,8 @@ export class TitleBar extends Component {
     ) {
       titles = [...titles, Title.LIGHTING];
     }
-    if (keyboard.customConfig){
-      titles = [...titles, Title.CUSTOM];
+    if (keyboard.customConfig) {
+      titles = [...titles, ...Object.keys(keyboard.customConfig)];
     }
     if (
       process.env.NODE_ENV === 'development' ||

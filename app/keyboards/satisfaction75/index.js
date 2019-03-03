@@ -1,2 +1,3 @@
-import CONFIG from './satisfaction75';
+import CONFIG from './config';
+
 export default CONFIG;

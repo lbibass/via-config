@@ -407,9 +407,10 @@ export default class Home extends React.Component<Props, State> {
       return <div />;
     } else if (selectedTitle === Title.DEBUG) {
       return <DebugMenu api={api} />;
-    } else if (selectedTitle === Title.CUSTOM) {
-      return <div />;
     }
+    const keyboardMeta = getKeyboardFromDevice(selectedKeyboard);
+    const MenuComponent = (keyboardMeta.customConfig || {})[selectedTitle];
+    return MenuComponent ? <MenuComponent api={api} /> : <div />;
   }
 
   async offsetKeyboard(offset: number) {
