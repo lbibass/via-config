@@ -10,13 +10,26 @@ import { EncoderModeToggle } from './encoder-mode-toggle';
 type Props = {api: KeyboardAPI};
 
 const MenuContainer = styled.div`
-    display: flex;
-    color: black;
-    padding: 24px;
+  display: flex;
+  color: #717070;
+  padding: 24px;
+  font-family: GothamRounded;
+  h3 {
+    margin: 4px 0;
+  }
+  p {
+    margin: 4px 0 8px 0;
+    width: 288px; 
+    font-size: 13px;
+    text-align: center;
+  }
 `;
 
-const OLEDModeContainer = styled.div`
-  flex: 1 0 50px;
+const SectionContainer = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const OLED_OPTIONS = [
@@ -47,17 +60,15 @@ export class SatisfactionMenu extends Component<Props> {
   onEncoderModeChange = (newEncoderModes: number) => {
     const { api } = this.props;
     const { enabledModes: currentModes } = this.state;
-    console.log(newEncoderModes);
     if (currentModes !== newEncoderModes) {
       this.setState({ enabledModes: newEncoderModes });
       setEncoderModes(api, newEncoderModes);
     }
   }
 
-  onOLEDChange = ({ value: newDefaultOLEDMode }: {value: number}) => {
+  onOLEDChange = ({ value: newDefaultOLEDMode }) => {
     const { api } = this.props;
     const { defaultOLEDMode: currentMode } = this.state;
-    console.log(newDefaultOLEDMode);
     if (currentMode !== newDefaultOLEDMode) {
       this.setState({ defaultOLEDMode: newDefaultOLEDMode });
       setDefaultOLED(api, newDefaultOLEDMode);
@@ -71,14 +82,28 @@ export class SatisfactionMenu extends Component<Props> {
     if (api) {
       return (
         <MenuContainer>
-          <EncoderModeToggle onChange={this.onEncoderModeChange} enabledModes={enabledModes} />
-          <OLEDModeContainer>
-            <Select
-              value={OLED_OPTIONS.find(e => e.value === defaultOLEDMode)}
-              onChange={this.onOLEDChange}
-              options={OLED_OPTIONS}
-          />
-          </OLEDModeContainer>
+          <SectionContainer>
+            <EncoderModeToggle onChange={this.onEncoderModeChange} enabledModes={enabledModes} />
+          </SectionContainer>
+          <SectionContainer>
+            <h3>Default OLED Mode:</h3>
+            <p>This is the OLED mode that will be selected by default when you plug in your keyboard.</p>
+            <div css="width: 156px; margin-bottom: 12px;">
+              <Select
+                value={OLED_OPTIONS.find(e => e.value === defaultOLEDMode)}
+                onChange={this.onOLEDChange}
+                options={OLED_OPTIONS}
+              />
+            </div>
+            <h3>Current OLED Mode:</h3>
+            <p>Change your keyboard's current OLED mode</p>
+
+          </SectionContainer>
+          <SectionContainer>
+            <h3>Custom Encoder Configuration:</h3>
+            <p>Configure the behavior of encoder custom modes</p>
+
+          </SectionContainer>
         </MenuContainer>
       );
     }

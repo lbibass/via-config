@@ -1,3 +1,5 @@
+// TODO: link to KLE for standards?
+
 export const LAYOUT_STANDARD_60_ANSI = `[{c:"#4d525a",t:"#e2e2e2"},"Esc",{c:"#e2e2e2",t:"#363636"},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=",{c:"#4d525a",t:"#e2e2e2",w:2},"Backspace"],
 [{w:1.5},"Tab",{c:"#e2e2e2",t:"#363636"},"Q","W","E","R","T","Y","U","I","O","P","{\n[","}\n]",{c:"#4d525a",t:"#e2e2e2",w:1.5},"|\n\\"],
 [{w:1.75},"Caps Lock",{c:"#e2e2e2",t:"#363636"},"A","S","D","F","G","H","J","K","L",":\n;","\"\n'",{c:"#4d525a",t:"#e2e2e2",w:2.25},"Enter"],

@@ -17,6 +17,7 @@
       "plugins": [
         "transform-class-properties",
         "transform-es2015-classes",
+        "babel-plugin-styled-components",
         ["flow-runtime", {
           "assert": true,
           "annotate": true

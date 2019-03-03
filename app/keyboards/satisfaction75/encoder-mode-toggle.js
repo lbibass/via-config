@@ -30,7 +30,7 @@ const MODE_LABELS = {
 //   Object.entries(MODES).map([key, value])
 // }
 
-const ContainerDiv = styled.div`
+const CenteredColumnDiv = styled.div`
  display: flex;
  flex-direction: column;
  align-items: center;
@@ -67,25 +67,27 @@ export class EncoderModeToggle extends Component<Props> {
 
   render() {
     return (
-      <ContainerDiv>
+      <CenteredColumnDiv>
         <h3>Enabled Encoder Modes:</h3>
+        <p>Only the selected encoder modes will be available on the keyboard</p>
         <ColumnDiv>
           {
         Object.entries(MODES).map(([key, value]) => (
-          <label key={value}>
-            {MODE_LABELS[key]}
+          <label key={value} htmlFor={MODE_LABELS[key]}>
             <input
               name={key}
+              id={MODE_LABELS[key]}
               type="checkbox"
               checked={this.isChecked(value)}
               onChange={this.handleInputChange}
               key={value}
             />
+            {MODE_LABELS[key]}
           </label>
         ))
       }
         </ColumnDiv>
-      </ContainerDiv>
+      </CenteredColumnDiv>
     );
   }
 }

@@ -16,5 +16,6 @@
     "test/**/__snapshots__": true,
     "yarn.lock": true
   },
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "files.eol": "\n"
 }

@@ -7,6 +7,7 @@ const KB_VALUES = {
   ENABLED_ENCODER_MODES: 0x80,
   OLED_DEFAULT_MODE: 0x81,
   ENCODER_CUSTOM: 0x82,
+  OLED_MODE: 0x83,
 };
 
 const getEncoderModes = async (api: KeyboardAPI) => {
@@ -19,7 +20,6 @@ const getEncoderModes = async (api: KeyboardAPI) => {
 };
 
 const setEncoderModes = async (api: KeyboardAPI, newEncoderModes: number) => {
-  console.log(newEncoderModes);
   const bytes = [KB_VALUES.ENABLED_ENCODER_MODES, newEncoderModes];
   await api.hidCommand(SET_KEYBOARD_VALUE, bytes);
 };
