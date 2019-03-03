@@ -1,4 +1,4 @@
-import {SatisfactionMenu} from './satisfaction-menu';
+import { SatisfactionMenu } from './satisfaction-menu';
 
 export const LAYOUT_SATISFACTION75 = `[{c:"#09b084",a:7},"0",{x:0.5,c:"#cccccc"},"1","2","3","4",{x:0.25,c:"#09b084"},"5","6","7","8",{x:0.25,c:"#cccccc"},"9","10","11","12"],
 [{y:0.25,c:"#09b084"},"13",{c:"#cccccc"},"14","15","16","17","18","19","20","21","22","23","24","25",{c:"#09b084",w:2},"26",{x:0.5},"27"],
@@ -28,15 +28,15 @@ export const MATRIX_SATISFACTION75 = `
 `;
 
 const CONFIG = {
-    name: 'Satisfaction75',
-    layout: LAYOUT_SATISFACTION75,
-    matrixLayout: MATRIX_SATISFACTION75,
-    lights: false,
-    overrideMatrixIndexing: true,
-    customConfig: {
-      custom: SatisfactionMenu
-	},
-    vendorProductId: 0xca0457f5,
-}
+  name: 'Satisfaction75',
+  layout: LAYOUT_SATISFACTION75,
+  matrixLayout: MATRIX_SATISFACTION75,
+  lights: false,
+  overrideMatrixIndexing: true,
+  customConfig: {
+    custom: SatisfactionMenu
+  },
+  vendorProductId: 0xca0457f5,
+};
 
 export default CONFIG;

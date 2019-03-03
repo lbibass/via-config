@@ -18,9 +18,9 @@ const MODE_LABELS = {
   ENC_MODE_SCROLL: 'Scroll',
   ENC_MODE_BRIGHTNESS: 'Brightness',
   ENC_MODE_BACKLIGHT: 'Backlight',
-  ENC_MODE_CUSTOM0: 'Custom 1',
-  ENC_MODE_CUSTOM1: 'Custom 2',
-  ENC_MODE_CUSTOM2: 'Custom 3',
+  ENC_MODE_CUSTOM0: 'Custom 0',
+  ENC_MODE_CUSTOM1: 'Custom 1',
+  ENC_MODE_CUSTOM2: 'Custom 2',
 };
 
 
@@ -68,7 +68,7 @@ export class EncoderModeToggle extends Component<Props> {
   render() {
     return (
       <ContainerDiv>
-        <h3>Enbled Encoder Modes:</h3>
+        <h3>Enabled Encoder Modes:</h3>
         <ColumnDiv>
           {
         Object.entries(MODES).map(([key, value]) => (
