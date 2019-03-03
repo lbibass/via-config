@@ -38,10 +38,26 @@ const setDefaultOLED = async (api: KeyboardAPI, newDefaultMode: number) => {
   await api.hidCommand(SET_KEYBOARD_VALUE, bytes);
 };
 
+const getOLEDMode = async (api: KeyboardAPI) => {
+  const bytes = [KB_VALUES.OLED_MODE];
+  const [, , defaultMode] = await api.hidCommand(
+    GET_KEYBOARD_VALUE,
+    bytes
+  );
+  return defaultMode;
+};
+
+const setOLEDMode = async (api: KeyboardAPI, newDefaultMode: number) => {
+  const bytes = [KB_VALUES.OLED_MODE, newDefaultMode];
+  await api.hidCommand(SET_KEYBOARD_VALUE, bytes);
+};
+
 
 export default {
   getEncoderModes,
   setEncoderModes,
   getDefaultOLED,
   setDefaultOLED,
+  getOLEDMode,
+  setOLEDMode,
 };

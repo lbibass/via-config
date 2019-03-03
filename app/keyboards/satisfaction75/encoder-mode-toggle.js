@@ -64,19 +64,18 @@ export class EncoderModeToggle extends Component<Props> {
         <h3>Enabled Encoder Modes:</h3>
         <p>Only the selected encoder modes will be available on the keyboard</p>
         <ColumnDiv>
-          {
-        Object.entries(MODES).map(([key, value]) => (
-          <label key={value} htmlFor={MODE_LABELS[key]}>
-            <input
-              name={key}
-              id={MODE_LABELS[key]}
-              type="checkbox"
-              checked={this.isChecked(value)}
-              onChange={this.handleInputChange}
-              key={value}
-            />
-            {MODE_LABELS[key]}
-          </label>
+          {Object.entries(MODES).map(([key, value]) => (
+            <label key={value} htmlFor={MODE_LABELS[key]}>
+              <input
+                name={key}
+                id={MODE_LABELS[key]}
+                type="checkbox"
+                checked={this.isChecked(value)}
+                onChange={this.handleInputChange}
+                key={value}
+              />
+              {MODE_LABELS[key]}
+            </label>
         ))
       }
         </ColumnDiv>
