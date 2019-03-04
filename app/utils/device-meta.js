@@ -65,13 +65,15 @@ export type Device = {
   path: string
 };
 
+export type CustomMenu = {title: string, component: typeof React.Component};
+
 export type DeviceMeta = {
   name: string,
   layout: string,
   matrixLayout: string,
   lights: boolean,
   overrideMatrixIndexing?: boolean,
-  customConfig?: any,
+  customConfig?: CustomMenu[],
   vendorProductId?: number
 };
 
@@ -235,16 +237,13 @@ const LEGACY_DEVICE_META_MAP: DeviceMetaMap = {
   }
 };
 
-export const DEVICE_META_MAP: DeviceMetaMap = {
-  ...LEGACY_DEVICE_META_MAP,
-  ...KEYBOARDS.reduce(
-    (accum, deviceMeta) => ({
-      ...accum,
-      [deviceMeta.vendorProductId]: deviceMeta
-    }),
-    {}
-  )
-};
+export const DEVICE_META_MAP: DeviceMetaMap = KEYBOARDS.reduce(
+  (accum, deviceMeta) => ({
+    ...accum,
+    [deviceMeta.vendorProductId]: deviceMeta
+  }),
+  LEGACY_DEVICE_META_MAP
+);
 
 const COMPILED_DEVICE_META_MAP: CompiledDeviceMetaMap = Object.entries(
   DEVICE_META_MAP

@@ -1,3 +1,3 @@
-import CONFIG from './config';
+import DEVICE_META from './config';
 
-export default CONFIG;
+export default DEVICE_META;

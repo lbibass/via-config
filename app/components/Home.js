@@ -20,8 +20,10 @@ import {
 } from '../utils/keyboard-api';
 import {TitleBar, Title} from './title-bar';
 import {LoadingScreen} from './loading-screen';
+
 const usbDetect = require('usb-detection');
 const debounce = require('lodash.debounce');
+
 usbDetect.startMonitoring();
 type HIDColor = {
   hue: number,
@@ -281,7 +283,7 @@ export default class Home extends React.Component<Props, State> {
       selectedKeyboard
     ) {
       const {row, col} = matrixLayout[selectedKey];
-      //Optimistically set
+      // Optimistically set
       this.setKeyInMatrix(
         value,
         selectedKey,
@@ -384,7 +386,13 @@ export default class Home extends React.Component<Props, State> {
   renderMenu(selectedTitle: string | null, selectedKeyboard: Device | null) {
     const api = this.getAPI(selectedKeyboard);
     const {backlightVersion} = this.state;
-    if (selectedTitle === Title.KEYS) {
+    const meta = getKeyboardFromDevice(selectedKeyboard);
+    const CustomMenu =
+      meta.customMenus &&
+      meta.customMenus.find(({title}) => title === selectedTitle);
+    if (CustomMenu) {
+      return <CustomMenu.component api={api} />;
+    } else if (selectedTitle === Title.KEYS) {
       return (
         <KeycodeMenu updateSelectedKey={this.updateSelectedKey.bind(this)} />
       );
@@ -408,9 +416,6 @@ export default class Home extends React.Component<Props, State> {
     } else if (selectedTitle === Title.DEBUG) {
       return <DebugMenu api={api} />;
     }
-    const keyboardMeta = getKeyboardFromDevice(selectedKeyboard);
-    const MenuComponent = (keyboardMeta.customConfig || {})[selectedTitle];
-    return MenuComponent ? <MenuComponent api={api} /> : <div />;
   }
 
   async offsetKeyboard(offset: number) {

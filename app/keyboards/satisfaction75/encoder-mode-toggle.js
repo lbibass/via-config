@@ -42,16 +42,16 @@ type Props = {
 export class EncoderModeToggle extends Component<Props> {
   handleInputChange = event => {
     const {enabledModes, onChange} = this.props;
-    const {target} = event;
-    const {checked: value, name} = target;
-
-    if (value) {
-      const newEnabledModes = enabledModes | (1 << MODES[name]); // eslint-disable-line no-bitwise
-      onChange(newEnabledModes);
-    } else {
-      const newEnabledModes = enabledModes & ~(1 << MODES[name]); // eslint-disable-line no-bitwise
-      onChange(newEnabledModes);
-    }
+    const {
+      target: {checked: value, name}
+    } = event;
+    /* eslint-disable no-bitwise */
+    const flagBit = 1 << MODES[name];
+    const newEnabledModes = value
+      ? enabledModes | flagBit
+      : enabledModes & ~flagBit;
+    /* eslint-enable no-bitwise */
+    onChange(newEnabledModes);
   };
 
   isChecked = (modeIdx: number): boolean =>

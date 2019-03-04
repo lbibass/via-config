@@ -10,10 +10,12 @@ import {
   setDefaultOLED,
   getOLEDMode,
   setOLEDMode
-} from './satisfaction-api';
+} from './api';
 import {EncoderModeToggle} from './encoder-mode-toggle';
 
 type Props = {api: KeyboardAPI};
+type EnabledEncoderModes = number;
+type OLEDMode = number;
 
 const MenuContainer = styled.div`
   display: flex;
@@ -60,28 +62,23 @@ export class SatisfactionMenu extends Component<Props> {
   }
 
   componentDidMount() {
+    this.fetchDataAndSet();
+  }
+
+  fetchDataAndSet = async () => {
     const {api} = this.props;
     const promises = [
       getEncoderModes(api),
       getDefaultOLED(api),
       getOLEDMode(api)
     ];
-    Promise.all(promises)
-      .then(([enabledModes, defaultOLEDMode, currOLEDMode]) => {
-        const newState = {
-          enabledModes,
-          defaultOLEDMode,
-          currOLEDMode
-        };
-        this.setState(newState);
-        return {enabledModes, defaultOLEDMode};
-      })
-      .catch(() => {
-        this.setState({isFailedLoad: true});
-      });
-  }
+    const [enabledModes, defaultOLEDMode, currOLEDMode] = await Promise.all(
+      promises
+    );
+    this.setState({enabledModes, defaultOLEDMode, currOLEDMode});
+  };
 
-  onEncoderModeChange = (newEncoderModes: number) => {
+  onEncoderModeChange = (newEncoderModes: EnabledEncoderModes) => {
     const {api} = this.props;
     const {enabledModes: currentModes} = this.state;
     if (currentModes !== newEncoderModes) {
@@ -90,7 +87,8 @@ export class SatisfactionMenu extends Component<Props> {
     }
   };
 
-  onOLEDDefaultChange = ({value: newDefaultOLEDMode}) => {
+  onOLEDDefaultChange = (input: {value: OLEDMode}) => {
+    const {value: newDefaultOLEDMode} = input;
     const {api} = this.props;
     const {defaultOLEDMode: currentMode} = this.state;
     if (currentMode !== newDefaultOLEDMode) {
@@ -99,7 +97,8 @@ export class SatisfactionMenu extends Component<Props> {
     }
   };
 
-  onOLEDChange = ({value: newOLEDMode}) => {
+  onOLEDChange = (input: {value: OLEDMode}) => {
+    const {value: newOLEDMode} = input;
     const {api} = this.props;
     const {currOLEDMode} = this.state;
     if (currOLEDMode !== newOLEDMode) {
