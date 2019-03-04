@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 
 const MODES = {
@@ -9,7 +9,7 @@ const MODES = {
   ENC_MODE_BACKLIGHT: 4,
   ENC_MODE_CUSTOM0: 5,
   ENC_MODE_CUSTOM1: 6,
-  ENC_MODE_CUSTOM2: 7,
+  ENC_MODE_CUSTOM2: 7
 };
 
 const MODE_LABELS = {
@@ -20,18 +20,18 @@ const MODE_LABELS = {
   ENC_MODE_BACKLIGHT: 'Backlight',
   ENC_MODE_CUSTOM0: 'Custom 0',
   ENC_MODE_CUSTOM1: 'Custom 1',
-  ENC_MODE_CUSTOM2: 'Custom 2',
+  ENC_MODE_CUSTOM2: 'Custom 2'
 };
 
 const CenteredColumnDiv = styled.div`
- display: flex;
- flex-direction: column;
- align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const ColumnDiv = styled.div`
-display: flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 
 type Props = {
@@ -40,23 +40,22 @@ type Props = {
 };
 
 export class EncoderModeToggle extends Component<Props> {
-  handleInputChange = (event) => {
-    const { enabledModes, onChange } = this.props;
-    const { target } = event;
-    const { checked: value, name } = target;
+  handleInputChange = event => {
+    const {enabledModes, onChange} = this.props;
+    const {target} = event;
+    const {checked: value, name} = target;
 
     if (value) {
       const newEnabledModes = enabledModes | (1 << MODES[name]); // eslint-disable-line no-bitwise
       onChange(newEnabledModes);
     } else {
-      const newEnabledModes = enabledModes & (~(1 << MODES[name])); // eslint-disable-line no-bitwise
+      const newEnabledModes = enabledModes & ~(1 << MODES[name]); // eslint-disable-line no-bitwise
       onChange(newEnabledModes);
     }
-  }
+  };
 
   isChecked = (modeIdx: number): boolean =>
-    ((1 << modeIdx) & this.props.enabledModes) > 0 // eslint-disable-line no-bitwise
-
+    ((1 << modeIdx) & this.props.enabledModes) > 0; // eslint-disable-line no-bitwise
 
   render() {
     return (
@@ -76,8 +75,7 @@ export class EncoderModeToggle extends Component<Props> {
               />
               {MODE_LABELS[key]}
             </label>
-        ))
-      }
+          ))}
         </ColumnDiv>
       </CenteredColumnDiv>
     );
