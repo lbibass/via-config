@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styles from './title-bar.css';
 import {
   BACKLIGHT_PROTOCOL_WILBA,
@@ -8,7 +8,7 @@ import {
 export const Title = {
   KEYS: 'Keys',
   LIGHTING: 'Lighting',
-  DEBUG: 'Debug',
+  DEBUG: 'Debug'
 };
 
 export class TitleBar extends Component {
@@ -22,10 +22,12 @@ export class TitleBar extends Component {
   }
 
   getTitlesForKeyboard(keyboard) {
-    const { backlightVersion } = this.props;
+    const {backlightVersion} = this.props;
     let titles = [Title.KEYS];
     if (
-      [BACKLIGHT_PROTOCOL_WILBA, BACKLIGHT_PROTOCOL_QMK].includes(backlightVersion)
+      [BACKLIGHT_PROTOCOL_WILBA, BACKLIGHT_PROTOCOL_QMK].includes(
+        backlightVersion
+      )
     ) {
       titles = [...titles, Title.LIGHTING];
     }
@@ -42,7 +44,7 @@ export class TitleBar extends Component {
   }
 
   render() {
-    const { selectedTitle } = this.props;
+    const {selectedTitle} = this.props;
 
     return (
       <div className={styles.titleBarContainer}>
