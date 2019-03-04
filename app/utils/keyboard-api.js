@@ -1,6 +1,7 @@
 // @flow
 import {getKeyboardFromDevice, getMatrixLayoutFromDevice} from './device-meta';
 import {MatrixLayout} from './layout-parser';
+
 const HID = require('node-hid');
 
 // Zeal60 API Command IDs
@@ -88,7 +89,7 @@ type CommandQueueArgs = [string, number, Array<number>] | (() => Promise<void>);
 type CommandQueueEntry = {res: (val?: any) => void, args: CommandQueueArgs};
 type CommandQueue = Array<CommandQueueEntry>;
 
-let commandQueue: CommandQueue = [];
+const commandQueue: CommandQueue = [];
 let isFlushing = false;
 
 export const canConnect = (device: Device) => {
@@ -184,7 +185,7 @@ void *dynamic_keymap_key_to_eeprom_address(uint8_t layer, uint8_t row, uint8_t c
     */
 
   async getKeymapBuffer(offset: number, size: number) {
-    //size must be <=14
+    // size must be <=14
     const res = await this.hidCommand(DYNAMIC_KEYMAP_GET_BUFFER, [
       offset >> 8,
       offset & 255,

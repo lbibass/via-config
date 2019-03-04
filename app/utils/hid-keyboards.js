@@ -30,7 +30,7 @@ function isValidInterfaceOSX({usage, usagePage}: Device) {
 
 function isValidVendorProduct({productId, vendorId}: Device) {
   // JS bitwise operations is only 32-bit so we lose numbers if we shift too high
-  const vendorProductId = (vendorId * 65536) + productId;
+  const vendorProductId = vendorId * 65536 + productId;
   return DEVICE_META_MAP[vendorProductId] !== undefined;
 }
 

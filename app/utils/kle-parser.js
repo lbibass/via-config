@@ -24,7 +24,7 @@ export type ParsedKLE = {
   colorMap: {[k: string]: string}
 };
 
-//{c, t, label: n, size, margin}
+// {c, t, label: n, size, margin}
 
 export const LAYOUT_M60_A = `[{c:"#4d525a",t:"#e2e2e2"},"Esc",{c:"#e2e2e2",t:"#363636"},"!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=","|\n\\",{c:"#4d525a",t:"#e2e2e2"},"n"],
 [{w:1.5},"Tab",{c:"#e2e2e2",t:"#363636"},"Q","W","E","R","T","Y","U","I","O","P","{\n[","}\n]",{c:"#4d525a",t:"#e2e2e2",w:1.5},"Backspace"],
