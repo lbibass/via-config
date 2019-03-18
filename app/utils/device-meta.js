@@ -26,7 +26,8 @@ import {
   LAYOUT_SNAGPAD,
   LAYOUT_AANZEE,
   LAYOUT_LUNAR,
-  LAYOUT_G60
+  LAYOUT_G60,
+  LAYOUT_PRIME_E
 } from './kle-parser';
 import {
   parseLayout,
@@ -52,7 +53,8 @@ import {
   MATRIX_SNAGPAD,
   MATRIX_AANZEE,
   MATRIX_LUNAR,
-  MATRIX_G60
+  MATRIX_G60,
+  MATRIX_PRIME_E
 } from './layout-parser';
 import KEYBOARDS from '../keyboards';
 
@@ -233,6 +235,12 @@ const LEGACY_DEVICE_META_MAP: DeviceMetaMap = {
     name: 'BIOI G60',
     layout: LAYOUT_G60,
     matrixLayout: MATRIX_G60,
+    lights: false,
+  },
+  0x50520051: {
+    name: 'PRIME_E',
+    layout: LAYOUT_PRIME_E,
+    matrixLayout: MATRIX_PRIME_E,
     lights: false
   }
 };
