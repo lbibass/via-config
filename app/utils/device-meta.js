@@ -27,7 +27,8 @@ import {
   LAYOUT_AANZEE,
   LAYOUT_LUNAR,
   LAYOUT_G60,
-  LAYOUT_PRIME_E
+  LAYOUT_PRIME_E,
+  LAYOUT_IDB_60
 } from './kle-parser';
 import {
   parseLayout,
@@ -54,7 +55,8 @@ import {
   MATRIX_AANZEE,
   MATRIX_LUNAR,
   MATRIX_G60,
-  MATRIX_PRIME_E
+  MATRIX_PRIME_E,
+  MATRIX_IDB_60
 } from './layout-parser';
 import KEYBOARDS from '../keyboards';
 
@@ -241,6 +243,12 @@ const LEGACY_DEVICE_META_MAP: DeviceMetaMap = {
     name: 'PRIME_E',
     layout: LAYOUT_PRIME_E,
     matrixLayout: MATRIX_PRIME_E,
+    lights: false
+  },
+  0x60606060: {
+    name: 'IDB 60',
+    layout: LAYOUT_IDB_60,
+    matrixLayout: MATRIX_IDB_60,
     lights: false
   }
 };
